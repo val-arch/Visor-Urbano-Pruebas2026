@@ -1,0 +1,79 @@
+<div id="giros" class="page-layout simple fullwidth">
+    <div class="header fuse-visor-50 p-24 h-100" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row"
+        fxLayoutAlign.gt-xs="space-between center">
+        <div fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="column" fxLayoutAlign.gt-xs="center start">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <mat-icon class="secondary-text s-18">home</mat-icon>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text">Logs</span>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text">Historial</span>
+            </div>
+            <div class="h2 mt-16">
+                <mat-icon class="secondary-text s-18">assessment</mat-icon> Logs
+            </div>
+        </div>
+    </div>
+
+    <div class="content p-24">
+
+        <div class="m-28" fxLayout="row" fxLayoutAlign="center center">
+            <mtx-grid [data]="list" [showToolbar]="true" [rowStriped]="true" [showColumnMenuButton]="false" [toolbarTemplate]="toolbarTpl"
+                noResultText="Sin datos" [columns]="columns"  
+                [length]="total" [loading]="isLoading"
+                [pageOnFront]="false" (page)="getNextPage($event)" [pageIndex]="query.page" [pageSizeOptions]="[10]"
+                pageSize="10">
+            </mtx-grid>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #toolbarTpl>
+    <form name="buscarUsuarioForm">
+        
+        <div class="example-header pl-24 pt-4">
+            <mat-form-field style="margin-right: 48px;">
+                <input matInput placeholder="Buscar logs" (keyup)="getData()" type="email" [formControl]="tipo">
+            </mat-form-field>
+            <mat-form-field  style="margin-right: 48px;">
+                <mat-label>Tipo</mat-label>
+                <mat-select  [formControl]="filter" style="width: 168px;">
+                  <mat-option value="0">Inicio de Session</mat-option>
+                  <mat-option value="1">Registro de datos</mat-option>
+                  <mat-option value="2">Actualizacion de datos</mat-option>
+                  <mat-option value="3">Error</mat-option>
+                  <mat-option value="4">Emision de licenca</mat-option>
+                  <mat-option value="5">Se Elimina Datos</mat-option>
+               </mat-select>
+             
+            </mat-form-field>
+            <mat-form-field style="width: 168px; margin-right: 48px;">
+                <mat-label>Municipio</mat-label>
+                <mat-select  [formControl]="filter2">
+                  <mat-option *ngFor="let item of listMunicipios" value="{{item.id}}">{{item.nombre}}</mat-option>
+                 
+                </mat-select>
+            </mat-form-field>
+          
+             <button mat-raised-button color="accent"   (click)="filtrar()" class="submit-button" style="margin-right: 48px;" >
+                Buscar
+            </button>
+        </div>
+    </form>
+</ng-template>
+
+
+<ng-template #statusTpl let-row let-index="index" let-col="colDef">
+    <input (change)="toggleShow($event,row.id)" value="angular" type="checkbox"/>
+    <div  class="row container-fluid"  id="tx2{{row.id}}"  style="display: none;">
+        <code>{{row.anterior}}</code>
+    </div>
+</ng-template>
+
+<ng-template #statusTplAnterior let-row let-index="index" let-col="colDef">
+    <input (change)="fieldsChange($event,row.id)" value="angular" type="checkbox"/>
+    <div  class="row container-fluid"  id="tx{{row.id}}"  style="display: none;">
+        <code>{{row.post_request}}</code>
+    </div>
+</ng-template>

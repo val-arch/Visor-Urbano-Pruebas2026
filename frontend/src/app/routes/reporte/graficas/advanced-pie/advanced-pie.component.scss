@@ -1,0 +1,16 @@
+::ng-deep .legend-items {
+    white-space: nowrap !important;
+    overflow: initial !important;
+}
+::ng-deep .advanced-pie-legend .total-label {
+    font-size: 24px;
+    margin-bottom: 19px;
+    margin-top: 19px;
+}
+::ng-deep .item-label {
+    margin-top: 1px !important;
+}
+
+::ng-deep ngx-charts-advanced-pie-chart.div{
+    display: block !important; margin: auto !important;
+}

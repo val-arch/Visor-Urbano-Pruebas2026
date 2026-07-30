@@ -1,0 +1,135 @@
+<div id="tramite" class="page-layout simple fullwidth">
+    <!-- HEADER -->
+    <div class="header fuse-visor-50 p-24 h-100" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center">
+        <div fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="column" fxLayoutAlign.gt-xs="center start">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <!--span class="secondary-text">Trámites</span>
+               <span class="secondary-text">Nuevo Trámite</span-->
+                <mat-icon class="secondary-text s-18">home</mat-icon>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text">Trámites</span>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text">Nuevo Trámite</span>
+            </div>
+            <div class="h2 mt-16">Resumen</div>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content p-24" [@animate]="{ value: '*', params: { delay: '300ms', scale: '.2' } }">
+        <visor-resumen-tramite-construccion *ngIf="folio != ''" [folio]="folio" [necesitaCadena]="true" (loadingOff)="loadingOff($event)" (cadenaAfirmar)="cadenaAfirmar($event)"></visor-resumen-tramite-construccion>
+
+        <div class="cuerpo">
+            <div id="firmaElectronica" *ngIf="!loading">
+                <div class="informacion mt-28" fxLayout="row">
+                    <img class="icon" src="assets/images/icons/ico-sign.svg" />
+                    <h3>
+                        {{ role > 1 ? "Enviar tramite" : "Firma Electrónica" }}
+                    </h3>
+                </div>
+                <div class="firmaDiv" *ngIf="role == 1">
+                    <div class="firma">
+                        <p><b> Cadena Original a Firmar</b></p>
+                        <span style="overflow-wrap: anywhere">{{
+                            cadena
+                        }}</span>
+                    </div>
+
+                    <div class="firmabtn" fxLayout="column" fxLayoutAlign="space-evenly center" *ngIf="cadena_firmada == ''">
+                        <button mat-raised-button (click)="swalFirma()" class="button-visor-cancel" fxFlex="100">
+                            No tengo firma electrónica
+                        </button>
+                        <button (click)="openFirma()" mat-raised-button class="button-visor-confirm" fxFlex="100">
+                            <mat-icon>lock</mat-icon>
+                            Firmar solicitud
+                        </button>
+                    </div>
+
+                    <div class="firma" fxLayout="column" fxLayoutAlign="space-around star" *ngIf="cadena_firmada != ''" [@animate]="{
+                            value: '*',
+                            params: { delay: '300ms', scale: '.2' }
+                        }">
+                        <div>
+                            <p class="" style="padding-top: 15px">
+                                <b>Cadena Firmada</b>
+                            </p>
+                        </div>
+                        <div fxLayout="row">
+                            <img class="ico_aceptar" style="width: 40px" src="assets/images/icons/ico_aceptar.svg" />
+                            <p class="accent-300-fg" style="overflow-wrap: anywhere">
+                                <b> {{ cadena_firmada }} </b>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="ventanilla mt-44" *ngIf="role > 1" fxLayout="column" fxLayoutAlign="center center">
+                    <div fxFlex="100">
+                        <H2>1. Decargar la carta responsiva, llenarla y que el ciudadano la firme</H2>
+                    </div>
+                    <button mat-raised-button class="button-visor-download" *ngIf="cartaResponsivaUp == ''" (click)="carta()" fxFlex="30">
+                        <mat-icon><img src="assets/icons/visor/ico-descargar.svg" /></mat-icon>
+                        Descargar
+                    </button>
+
+                    <div class="file w-300 mt-12" fxFlex="50" *ngIf="cartaResponsivaUp == ''">
+                        <span class="ellipsis">2. Adjuntar carta responsiva</span><br />
+                        <div fxLayout="row">
+                            <img fxFlex="10%" src="assets/images/icons/ico_upload.svg" />
+                            <label fxFlex="90%">
+                                <input type="file" (change)="subirCarta($event)" class="vu-file-upload"
+                                    data-max-size="15360" accept=".pdf" />
+                            </label>
+                        </div>
+                    </div>
+                    <button mat-raised-button class="button-visor-new" *ngIf="cartaResponsivaUp != ''" (click)="cartaUpload()" fxFlex="30">
+                        <mat-icon><img src="assets/icons/visor/ico-descargar.svg" /></mat-icon>
+                        Carta
+                    </button>
+                </div>
+            </div>
+
+            <div class="botones" fxLayout="row" *ngIf="!loading">
+                <div class="regresarbtn" style="cursor: pointer" fxLayout="column" fxLayoutAlign="space-between center" fxFlex *ngIf="
+                        (role == 1 && cadena_firmada == '') ||
+                        (role > 1 && cartaResponsivaUp == '')
+                    ">
+                    <a class="link" routerLink="/tramite-construccion/nuevo-tramite/{{ folio64 }}">Regresar a Editar</a>
+                </div>
+                <div class="mb-16" fxLayout="column" *ngIf="
+                        (role == 1 && cadena_firmada != '') ||
+                        (role > 1 && cartaResponsivaUp != '') || (role == 4)
+                    " [@animate]="{
+                        value: '*',
+                        params: { delay: '300ms', scale: '.2' }
+                    }" fxLayoutAlign="space-between center" fxFlex>
+                    <!--a class="link" > <img class="iconA" src="assets/images/icons/ico_aceptar1.svg"><span>Guardar</span></a-->
+                    <div fxLayout="row" fxLayoutAlign="space-between center">
+                        <button mat-raised-button class="button-visor-confirm" (click)="continuar()" fxFlex="30">
+                            Enviar solicitud
+                        </button>
+
+                        <button *ngIf="role == 4 && lic_v==1" mat-raised-button class="button-visor-warning ml-8" (click)="continuarGenerar()" fxFlex="30">
+                            Finalizar y generar licencia
+                        </button>
+                    </div>
+
+
+                <div class="mb-16" fxLayout="column" *ngIf="
+                        (role == 1) ||
+                        (role > 1)
+                    " [@animate]="{
+                        value: '*',
+                        params: { delay: '300ms', scale: '.2' }
+                    }" fxLayoutAlign="space-between center" fxFlex>
+                    <!--a class="link" > <img class="iconA" src="assets/images/icons/ico_aceptar1.svg"><span>Guardar</span></a-->
+                    
+
+                    <!-- <a class="link">Continuar</a> -->
+                </div>
+            </div>
+        </div>
+
+        <!-- / CONTENT -->
+    </div>
+</div>

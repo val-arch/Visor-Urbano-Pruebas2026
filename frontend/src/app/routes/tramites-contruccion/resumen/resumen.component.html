@@ -1,0 +1,409 @@
+<div class="cabeza row" fxLayout="row" fxLayoutAlign="center center" fxLayout.gt-xs="row">
+    <div class="giro" fxFlex="70%" style="float: left">
+
+    </div>
+
+    <div class="clave" fxFlex="30%">
+        <p>
+            <!-- <mtx-loader [loading]="true" type="spinner" hasBackDrop="hasBackdrop"> -->
+            FOLIO:
+            <mat-progress-bar mode="buffer" *ngIf="loading"></mat-progress-bar>
+            <!-- </mtx-loader> -->
+        </p>
+        <p class="servicios" *ngIf="!loading">
+            {{ infoTramite.folio }}
+        </p>
+    </div>
+</div>
+<div class="cuerpo">
+    <div class="info">
+        <div id="informacion-general">
+            <div class="informacion" fxLayout="row">
+                <img class="ico" src="assets/images/icons/ico-predio.svg" />
+                <h3>Información general</h3>
+            </div>
+            <div class="m-28" fxLayout="row" fxLayoutAlign="center center" *ngIf="loading">
+                <mat-progress-spinner mode="indeterminate" color="green"></mat-progress-spinner>
+            </div>
+            <div class="m-28" *ngIf="!loading">
+                <div class="w-p-100" fxLayout="column" fxLayoutAlign="center">
+                    <div class="">
+                        <div fxFlex="60%" fxLayoutAlign="center center">
+                            <div style="width: 100% !important" fxLayout="row">
+                                <div fxFlex="100%">
+                                    <div>
+                                        <p>
+                                            <b>Superficie del
+                                                giro
+                                                solicitado:</b>
+                                        </p>
+                                        <span>{{
+                                            infoTramite.superficie_actividad
+                                            }}
+                                            mts<sup>2</sup></span>
+                                    </div>
+                                    <div class="mt-10">
+                                        <p>
+                                            <b>Superficie de la
+                                                propiedad:</b>
+                                        </p>
+                                        <span>{{
+                                            infoTramite.superficie_propiedad
+                                            }}
+                                            mts<sup>2</sup></span>
+                                    </div>
+                                </div>
+                                <div fxFlex="100%">
+                                    <div>
+                                        <p>
+                                            <b>Tipo de persona que
+                                                solicita:</b>
+                                        </p>
+                                        <span>{{
+                                            infoTramite.tipo_persona
+                                            }}</span>
+                                    </div>
+                                    <div class="mt-10">
+                                        <p>
+                                            <b>Carácter del
+                                                solicitante:</b>
+                                        </p>
+                                        <span>{{
+                                            infoTramite.caracter_solicitante
+                                            }}</span>
+                                    </div>
+                                </div>
+                                <div fxFlex="100%">
+                                    <div>
+                                        <p>
+                                            <b>Ubicación del predio:</b>
+                                        </p>
+                                        <span>{{
+                                            infoTramite.calle
+                                            }}</span>
+                                    </div>
+                                    <br>
+                                    <div class="mt-10">
+                                        <p>
+                                            <b>Lista de
+                                                requisitos:</b>
+                                        </p>
+                                        <div class="doc" fxLayout="row" fxLayoutAlign="center center">
+                                            <a [href]="consultaPDF" target="_blank"><img class="pl-4" src="assets/images/icons/ico-file.svg" /> Ver PDF</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div fxFlex="40%" fxLayoutAlign="center" style="
+                                border-left: 10px solid #6EC1E4 !important;
+                            ">
+                            <img [src]="infoTramite.url_minimapa" style="width: 250px; height: 250px" alt="" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Inicio información del predio -->
+        <div id="informacion-solicitante" *ngIf="!loadingCampos">
+            <div class="informacion" fxLayout="row">
+                <img class="ico" src="assets/images/icons/ico_predio.svg" />
+                <h3>Información del solicitante</h3>
+            </div>
+            <div class="m-28" fxLayout="row" fxLayoutAlign="center center" *ngIf="loadingCampos">
+                <mat-progress-spinner mode="indeterminate" color="green"></mat-progress-spinner>
+            </div>
+            <div class="m-28" *ngIf="!loadingCampos">
+                <div fxLayout="row wrap" fxLayoutAlign="space-between">
+                    <ng-container *ngFor="let item of campos_dinamicos">
+
+                        <div class="mt-12" *ngIf="['nombre_dueno_negocio','razon_social_dueno_moral','nombre_arrendatario','nombre_apoderado','nombre_apoderado_moral'].includes(item.name)" fxFlex="100">
+                            <H2>{{ item.description }}</H2>
+                        </div>
+                        <div [ngSwitch]="item.type" *ngIf="item.step == 1 && item.type != 'file'" fxFlex="33">
+                            <div class="arch" *ngSwitchCase="'input'" style="display: inline-block">
+                                <p class="ellipsis" [matTooltip]="item.value">
+                                    <b>{{ item.description }}: </b>
+                                    <br>
+                                    <span class="font-weight-100">{{ item.value }}</span>
+                                </p>
+                            </div>
+                            <div class="arch" *ngSwitchCase="'radio'" style="display: inline-block">
+                                <p class="ellipsis">
+                                    <b>{{ item.description }}: </b>
+                                    <br>
+                                    <span class="font-weight-100"> {{radioOption(item)}} </span>
+                                </p>
+                            </div>
+                            <div class="arch" *ngSwitchCase="'select'" style="display: inline-block">
+                                <p class="ellipsis">
+                                    <b>{{ item.description }}: </b>
+                                    <br>
+                                    <span class="font-weight-100"> {{radioOption(item)}} </span>
+                                </p>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+
+                <br />
+                <div class="row archivos" style="margin-top: 50px">
+                    <p>Archivos adjuntos</p>
+                </div>
+                <div>
+                    <div class="row file parte1" fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutGap="35px">
+                        <ng-container *ngFor="let item of campos_dinamicos" fxFlex="40">
+                            <div *ngIf="
+                                    item.step == 1 &&
+                                    item.type == 'file'
+                                ">
+                                <div class="arch" style="display: inline-block">
+                                    <!-- {{item | json}} -->
+                                    <p class="ellipsis" matTooltip="{{
+                                            item.description
+                                        }}">
+                                        <b>{{ item.description }}</b>
+                                    </p>
+                                    <div class="doc" fxLayout="row" fxLayoutAlign="center center">
+                                        <a [href]="env+''+item.value" target="_blank">
+                                            <!--span>{{item.value}}</span-->
+                                            <span><img src="assets/images/icons/ico-file.svg" /> Ver documento</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+            <!-- Inicio informacion del propietario -->
+            <div id="informacion-propietario" *ngIf="!loadingCampos">
+                <div class="informacion" fxLayout="row">
+                    <img class="ico" src="assets/images/icons/ico_predio.svg" />
+                    <h3>Información del propietario</h3>
+                </div>
+                <div class="m-28" fxLayout="row" fxLayoutAlign="center center" *ngIf="loadingCampos">
+                    <mat-progress-spinner mode="indeterminate" color="green"></mat-progress-spinner>
+                </div>
+                <div class="m-28" *ngIf="!loadingCampos">
+                    <div fxLayout="row wrap" fxLayoutAlign="space-between">
+                        <ng-container *ngFor="let item of campos_dinamicos">
+                            <div class="mt-12" *ngIf="['nombre_propietario','razon_social'].includes(item.name)" fxFlex="100">
+                                <H2>{{ item.description }}</H2>
+                            </div>
+                            <div [ngSwitch]="item.type" *ngIf="item.step == 2 && item.type != 'file'" fxFlex="33">
+                                <div class="arch" *ngSwitchCase="'input'" style="display: inline-block">
+                                    <p class="ellipsis" [matTooltip]="item.value">
+                                        <b>{{ item.description }}: </b>
+                                        <br>
+                                        <span class="font-weight-100">{{ item.value }}</span>
+                                    </p>
+                                </div>
+                                <div class="arch" *ngSwitchCase="'radio'" style="display: inline-block">
+                                    <p class="ellipsis">
+                                        <b>{{ item.description }}: </b>
+                                        <br>
+                                        <span class="font-weight-100"> {{radioOption(item)}} </span>
+                                    </p>
+                                </div>
+                                <div class="arch" *ngSwitchCase="'select'" style="display: inline-block">
+                                    <p class="ellipsis">
+                                        <b>{{ item.description }}: </b>
+                                        <br>
+                                        <span class="font-weight-100"> {{radioOption(item)}} </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                    <br />
+                    <div class="row archivos" style="margin-top: 50px">
+                        <p>Archivos adjuntos asd</p>
+                    </div>
+                    <div>
+                        <div class="row file parte1" fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutGap="35px">
+                            <ng-container *ngFor="let item of campos_dinamicos" fxFlex="40">
+                                <div *ngIf="
+                                    item.step == 2 &&
+                                    item.type == 'file'
+                                ">
+                                    <div class="arch" style="display: inline-block">
+                                        <!-- {{item | json}} -->
+                                        <p class="ellipsis" matTooltip="{{
+                                            item.description
+                                        }}">
+                                            <b>{{ item.description }}</b>
+                                        </p>
+                                        <div class="doc" fxLayout="row" fxLayoutAlign="center center">
+                                            <a [href]="env+''+item.value" target="_blank">
+                                                <!--span>{{item.value}}</span-->
+                                                <span><img src="assets/images/icons/ico-file.svg" /> Ver
+                                                    documento</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Inicio informacion del predio -->
+            <div id="informacion-predio" *ngIf="!loadingCampos">
+                <div class="informacion" fxLayout="row">
+                    <img class="ico" src="assets/images/icons/ico-predio.svg" />
+                    <h3>Información del predio</h3>
+                </div>
+                <div class="m-28" fxLayout="row" fxLayoutAlign="center center" *ngIf="loadingCampos">
+                    <mat-progress-spinner mode="indeterminate" color="green"></mat-progress-spinner>
+                </div>
+                <div class="m-28" *ngIf="!loadingCampos">
+                    <div fxLayout="row wrap" fxLayoutAlign="space-between">
+                        <ng-container *ngFor="let item of campos_dinamicos">
+                            <div [ngSwitch]="item.type" *ngIf="item.step == 3 && item.type != 'file'" fxFlex="33">
+                                <div class="arch" *ngSwitchCase="'input'" style="display: inline-block">
+                                    <p class="ellipsis" [matTooltip]="item.value">
+                                        <b>{{ item.description }}: </b>
+                                        <br>
+                                        <span class="font-weight-100">{{ item.value }}</span>
+                                    </p>
+                                </div>
+                                <div class="arch" *ngSwitchCase="'radio'" style="display: inline-block">
+                                    <p class="ellipsis">
+                                        <b>{{ item.description }}: </b>
+                                        <br>
+                                        <span class="font-weight-100"> {{radioOption(item)}} </span>
+                                    </p>
+                                </div>
+                                <div class="arch" *ngSwitchCase="'select'" style="display: inline-block">
+                                    <p class="ellipsis">
+                                        <b>{{ item.description }}: </b>
+                                        <br>
+                                        <span class="font-weight-100"> {{radioOption(item)}} </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                    <br />
+                    <div class="row archivos" style="margin-top: 50px">
+                        <p>Archivos adjuntos</p>
+                    </div>
+                    <div>
+                        <div class="row file parte1" fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutGap="35px">
+                            <ng-container *ngFor="let item of campos_dinamicos" fxFlex="40">
+                                <div *ngIf="
+                                    item.step == 3 &&
+                                    item.type == 'file'
+                                ">
+                                    <div class="arch" style="display: inline-block">
+                                        <!-- {{item | json}} -->
+                                        <p class="ellipsis" matTooltip="{{
+                                            item.description
+                                        }}">
+                                            <b>{{ item.description }}</b>
+                                        </p>
+                                        <div class="doc" fxLayout="row" fxLayoutAlign="center center">
+                                            <a [href]="env+''+item.value" target="_blank">
+                                                <!--span>{{item.value}}</span-->
+                                                <span><img src="assets/images/icons/ico-file.svg" /> Ver
+                                                    documento</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Inicio informacion del establecimiento -->
+            <div id="informacion-establecimiento" class="mb-48" *ngIf="!loadingCampos">
+                <div class="informacion" fxLayout="row">
+                    <img class="ico" src="assets/images/icons/ico-establecimiento.svg" />
+                    <h3>Información del establecimiento</h3>
+                </div>
+                <div class="m-28" fxLayout="row" fxLayoutAlign="center center" *ngIf="loadingCampos">
+                    <mat-progress-spinner mode="indeterminate" color="green"></mat-progress-spinner>
+                </div>
+                <div class="m-28" *ngIf="!loadingCampos">
+                    <div fxLayout="row wrap" fxLayoutAlign="space-between">
+                        <ng-container *ngFor="let item of campos_dinamicos">
+                            <div [ngSwitch]="item.type" *ngIf="item.step == 4 && item.type != 'file'" fxFlex="33">
+                                <div class="arch" *ngSwitchCase="'input'" style="display: inline-block">
+                                    <p class="ellipsis" [matTooltip]="item.value">
+                                        <b>{{ item.description }}: </b>
+                                        <br>
+                                        <span class="font-weight-100">{{ item.value }}</span>
+                                    </p>
+                                </div>
+                                <div class="arch" *ngSwitchCase="'radio'" style="display: inline-block">
+                                    <p class="ellipsis">
+                                        <b>{{ item.description }}: </b>
+                                        <br>
+                                        <span class="font-weight-100"> {{radioOption(item)}} </span>
+                                    </p>
+                                </div>
+                                <div class="arch" *ngSwitchCase="'select'" style="display: inline-block">
+                                    <p class="ellipsis">
+                                        <b>{{ item.description }}: </b>
+                                        <br>
+                                        <span class="font-weight-100"> {{radioOption(item)}} </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+
+                    <!--div class="row parteRadio"   style="margin-top: 40px;">
+                <ng-container *ngFor="let item of campos_dinamicos;">
+                    <div [ngSwitch]="item.type" *ngIf="item.step==1">
+                        <div *ngSwitchCase="'radio'"  style="display: inline-block; padding-top: 10px;">
+                           <p class=ellipsis matTooltip="{{item.description}}" ><b>{{item.description}}</b></p>  
+                           <br>
+                           <span>hola</span>
+                        </div>
+                    </div>
+                </ng-container>
+            </div-->
+                    <br />
+                    <div class="row archivos mt-40 mb-40">
+                        <p>Archivos adjuntos</p>
+                    </div>
+                    <div>
+                        <div class="row file parte1" fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutGap="35px">
+                            <ng-container *ngFor="let item of campos_dinamicos" fxFlex="40">
+                                <div *ngIf="
+                                    item.step == 4 &&
+                                    item.type == 'file'
+                                ">
+                                    <div class="arch" style="display: inline-block">
+                                        <!-- {{item | json}} -->
+                                        <p class="ellipsis" matTooltip="{{
+                                            item.description
+                                        }}">
+                                            <b>{{ item.description }}</b>
+                                        </p>
+                                        <div class="doc" fxLayout="row" fxLayoutAlign="center center">
+                                            <a [href]="env+''+item.value" target="_blank">
+                                                <!--span>{{item.value}}</span-->
+                                                <span><img src="assets/images/icons/ico-file.svg" /> Ver
+                                                    documento</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+        </div>
+    </div>

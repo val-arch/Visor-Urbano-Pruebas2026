@@ -1,0 +1,38 @@
+@import "src/@fuse/scss/fuse";
+.footer {
+    font-size: 18px;
+    font-weight: bold;
+    background-image: url('/assets/images/landing/img_footer.svg');
+    background-repeat: no-repeat, no-repeat, no-repeat;
+    height: 323px;
+    background-size: cover;
+    font-weight: bold;
+    padding-top: 100px;
+    margin-top: 80px;
+    color: #003E76;
+    width: 100%;
+    bottom: 0;  
+    @include media-breakpoint('xs') {
+        padding-bottom: 20px;
+       
+    }
+  }
+  .footer {
+    overflow-y: hidden;
+  
+    .over-imagef {
+        width: 150px;
+    }
+    .over-imagef1 {
+        width: 240px;
+        height: 114px;
+    }
+  }
+  .footer p {
+    text-align: left;
+    cursor: pointer;
+    a {
+        color: #003E76!important;
+    }
+  }
+  

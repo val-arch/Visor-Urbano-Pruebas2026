@@ -1,0 +1,220 @@
+
+@import "src/@fuse/scss/fuse";
+
+* {
+    box-sizing: border-box;
+  }
+  
+
+  .mtx-grid .mtx-grid-toolbar {
+    /* align-items: center; */
+    /* display: flex; */
+    justify-content: space-between;
+    /* min-height: 48px; */
+    padding: 8px;
+}
+
+  .flex-container {
+    display: flex;
+    flex-direction: row;
+    font-size: 30px;
+    text-align: center;
+  }
+  
+  .flex-item-left {
+    background-color: #f1f1f1;
+    padding: 10px;
+    flex: 50%;
+  }
+  
+  .flex-item-right {
+    background-color: dodgerblue;
+    padding: 10px;
+    flex: 50%;
+  }
+  
+  /* Responsive layout - makes a one column-layout instead of two-column layout */
+  @media (max-width: 800px) {
+    .flex-container {
+      flex-direction: column;
+    }
+  }
+
+.video-title > ::ng-deep figure {
+    justify-content: flex-start !important;
+}
+
+mat-dialog-container {
+    padding: 0 !important;
+    @include media-breakpoint('xs') {
+        width: 100% !important;
+    }
+    @include media-breakpoint('gt-xs') {
+        width: 400px !important;
+    }
+    .mat-dialog-container {
+        .mat-toolbar {
+            flex: 1 0 auto;
+            min-height: initial;
+        }
+        .toolbar-bottom {
+            height: auto;
+        }
+    }
+    .dialog-content-wrapper {
+        max-height: 85vh;
+        display: flex;
+        flex-direction: column;
+    }
+    .formulario {
+        padding-top: 25px;
+    }
+
+  
+}
+
+
+
+@media(max-width: 699px) and (min-width: 0px)  {
+    .divButttons { 
+        margin-top: -42%;
+        margin-left: 65%;
+         }
+
+    } 
+
+
+@media(max-width: 731px) and (min-width: 700px)  {
+    .divButttons { 
+        margin-top: -42%;
+        margin-left: 80%;
+         }
+
+    } 
+
+
+ @media(max-width: 800px) and (min-width: 732px)  {
+        .divButttons { 
+            margin-top: -38%;
+            margin-left: 80%;
+             }
+    
+ }
+ 
+ 
+ @media(max-width: 865px) and (min-width: 801px)  {
+    .divButttons { 
+        margin-top: -35%;
+        margin-left: 80%;
+         }
+
+}  
+
+
+@media(max-width: 950px) and (min-width: 866px)  {
+    .divButttons { 
+        margin-top: -30%;
+        margin-left: 80%;
+         }
+
+}  
+
+
+@media(max-width: 1033px) and (min-width: 951px)  {
+    .divButttons { 
+        margin-top: -27%;
+        margin-left: 80%;
+         }
+
+}  
+
+
+@media(max-width: 1155px) and (min-width: 1034px)  {
+    .divButttons { 
+        margin-top: -26%;
+        margin-left: 85%;
+         }
+
+}  
+
+@media(max-width: 1230px) and (min-width: 1156px)  {
+    .divButttons { 
+        margin-top: -23%;
+        margin-left: 86%;
+         }
+
+}  
+
+@media(max-width: 1279px) and (min-width: 1231px)  {
+    .divButttons { 
+        margin-top: -21%;
+        margin-left: 86%;
+         }
+
+}
+
+@media(max-width: 1330px) and (min-width: 1280px)  {
+    .divButttons { 
+        margin-top: -27%;
+        margin-left: 86%;
+         }
+
+}
+
+
+@media(max-width: 1350px) and (min-width: 1331px)  {
+    .divButttons { 
+        margin-top: -25%;
+        margin-left: 86%;
+         }
+
+}
+@media(max-width: 1400px) and (min-width: 1351px)  {
+    .divButttons { 
+        margin-top: -24%;
+        margin-left: 86%;
+         }
+
+}
+
+
+@media(max-width: 1550px) and (min-width: 1401px)  {
+    .divButttons { 
+        margin-top: -23%;
+        margin-left: 86%;
+         }
+
+}
+
+@media(max-width: 1679px) and (min-width: 1551px)  {
+    .divButttons { 
+        margin-top: -20%;
+        margin-left: 86%;
+         }
+
+}
+
+@media(max-width: 1700px) and (min-width: 1680px)  {
+    .divButttons { 
+        margin-top: -18%;
+        margin-left: 86%;
+         }
+
+}
+
+
+@media(max-width: 2700px) and (min-width: 1701px)  {
+    .divButttons { 
+        margin-top: -16%;
+        margin-left: 86%;
+         }
+
+}
+
+
+
+
+
+.mat-raised-button.mat-accent{
+    margin-left: 20px;
+}

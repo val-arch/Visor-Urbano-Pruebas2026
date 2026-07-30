@@ -1,0 +1,47 @@
+<div class="dialog-content-wrapper">
+    <mat-toolbar matDialogTitle class="fuse-visor-50 m-0">
+        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="title dialog-title">Roles</span>
+            <button mat-icon-button (click)="matDialogRef.close()" aria-label="Close dialog">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+    <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
+        <form class="formulario" [formGroup]="roleForm" (submit)="saveRole()">
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Nombre</mat-label>
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    <input name="name" formControlName="name" matInput required>
+                </mat-form-field>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Descripción</mat-label>
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    <input name="descripcion" formControlName="descripcion" matInput required>
+                </mat-form-field>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="end center">
+
+            </div>
+        </form>
+
+
+    </div>
+
+    <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
+
+        <button *ngIf="action !== 'edit'" mat-button class="save-button" (click)="saveRole()" [disabled]="roleForm.invalid" aria-label="SAVE" [ngStyle]="btnCss">
+            Agregar
+        </button>
+        <button *ngIf="action !== 'new'" mat-button class="save-button" (click)="saveRole()" [disabled]="roleForm.invalid" aria-label="SAVE" [ngStyle]="btnCss">
+            Editar
+        </button>
+        <button mat-button class="save-button" (click)="matDialogRef.close()" aria-label="cancelar" [ngStyle]="btnCssCancel">
+            Cancelar
+        </button>
+    </div>
+</div>

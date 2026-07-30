@@ -1,0 +1,71 @@
+<div id="users" class="page-layout simple fullwidth">
+    <!-- HEADER -->
+    <div class="header fuse-visor-50 p-24 h-120" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center">
+        <div fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="column" fxLayoutAlign.gt-xs="center start">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <mat-icon class="secondary-text s-18">home</mat-icon>
+               
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text">Importar histórico de licencias</span>
+            </div>
+            <div class="h2 mt-16">
+                <mat-icon class="secondary-text s-18">person</mat-icon> Histórico licencias</div>
+        </div>
+    </div>
+    <!-- / HEADER -->
+    <!-- CONTENT -->
+    <div class="content p-24" [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
+        <mtx-grid [showToolbar]="true"
+            [showColumnMenuButton]="false"
+            [toolbarTemplate]="toolbarTpl"
+            [data]="list"
+          noResultText="Sin datos"
+          [columns]="columns"
+          [length]="total"
+          [loading]="isLoading"
+          [pageOnFront]="false"
+          (page)="getNextPage($event)"
+          [pageIndex]="query.page"
+          [pageSizeOptions]="[20]"
+          pageSize="20">
+    
+</mtx-grid>   
+    <ng-template #toolbarTpl style="width:100%;
+height: 100%; 
+ display: flex; 
+flex-direction: row-reverse;">
+    <div class="" style="flex-direction: revert;
+    display: flex;
+    width: 100%;
+    position: absolute;
+    left: 80%;" >
+      <button style="background-color:#003E76"  (click)="exportExcel($event)" mat-mini-fab color="warn" aria-label="Example icon button with a filter list icon">
+        <mat-icon>arrow_downward</mat-icon>
+      </button>
+        <button style="background-color:#003E76"  (click)="downloadExcel($event)" mat-mini-fab color="warn" aria-label="Example icon button with a filter list icon">
+            <mat-icon>cloud_upload</mat-icon>
+          </button>
+          <button style="background-color:red"  (click)="deleteAll($event)" mat-mini-fab color="warn" aria-label="Example icon button with a filter list icon">
+              <mat-icon>delete_forever</mat-icon>
+          </button>
+          <button style="background-color:#003E76"  (click)="descargarDemo($event)"  mat-mini-fab color="warn" aria-label="Example icon button with a filter list icon">
+              <mat-icon>cloud_download</mat-icon>
+          </button>
+        </div> 
+
+    <form name="buscarUsuarioForm"  >
+      <div class="example-header pl-24 pt-4" style="
+      position: relative;">
+          <mat-form-field>
+          <input matInput placeholder="Buscar Histórico" type="email"   [formControl]="filter">
+          </mat-form-field>
+          <button mat-raised-button color="accent"  class="submit-button ml-8" (keyup)="buscar()">
+              Buscar
+          </button>
+      </div>
+   
+  </form>
+ 
+    </ng-template>
+    </div>
+</div>

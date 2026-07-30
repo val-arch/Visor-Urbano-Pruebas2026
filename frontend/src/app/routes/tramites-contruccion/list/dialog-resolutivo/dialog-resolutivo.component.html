@@ -1,0 +1,39 @@
+ <mat-toolbar matDialogTitle class="fuse-visor-50 m-0 p-o fix-height" >
+    <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+        <span class="title dialog-title">Resolutivo del trámite: {{folio}}</span>
+    </mat-toolbar-row>
+</mat-toolbar>
+<ng-container *ngIf="campos.length<1; else other">
+    <div fxLayout="row wrap" fxLayoutAlign="space-around center" class="mt-20">
+        <h2 *ngIf="campos.length<1; else other" class="text-center">No se ha creado una plantilla para este tipo de trámite, configúrala desde el apartado de "Mi municipio" en la sección de "Tipos de trámite".</h2>
+    </div>
+    <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
+        <button mat-button class="save-button" (click)="matDialogRef.close()" aria-label="CLOSE" [ngStyle]="btnCss2">
+            Cerrar
+        </button>
+    </div>
+</ng-container>
+
+<ng-template #other>
+    <div fxLayout="row wrap" fxLayoutAlign="space-around center" class="mt-20">
+        <div *ngFor="let campo of campos; let i=index" fxLayout="row" fxLayoutAlign="center center" class="mt-20">
+            <div>
+                <mat-form-field appearance="outline">
+                    <mat-label>{{campo.campo}}</mat-label>
+                    <input autocomplete="off" [value]="campo.value || ''" matInput (change)="setValue(i, $event.target.value)">
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
+        <button mat-button class="save-button" (click)="saveCampos()" aria-label="SAVE" [ngStyle]="btnCss">
+            Guardar
+        </button>
+        <button mat-button class="save-button" (click)="emitirResolutivo()" aria-label="EMITIR RESOLUTIVO" [ngStyle]="btnCss3">
+            Emitir resolutivo
+        </button>
+        <button mat-button class="save-button" (click)="matDialogRef.close()" aria-label="CLOSE" [ngStyle]="btnCss2">
+            Cerrar
+        </button>
+    </div>
+</ng-template>

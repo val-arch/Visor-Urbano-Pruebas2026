@@ -1,0 +1,54 @@
+<div id="municipios" class="page-layout simple fullwidth">
+
+    <div class="header fuse-visor-50 p-24 h-100" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row"
+        fxLayoutAlign.gt-xs="space-between center">
+        <div fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="column" fxLayoutAlign.gt-xs="center start">
+            <div fxLayout="row" fxLayoutAlign="start center">
+              <mat-icon class="secondary-text s-18">home</mat-icon>
+              <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+              <span class="secondary-text">Administrador</span>
+              <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+              <span class="secondary-text">Municipios</span>
+            </div>
+            <div class="h2 mt-16">
+              <mat-icon class="secondary-text s-18">person</mat-icon> Municipios
+            </div>
+        </div>
+
+
+    </div>
+    
+    <div class="content p-24">
+        <div class="example-header">
+            <mat-form-field>
+              <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
+            </mat-form-field>
+          </div>
+        
+        <mtx-grid [data]="list"  
+        noResultText="Sin datos" 
+        [columns]="columns"
+        [length]="total"
+        [loading]="isLoading" 
+        [pageOnFront]="false"  
+        (page)="getNextPage($event)" 
+        [pageIndex]="query.page"
+        [pageSizeOptions]="[20]"
+        [columns]="columns"
+        sortOnFront="true"
+        sortActive="name"
+        sortDirection="asc"
+        sortDisableClear="true"
+        sortDisabled="false"
+        sortStart="asc"
+        (sortChange)="sort($event)"
+        pageSize="20">
+        </mtx-grid>
+        <ng-template #statusTpl let-row let-index="index" let-col="colDef">
+            <button mat-icon-button  aria-label="Example icon button with a open in new tab icon">
+                <mat-icon>open_in_new</mat-icon>
+              </button>
+            <!--<mat-slide-toggle [checked]="!row.encendido"  (click)="onStatus(row.id,row.id_municipio,row.encendido)">Estado</mat-slide-toggle>-->
+          </ng-template>
+    </div>
+</div>

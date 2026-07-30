@@ -1,0 +1,72 @@
+<app-header></app-header>
+
+<article [class.content]="!deviceXs" [class.content-mob]="deviceXs" (scroll)="onScroll($event)">
+    <mat-drawer-container class="cont">
+        <mat-drawer-content fxLayout="column wrap" layout="column" layout-xs="row" @animate @slideIn>
+            <div>
+                <h1 fxLayout="row" fxLayoutAlign="space-around center">
+                    Seguimiento de licencias
+                </h1>
+
+                <div style="margin-top: 120px;">
+                    <mtx-grid [rowStriped]="true" [data]="list" noResultText="Sin datos" [columns]="columns"
+                        [length]="total" [loading]="isLoading" [pageOnFront]="false" (page)="getNextPage($event)"
+                        [pageIndex]="query.page" [pageSizeOptions]="[20]" [columns]="columns" pageSize="20">
+                    </mtx-grid>
+                </div>
+            </div>
+        </mat-drawer-content>
+
+        <!-- <mat-drawer-content>
+            <div
+                fxLayout="row"
+                *ngIf="!deviceXs"
+                class="footer"
+                fxLayoutAlign="center center"
+                fxLayoutAlign.gt-xs="space-between center"
+                fxFlex
+            >
+                <div
+                    fxFlex="33"
+                    fxLayout="column"
+                    fxLayoutAlign="center center"
+                >
+                    <p (click)="openDialogAvisos()">Aviso de Privacidad</p>
+                    <p (click)="openDialogScian()">SCIAN</p>
+                    <img
+                        src="assets/images/backgrounds/bloomberg_logo.svg"
+                        class="over-imagef"
+                    />
+                </div>
+
+                <div
+                    fxFlex="33"
+                    fxLayout="column"
+                    fxLayoutAlign="center center"
+                >
+                    <p>
+                        <a
+                            href="https://congresoweb.congresojal.gob.mx/BibliotecaVirtual/LeyesEstatales.cfm"
+                            target="_blank"
+                            >Normatividad</a
+                        >
+                    </p>
+                    <p>
+                        <a href="https://datos.jalisco.gob.mx/" target="_blank"
+                            >Datos Abiertos</a
+                        >
+                    </p>
+                    <img src="assets/icons/visor/logo-default.png" class="over-imagef" />
+                </div>
+
+                <div
+                    fxFlex="33"
+                    fxLayout="column"
+                    fxLayoutAlign="center center"
+                >
+                    <img src="assets/images/logo.svg" class="over-imagef1" />
+                </div>
+            </div>
+        </mat-drawer-content> -->
+    </mat-drawer-container>
+</article>

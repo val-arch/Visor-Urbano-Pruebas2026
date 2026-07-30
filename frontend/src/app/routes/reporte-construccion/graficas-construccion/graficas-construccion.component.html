@@ -1,0 +1,36 @@
+<div id="giros" class="page-layout simple fullwidth">
+    <div class="header fuse-visor-50 p-24 h-100" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row"
+        fxLayoutAlign.gt-xs="space-between center">
+        <div fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="column" fxLayoutAlign.gt-xs="center start">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <mat-icon class="secondary-text s-18">home</mat-icon>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text">Reportes</span>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text">Gráficas</span>
+            </div>
+            <div class="h2 mt-16">
+                <mat-icon class="secondary-text s-18">assessment</mat-icon> Gráficas
+            </div>
+        </div>
+    </div>
+
+    <div class="content p-24">
+
+        <div class="container mat-elevation-z1"  *ngIf="role==4">
+            <h1 class="title">Linea de tiempo licencias</h1>
+            <grafica-advanced-pie fxLayoutAlign="center center"></grafica-advanced-pie>
+            <mat-divider></mat-divider>
+            <h1 class="title">Licencias emitidas por mes año actual</h1>
+            <grafica-bar></grafica-bar>
+            <mat-divider></mat-divider>
+            <h1 class="title">Estatus de revisión de los trámites</h1>
+            <grafica-pie></grafica-pie>
+
+        </div>
+        <div class="container mat-elevation-z1" *ngIf="role==5"  >
+            <grafica-pie-admin class="mat-elevation-z2"></grafica-pie-admin>
+        </div>
+
+    </div>
+</div>

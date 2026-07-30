@@ -1,0 +1,63 @@
+<div *ngIf="herramientaActiva==='capas'">
+    <mat-tab-group>
+        <mat-tab label="Capas">
+            <mat-list>
+                <mat-list-item *ngFor="let capa of capasMunicipio; let indice = index">
+                    <h3 matLine style="padding: 0 0 0 4px;">
+                        <mat-checkbox style="margin-right: 12px;" [disabled]="capasMunicipio[indice]['value']==='nivel_impacto'"
+                                      *ngIf="capasMunicipio[indice]['value']!=='nivel_impacto'"
+                                      matTooltip="{{ capasMunicipio[indice]['visible'] ? 'Desctivar esta capa' : 'Activar esta capa' }}"
+                                      [(ngModel)]="capasMunicipio[indice]['visible']"
+                                      (change)="updateCapasMunicipio()"></mat-checkbox>
+                        <mat-checkbox style="margin-right: 12px; cursor: not-allowed" [disabled]="capasMunicipio[indice]['value']==='nivel_impacto'"
+                                      *ngIf="capasMunicipio[indice]['value']==='nivel_impacto'"
+                                      matTooltip="Esta capa no se puede desactivar"
+                                      [(ngModel)]="capasMunicipio[indice]['visible']"
+                                      (change)="updateCapasMunicipio()"></mat-checkbox>
+                        <button mat-icon-button color="primary" matTooltip="Zoom a esta capa">
+                            <mat-icon>zoom_out_map</mat-icon>
+                        </button>
+                        <button mat-icon-button color="secondary" matTooltip="Opacidad de esta capa"
+                                (click)="capaOpacidad == indice ? capaOpacidad = undefined : capaOpacidad = indice">
+                            <mat-icon>brightness_6</mat-icon>
+                        </button>
+                        {{ capa.label }}
+                    </h3>
+                    <h3 matLine *ngIf="capaOpacidad === indice;" style="margin-top: -10px; padding: 0 4px 0 4px;">
+                        <mat-slider (input)="updateCapasMunicipio()" style="width: 100%;"
+                                    [(ngModel)]="capasMunicipio[indice]['opacity']" min="0" max="1" step="0.05"
+                                    (change)="updateCapasMunicipio()"></mat-slider>
+                    </h3>
+                </mat-list-item>
+            </mat-list>
+        </mat-tab>
+        <mat-tab label="Simbología">
+            <div style="width: 303px;">
+                <mat-accordion>
+                    <mat-expansion-panel *ngFor="let capa of capasMunicipioWMS()">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                {{ capa.label }}
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+
+                        <mat-card style="padding: 0; box-shadow: none;" cdk-scrollable>
+
+                            <img *ngIf="capa.value!=='nivel_impacto' && capa.url.endsWith('?')" alt="Leyenda WMS" style="max-width: initial;"
+                                 src="{{ capa.url }}service=wms&request=GetLegendGraphic&VERSION={{ capa.version }}&FORMAT=image/png&LAYER={{ capa.layers }}">
+                            <img *ngIf="capa.value!=='nivel_impacto' && !capa.url.endsWith('?')" alt="Leyenda WMS" style="max-width: initial;"
+                                 src="{{ capa.url }}?service=wms&request=GetLegendGraphic&VERSION={{ capa.version }}&FORMAT=image/png&LAYER={{ capa.layers }}">
+
+                            <img *ngIf="capa.value==='nivel_impacto'" alt="Leyenda WMS" style="max-width: initial;"
+                                 src="{{ capa.url }}?service=wms&request=GetLegendGraphic&VERSION={{ capa.version }}&FORMAT=image/png&LAYER={{ capa.layers }}&width=40&height=30">
+
+                        </mat-card>
+
+
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+</div>
+

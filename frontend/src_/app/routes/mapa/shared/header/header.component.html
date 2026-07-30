@@ -1,0 +1,20 @@
+<div class="map-logo" *ngIf="activeMedia!='xs'">
+    <div fxFlex="1 0 auto" fxLayout="row" fxLayoutAlign="start center">
+        <a routerLink="/"> <img class="img-logo" src="./assets/icons/visor/visor_urbano_logo.svg" alt="" /></a>
+    </div>
+    <div fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="end center">
+        <img class="" src="./assets/icons/visor/jalisco_logo.svg" style=" width: 120px; height: 39px;top: 17px;" alt="" />
+        <img class="" src="./assets/icons/visor/bloomberg_logo.svg" style="width: 110px; height: 34px;top: 23px;margin-left: 25px;margin-right: 25px;" alt="" />
+    </div>
+</div>
+<div class="map-logo" *ngIf="activeMedia=='xs'" fxLayout="row">
+    <div fxFlex="20%" fxLayoutAlign="start center">
+        <button mat-icon-button (click)="addActive()" style="color:#586b56">
+            <mat-icon> more_vert</mat-icon>
+        </button>
+    </div>
+    <div fxFlex="60%" fxLayoutAlign="center center">
+        <a routerLink="/"> <img class="img-logo" src="./assets/icons/visor/visor_urbano_logo.svg" alt="" /></a>
+    </div>
+
+</div>

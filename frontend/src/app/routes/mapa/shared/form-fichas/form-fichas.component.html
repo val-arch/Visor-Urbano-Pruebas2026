@@ -1,0 +1,70 @@
+<div class="dialog-content-wrapper">
+    <mat-toolbar matDialogTitle class="fuse-visor-50 m-0">
+        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="title dialog-title">Descargar ficha técnica</span>
+            <button mat-icon-button aria-label="Close dialog" (click)="closeDialog()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+    <div mat-dialog-content class="p-24 pb-0 m-0 form-container" fusePerfectScrollbar>
+
+        <form #downloadForm="ngForm" (ngSubmit)="submitForm(downloadForm)">
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Sector al que perteneces</mat-label>
+                    <mat-select [(ngModel)]="selectedSector" name="sector" [required]="true">
+                        <mat-option *ngFor="let sector of sectores" [value]="sector">{{ sector }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <mat-label>¿Qué uso le darás a la información?*</mat-label>
+            <div fxLayout="row" fxLayoutAlign="start start">
+
+                <div style=" display: flex;
+                flex-wrap: wrap;">
+
+                    <div class="checkbox-container" *ngFor="let uso of usos; index as i">
+                        <mat-checkbox [(ngModel)]="uso.checked" name="usos">{{ uso.label }}</mat-checkbox>
+                    </div>
+                </div>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="fill" class="midt-width">
+                    <mat-label>Edad</mat-label>
+                    <mat-select [(ngModel)]="selectedEdad" name="edad" [required]="true">
+                        <mat-option *ngFor="let edad of edades" [value]="edad">{{ edad }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="midt-width">
+                    <mat-label>Ciudad</mat-label>
+                    <input type="text" matInput [matAutocomplete]="auto" [(ngModel)]="selectedCiudad" name="selectedCiudad" [formControl]="searchControl" [required]="true">
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                            {{ option }}
+                        </mat-option>
+                    </mat-autocomplete>
+
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="fill" class="midt-width">
+                    <mat-label>Nombre (Opcional)</mat-label>
+                    <input matInput [(ngModel)]="nombre" name="nombre">
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="midt-width">
+                    <mat-label>Correo electrónico (Opcional)</mat-label>
+                    <input matInput type="email" [(ngModel)]="correo" name="correo">
+                </mat-form-field>
+            </div>
+
+            <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
+
+                <button mat-button class="save-button" type="submit">
+            Descargar
+        </button>
+            </div>
+        </form>
+    </div>
+</div>

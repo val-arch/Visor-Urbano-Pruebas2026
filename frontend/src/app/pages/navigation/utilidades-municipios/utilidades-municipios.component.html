@@ -1,0 +1,124 @@
+<app-header></app-header>
+
+<article [class.content]="!deviceXs" [class.content-mob]="deviceXs" (scroll)="onScroll($event)">
+    <mat-drawer-container>
+        <mat-drawer-content>
+            <div fxLayout="row wrap" class="reconocimiento" fxLayoutAlign="center center" fxLayout.xs="column"
+                fxLayout.sm="column" style="margin-top:40px; margin-bottom:40px;
+        margin-left: 10%; margin-right: 10%;">
+                <div fxLayout="row" class="title" fxLayoutAlign="center center">
+                    <!-- <img src="assets/images/landing/reconocimientos.svg"> -->
+                    <h1> Sistema de Apertura Rápida de Empresas (SARE) </h1>
+                </div>
+                <div fxLayout="column" fxLayoutAlign="">
+                    <p>¿Qué es el SARE?</p>
+                    <div class="textsare">
+                        El Sistema de Apertura Rápida de Empresas (SARE) es un certificado que expide la Comisión
+                        Nacional de Mejora Regulatoria (CONAMER) a los municipios que por sus buenas prácticas y
+                        celeridad en su procedimiento de emisión de licencias de negocio, autorizan la apertura e inicio
+                        de operaciones de un negocio de bajo riesgo (abarroteras, papelerías, cremerías, y similares) en
+                        máximo 3 días hábiles.
+                        <br>
+                        <a href="https://conamer.gob.mx/certificaciones/Certificaciones/?filter=SARE&valIsFilter=1"
+                            target="_blank">Ver
+                            página oficial SARE.</a>
+                    </div>
+                    <p>¿Qué beneficios implica obtener el Certificado SARE?</p>
+                    <ul>
+                        <li>Generar confianza en los ciudadanos para iniciar un negocio formal.</li>
+                        <li>Tener buenas prácticas y celeridad en el proceso de licencias de negocio</li>
+                        <li>Cumplir con los estándares de mejora regulatoria.</li>
+                        <li>Ser un municipio transparente que define reglas claras.</li>
+                        <li>En general, ser un municipio más competitivo por incentivar la inversión a través de las
+                            reglas claras y procedimientos sencillos y expeditos.</li>
+                    </ul>
+                    <br>
+                    <p>¿Qué hacer para obtener el SARE?</p>
+                    <div class="textsare">Como primer paso, y dado que Visor Urbano Cuernavaca es una herramienta que
+                        permite cumplir con los parámetros del SARE, los municipios deberán cumplir con lo siguiente:
+                    </div>
+                    <ul class="list-sare">
+                        <li>
+                            Designar una persona del municipio que sea un enlace con la Coordinación General de
+                            Innovación Gubernamental para el seguimiento de temas en materia de mejora regulatoria,
+                            presentación de iniciativas de reglamentos ante el Cabildo, así como para la implementación
+                            de Visor Urbano y la obtención del certificado SARE en su municipio.
+                            <a href="https://docs.google.com/document/d/1G_JrNHiOl9PbPkYf9I2INhwdi0z1FhFPu0lSi7vV3c8/edit?usp=sharing"
+                                target="_blank">(Descargar modelo de oficio de designación de enlace) </a>
+                        </li>
+                        <li>
+                            Designar una persona para que sea el director de Visor Urbano Cuernavaca dentro del propio
+                            municipio. Dicha persona debe ser el director y/o encargado de la dependencia que recibe,
+                            revisa, tramita y expide las licencias de negocio municipales, comúnmente llamado como
+                            director de padrón y licencias. Lo anterior, dado que a dicha persona se le entregará un
+                            usuario para que pueda dar de alta los requisitos para licencias de negocio en su municipio,
+                            señale que giros se pueden tramitar, entre otras.
+                            <a href="https://docs.google.com/document/d/1BgDJNKVjTxxYMxllzsA8trN0BinruA-TeIs2BNZKSVI/edit?usp=sharing"
+                                target="_blank">(Descargar
+                                modelo de oficio de designación de director de Visor Urbano)</a>
+                        </li>
+                    </ul>
+                    <div class="textsare">
+                        Dichos oficios deberán ser enviados al correo de <a
+                            href="mailto:jcorrea@visorurbano.com.">jcorrea@visorurbano.com</a>
+                        <br>
+                        Para dudas o mayores detalles se puede llamar o enviar whatsapp al teléfono oficial de
+                        Visor Urbano Cuernavaca: 3310 9110 26
+                        <br>
+                        <br>
+                        Una vez hecho lo anterior, los municipios interesados en continuar con la obtención del SARE
+                        deberán realizar lo siguiente:
+                    </div>
+                    <ul class="list-sare">
+                        <li>
+                            Aprobar en cabildo un Reglamento que prevea la ventanilla única, el Formato Único de
+                            Apertura, ya sea físico o digital; y, la resolución en un plazo no mayor a tres días hábiles
+                            y máximo dos visitas.
+                            <a href="https://docs.google.com/document/d/1qXTmC1N9tUdzzRAnBugLBn9ckX8pkKCJ/edit?usp=s haring&ouid=111199336509746939252&rtpof=true&sd=true"
+                                target="_blank">(Descargar modelo de reglamento a aprobar en cabildo)</a>
+                        </li>
+                        <li>
+                            Aprobar y reconocer el catálogo de actividades de bajo riesgo de bajo riesgo denominado <a
+                                (click)="openDialogScian()">SCIAN</a> (Sistema de Clasificación Industrial de América
+                            del Norte).
+                            <a href="https://docs.google.com/document/d/1MwP-oniExTjyH64XvCgeO24gDXRlmdEB/edit?usp=sharing&ouid=111199336509746939252&rtpof=true&sd=true"
+                                target="_blank">(Descargar Catalogo SCIAN de actividades de bajo riesgo para aprobar en
+                                cabildo)</a>
+                        </li>
+                        <li>
+                            Presentar un Manual de operación de la ventanilla única SARE.
+                            <a href="https://docs.google.com/document/d/1rEzA-p4UvqTlquNkO6qsz1eZJVyG_YTY/edit?usp=sharing&ouid=111199336509746939252&rtpof=true&sd=true"
+                                target="_blank">(Descargar modelo de Manual de Operaciones)</a>
+                        </li>
+                        <li>
+                            Completar , imprimir y firmar los siguientes documentos:
+                            1. Carta intención <a
+                                href="https://conamer.gob.mx/docs-bin/cgpe/2020/JOM/6._SARE_-_Carta_Intencion.docx"
+                                target="_blank">(Descargar)</a>;
+                            2. Formato solicitud <a
+                                href="https://conamer.gob.mx/docs-bin/cgpe/2020/JOM/8._SARE_-_Formato_Solicitud.docx"
+                                target="_blank">(Descargar)</a>;
+                            y, 3. Formulario de elementos de diagnóstico <a
+                                href="https://conamer.gob.mx/docs-bin/cgpe/2020/JOM/7._SARE_-_Elementos_Diagnostico.docx"
+                                target="_blank">(Descargar)</a>.
+                        </li>
+                    </ul>
+                    <div class="textsare">
+                        Una vez reunida toda la información, se deberá enviar de forma electrónica a la Comisión
+                        Nacional de Mejora Regulatoria. Las aprobaciones de cabildo deberán acreditarse con publicación
+                        en la gaceta municipal y/o acta de cabildo acompañado de la normatividad aprobada. Se deberá
+                        adjuntar también fotografías de la ventanilla única donde se aprecie la señalética que permita a
+                        los ciudadanos identificarla.
+                        <br>
+                        <br>
+                        Para lo anterior, el equipo de Visor Urbano puede coadyuvar con el municipio para la correcta
+                        integración y envío de los requisitos a la CONAMER.
+                        <br><br>
+                        WhatsApp oficial de Visor Urbano Cuernavaca: 3310 9110 26
+                    </div>
+                </div>
+            </div>
+            <landing-footer></landing-footer>
+        </mat-drawer-content>
+    </mat-drawer-container>
+</article>

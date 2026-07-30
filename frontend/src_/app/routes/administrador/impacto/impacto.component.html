@@ -1,0 +1,187 @@
+<link rel="stylesheet" href="https://openlayers.org/en/v6.4.3/css/ol.css" type="text/css">
+
+<div id="nivel-impacto" class="page-layout simple fullwidth">
+    <!-- HEADER -->
+    <div class="header fuse-visor-50 p-24 h-100" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row"
+         fxLayoutAlign.gt-xs="space-between center">
+        <div fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="column" fxLayoutAlign.gt-xs="center start">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <mat-icon class="secondary-text s-18">home</mat-icon>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text">Administrar</span>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text">Nivel de impacto</span>
+            </div>
+            <div class="h2 mt-16">
+                <mat-icon class="secondary-text s-18 ">map</mat-icon>
+                Nivel de impacto
+            </div>
+        </div>
+        <!-- <button mat-raised-button class="button-visor-new" (click)="agregarCapa()" aria-label="Agregar Capa">
+            <mat-icon>add</mat-icon> Agregar Capa
+        </button> -->
+    </div>
+    <!-- / HEADER -->
+
+    <div class="panel-herramientas" @animate [@slideInRightTwo]="panelHerramientas" fxLayout="row">
+        <div class="left" (click)="panelHerramientas=!panelHerramientas">
+            <mat-icon *ngIf="!panelHerramientas">keyboard_arrow_left</mat-icon>
+            <mat-icon *ngIf="panelHerramientas">keyboard_arrow_right</mat-icon>
+        </div>
+        <div class="herramientas p-16" fxFlex="100%">
+            <app-impacto-herramientas [capasMunicipio]="capasMunicipio" [herramientaActiva]="herramientaActiva" (capasMunicipioChange)="capasMunicipioChange()"></app-impacto-herramientas>
+        </div>
+    </div>
+
+
+    <!-- CONTENT -->
+    <div class="content" style="height: 0;">
+
+        <app-impacto-sidebar [barraIOpen]="true" (panelHerramientasStatus)="panelHerramientas=true"
+                             (herramientaActivaSeleccionada)="setHerramientaActiva($event)"
+                             (interaction)="setInteraction($event)"
+        ></app-impacto-sidebar>
+
+        <div class="map-container2" style="height: 100%; width: 100%">
+            <aol-map #impactoMap (onSingleClick)="onClickOverMap($event)" [loadTilesWhileAnimating]="true"
+                     [loadTilesWhileInteracting]="true">
+                <aol-view #impactoView [zoom]="mapZoom" [maxZoom]="22" [minZoom]="7" [projection]="'EPSG:4326'">
+                    <aol-coordinate [x]="-104" [y]="21.60" [srid]="'EPSG:4326'"></aol-coordinate>
+                </aol-view>
+
+                <aol-control-defaults></aol-control-defaults>
+                <aol-interaction-default></aol-interaction-default>
+
+                <aol-layer-tile>
+                    <aol-source-tilewms [url]="geoserver_url + '/gwc/service/wms'"
+                                        [attributions]="'Gobierno de Cuernavaca'"
+                                        [params]="{LAYERS: 'VUJ:MapaJaliscoMapaBase', SRS:'EPSG:4326', TILED:true, FORMAT:'image/png8', WIDTH:256, HEIGHT:256, VERSION:'1.1.1'}">
+                    </aol-source-tilewms>
+                </aol-layer-tile>
+
+                <aol-layer-tile [zIndex]="3+indice" *ngFor="let capa of capasMunicipio; let indice = index"
+                                [opacity]="capa.opacity">
+                    <aol-source-tilewms *ngIf="capa.visible && capa.type === 'wms' && !capa.cql_filter" [url]="capa.url"
+                                        [projection]="capa.projection"
+                                        [attributions]="capa.attribution === 'Gobierno de Cuernavaca' ? '' : ' | ' + capa.attribution"
+                                        [params]="{
+                                            FORMAT: capa.format,
+                                            LAYERS: capa.layers,
+                                            SRS: capa.projection,
+                                            CRS: capa.projection,
+                                            VERSION: capa.version,
+                                            TILED: true
+                                        }" #SourceWMS>
+                    </aol-source-tilewms>
+                    <aol-source-tilewms *ngIf="capa.visible && capa.type === 'wms' && capa.cql_filter" [url]="capa.url"
+                                        [projection]="capa.projection"
+                                        [attributions]="capa.attribution === 'Gobierno de Cuernavaca' ? '' : ' | ' + capa.attribution"
+                                        [params]="{
+                                            FORMAT: capa.format,
+                                            LAYERS: capa.layers,
+                                            SRS: capa.projection,
+                                            CRS: capa.projection,
+                                            VERSION: capa.version,
+                                            TILED: true,
+                                            CQL_FILTER: capa.cql_filter
+                                        }" #SourceWMS>
+                    </aol-source-tilewms>
+                    <aol-source-xyz *ngIf="capa.visible && capa.type === 'xyz' && capa.order === 0 && this.mapZoom > 16"
+                                    [url]="capa.url"
+                                    [attributions]="capa.attribution === 'Gobierno de Cuernavaca' ? '' : ' | ' + capa.attribution"></aol-source-xyz>
+                    <aol-source-xyz *ngIf="capa.visible && capa.type === 'xyz' && capa.order > 0" [url]="capa.url"
+                                    [attributions]="capa.attribution === 'Gobierno de Cuernavaca' ? '' : ' | ' + capa.attribution"></aol-source-xyz>
+
+                </aol-layer-tile>
+
+                <aol-layer-vector>
+                    <aol-source-vector>
+                        <aol-feature #impactoFeaturesMunicipio>
+                            <aol-geometry-polygon>
+                                <aol-collection-coordinates [coordinates]="municipioCoords" [srid]="'EPSG:4326'">
+                                </aol-collection-coordinates>
+                                <aol-style>
+                                    <aol-style-stroke [color]="'#7edd76'" [width]="3"></aol-style-stroke>
+                                </aol-style>
+                            </aol-geometry-polygon>
+                        </aol-feature>
+                    </aol-source-vector>
+                </aol-layer-vector>
+
+                <div #impactoInfoPopUp [className]="WMSInfo.mostrar? 'white-50-bg impactoPopCustom':''">
+                    <div class="popContentCustom">
+                        <a #popupCloser (click)="quitarPopupInfo()"
+                           [className]="WMSInfo.mostrar? 'ol-popup-closer':''"></a>
+                        <mat-accordion multi="false">
+                            <mat-expansion-panel hideToggle *ngFor="let info of WMSInfo.contenido">
+                                <mat-expansion-panel-header class="green-30-bg">
+                                    <mat-panel-title class="white-50">
+                                        <b>{{ info.nombre }}</b>
+                                    </mat-panel-title>
+                                </mat-expansion-panel-header>
+                                <!-- <p>{{ info.datos.features }}</p> -->
+                                <div *ngIf="info.datos.features.length > 0">
+                                    <div *ngIf="info.datos.features.length == 1">
+                                        <p *ngIf="info.datos.features[0].id != ''">
+                                            <b>{{ showNombreCapa(info.datos.features[0].id) }}</b></p>
+                                        <table mat-table
+                                               [dataSource]="dataTableKeyValue(info.datos.features[0].properties)"
+                                               style="width: 100%;">
+                                            <ng-container matColumnDef="clave" sticky>
+                                                <th mat-header-cell *matHeaderCellDef> Clave</th>
+                                                <td mat-cell *matCellDef="let element"> {{element.clave}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="valor">
+                                                <th mat-header-cell *matHeaderCellDef> Valor</th>
+                                                <td mat-cell *matCellDef="let element"> {{element.valor}} </td>
+                                            </ng-container>
+                                            <tr style="height: initial;" mat-header-row
+                                                *matHeaderRowDef="['clave', 'valor']"></tr>
+                                            <tr style="height: initial;" mat-row
+                                                *matRowDef="let row; columns: ['clave', 'valor'];"></tr>
+                                        </table>
+                                    </div>
+                                    <div *ngIf="info.datos.features.length > 1">
+                                        <mat-accordion multi="false">
+                                            <mat-expansion-panel multiple="false" hideToggle
+                                                                 *ngFor="let feature of info.datos.features">
+                                                <mat-expansion-panel-header class="green-30-bg">
+                                                    <mat-panel-title class="white-50">
+                                                        <b *ngIf="feature.id != ''">{{ showNombreCapa(feature.id) }}</b>
+                                                        <b *ngIf="feature.id == ''">{{ info.nombre }}</b>
+                                                    </mat-panel-title>
+                                                </mat-expansion-panel-header>
+                                                <div>
+                                                    <table mat-table
+                                                           [dataSource]="dataTableKeyValue(feature.properties)"
+                                                           style="width: 100%;">
+                                                        <ng-container matColumnDef="clave" sticky>
+                                                            <th mat-header-cell *matHeaderCellDef> Clave</th>
+                                                            <td mat-cell
+                                                                *matCellDef="let element"> {{element.clave}} </td>
+                                                        </ng-container>
+                                                        <ng-container matColumnDef="valor">
+                                                            <th mat-header-cell *matHeaderCellDef> Valor</th>
+                                                            <td mat-cell
+                                                                *matCellDef="let element"> {{element.valor}} </td>
+                                                        </ng-container>
+                                                        <tr style="height: initial;" mat-header-row
+                                                            *matHeaderRowDef="['clave', 'valor']"></tr>
+                                                        <tr style="height: initial;" mat-row
+                                                            *matRowDef="let row; columns: ['clave', 'valor'];"></tr>
+                                                    </table>
+                                                </div>
+                                            </mat-expansion-panel>
+                                        </mat-accordion>
+                                    </div>
+                                </div>
+                            </mat-expansion-panel>
+                        </mat-accordion>
+                    </div>
+                </div>
+
+            </aol-map>
+        </div>
+    </div>
+
+</div>

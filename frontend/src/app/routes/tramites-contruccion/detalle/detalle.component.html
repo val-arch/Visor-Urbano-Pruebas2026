@@ -1,0 +1,26 @@
+<div id="detalle-tramite" class="page-layout simple fullwidth">
+    <!-- HEADER -->
+    <div class="header fuse-visor-50 p-24 h-100" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center">
+        <div fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="column" fxLayoutAlign.gt-xs="center start">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <!--span class="secondary-text">Trámites</span>
+               <span class="secondary-text">Nuevo Trámite</span-->
+                <mat-icon class="secondary-text s-18">home</mat-icon>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text">Trámites</span>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text"> trámite</span>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text"> {{folio}} </span>
+            </div>
+            <div class="h2 mt-16">Expediente Digitales</div>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content p-24">
+
+        <app-resumen-tramite-construccion *ngIf="folio!=''" [folio]="folio" [tipo]="tipo" [necesitaCadena]="true"></app-resumen-tramite-construccion>
+    </div>
+</div>

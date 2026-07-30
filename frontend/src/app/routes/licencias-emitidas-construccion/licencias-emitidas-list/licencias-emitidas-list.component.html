@@ -1,0 +1,115 @@
+<style>
+    .mtx-grid .mtx-grid-expansion-detail {
+        align-items: center;
+        display: list-item !important;
+        min-height: 57px;
+        overflow: hidden;
+    }
+    
+    .mtx-grid {
+        margin-left: 3px;
+        margin-right: 10px;
+    }
+</style>
+<div id="tramite" class="page-layout simple fullwidth">
+    <!-- HEADER -->
+    <div class="header fuse-visor-50 p-24 h-120" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center">
+        <div fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="column" fxLayoutAlign.gt-xs="center start">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <span class="secondary-text">Historial</span>
+            </div>
+            <div class="h2 mt-16">
+                Autorizaciones emitidas por Visor Urbano</div>
+        </div>
+    </div>
+    <!-- / HEADER -->
+    <!-- CONTENT -->
+    <div class="content p-24">
+        <div class="m-28" fxLayout="row" fxLayoutAlign="center center">
+            <mtx-grid style="margin-top: 13px;" [data]="list2" [showToolbar]="true" [rowStriped]="true" [showColumnMenuButton]="false" [toolbarTemplate]="toolbarTpl" noResultText="Sin datos" [columns]="columns" [length]="total" [loading]="isLoading" [pageOnFront]="false"
+                (page)="getNextPage($event)" [pageIndex]="query.page" [pageSizeOptions]="[10]" pageSize="10">
+            </mtx-grid>
+        </div>
+    </div>
+    <!-- / CONTENT -->
+</div>
+<ng-template #statusTplPago let-row let-index="index" let-col="colDef">
+    <section class="example-section">
+        <mat-slide-toggle color="primary" [checked]="row.status_pago==1" [disabled]="row.status_pago==1" (click)="seguro($event,row)">
+            <ng-container *ngIf="row.status_pago; else elseTemplatePago">
+                Pagada
+            </ng-container>
+            <ng-template #elseTemplatePago>
+                Sin pagar
+            </ng-template>
+        </mat-slide-toggle>
+        <button mat-icon-button color="accent" (click)="ordenDialog(row)" *ngIf="row.status_pago && row.archivo_compobante_pago==null" matTooltip="Subir recibo de pago">
+            <mat-icon>monetization_on</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" (click)="verOrden(row)" *ngIf="row && row.archivo_compobante_pago!=null" matTooltip="Ver recibo de pago">
+            <mat-icon>monetization_on</mat-icon>
+        </button>
+    </section>
+</ng-template>
+
+<ng-template #statusTpl let-row let-index="index" let-col="colDef">
+
+    <a mat-icon-button color="accent" target="_blank" href="{{server}}licenciaConstruccionById/{{btoaf(row.id)}}" matTooltip="Visualizar Resolución">
+        <mat-icon>picture_as_pdf</mat-icon>
+    </a>
+    <!-- <button mat-icon-button  (click)="subirPdfEscaneado(row)"   matTooltip="Subir pdf escaneado" > -->
+    <button mat-icon-button (click)="subirPdfEscaneado(row)" *ngIf="!row.pdf_escaneado && row.status_baja==0" matTooltip="Subir pdf escaneado">
+        <mat-icon><img src="assets/images/icons/ico_upload.svg" alt="" srcset=""></mat-icon>
+    </button>
+     <a mat-icon-button color="accent" matTooltip="Enviar licencia a interesado/propietario" (click)="enviarLicenciaInteresados(row.folio)">
+        <mat-icon>description</mat-icon>
+    </a>
+    <div>
+        <button mat-icon-button [matMenuTriggerFor]="userMenu" aria-label="more">
+            <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #userMenu="matMenu">
+            <button mat-menu-item (click)="verDetalles(row.folio)">
+                <mat-icon>visibility</mat-icon>
+                <span>Ver Detalles</span>
+            </button>
+            <button mat-menu-item (click)="UpdateStatusLicencia(row) ">
+                <mat-icon>updated</mat-icon>
+                Cambiar estatus
+            </button>
+            <button mat-menu-item (click)="editarLicencia(btoaf(row.folio),row.id_municipio,row) ">
+                <mat-icon>edit</mat-icon>
+                <span>Editar expediente</span>
+            </button>
+            <button mat-menu-item (click)="editarLicenciaProrroga(btoaf(row.folio),row.id_municipio,row, '2') ">
+                <mat-icon>new_releases</mat-icon>
+                <span>Prórrogar</span>
+            </button>
+            
+        </mat-menu>
+    </div>
+
+
+</ng-template>
+<ng-template #statusBaja let-row let-index="index " let-col="colDef ">
+    <ng-container *ngIf="row.status_baja==1; else elseTemplateBaja ">
+        <div style="text-align: center !important; ">
+            Dada de baja
+            <br>
+            <button mat-icon-button color="accent " (click)="motivoBaja(row) " matTooltip="Ver motivo ">
+                <mat-icon>description</mat-icon>
+            </button>
+        </div>
+    </ng-container>
+    <ng-template #elseTemplateBaja>
+    </ng-template>
+</ng-template>
+<ng-template #toolbarTpl>
+    <form name="buscarUsuarioForm ">
+        <div class="example-header pl-24 pt-4 ">
+            <mat-form-field>
+                <input matInput placeholder="Buscar expenditiente/autorización " (keyup)="getData() " type="email " [formControl]="filter ">
+            </mat-form-field>
+        </div>
+    </form>
+</ng-template>

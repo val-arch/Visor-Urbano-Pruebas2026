@@ -1,0 +1,57 @@
+<div class="navbar-top" [ngClass]="fuseConfig.layout.navbar.secondaryBackground">
+
+    <div class="logo">
+        <img class="logo-icon " src="assets/images/logo-visorurbano-blanco.svg">
+        <!--<span class="logo-text secondary-text">Visor Urbano</span>-->
+    </div>
+
+    <div class="buttons">
+
+        <button mat-icon-button class="toggle-sidebar-folded" (click)="toggleSidebarFolded()" fxHide.lt-lg>
+            <mat-icon class="secondary-text">menu</mat-icon>
+        </button>
+
+        <button mat-icon-button class="toggle-sidebar-opened" (click)="toggleSidebarOpened()" fxHide.gt-md>
+            <mat-icon class="secondary-text">arrow_back</mat-icon>
+        </button>
+
+    </div>
+
+</div>
+
+
+<div class="navbar-scroll-container" [ngClass]="fuseConfig.layout.navbar.primaryBackground" fusePerfectScrollbar [fusePerfectScrollbarOptions]="{suppressScrollX: true}">
+
+   <!-- <div class="user" fxLayout="column" [ngClass]="fuseConfig.layout.navbar.secondaryBackground">
+
+        <div class="h3 username"> {{user.name}} </div>
+        <div class="h5 email hint-text mt-8"> {{user.email}} </div>
+        <div class="avatar-container" [ngClass]="fuseConfig.layout.navbar.primaryBackground">
+            <img class="avatar" src="assets/images/avatars/profile.jpg">
+        </div>
+
+    </div>-->
+
+    <div class="navbar-content">
+        <fuse-navigation  class="material2 fuse-visor-100" layout="vertical"></fuse-navigation>
+        <div class="below-fixed images"fxLayout="column"  fxLayoutAlign="center center">  
+            <div fxLayout="row" fxLayoutAlign="center center"   *ngIf="img_muni!=''">
+                <img [src]="img_muni" style="width: 30% ;" alt="">
+            </div>
+            <!--<div fxLayout="row" fxLayoutAlign="center center" fxHide fxShow.gt-xs>-->
+            <div fxLayout="row" fxLayoutAlign="center center" >
+                <img src="assets/images/bloomberg-black.png" style="width: 50% ;" alt="">
+            </div>
+            <div fxLayout="row"   fxFlex>
+            <a href="https://1.envato.market/c/1257954/275988/4415?u=https%3A%2F%2Fthemeforest.net%2Fitem%2Ffuse-angularjs-material-design-admin-template%2F12931855" target="_blank" >
+                <img src="assets/images/Icon.png" style="width: 50% ;" alt="">
+            </a>
+            </div>
+            
+        
+        </div>
+    </div>
+    
+
+</div>
+

@@ -1,0 +1,80 @@
+@import "src/@fuse/scss/fuse";
+.mat-toolbar-row,
+.mat-toolbar-single-row {
+    margin: auto;
+    display: block;
+    @media (max-width: 599px) {
+        height: 100px;
+    }
+    @media only screen and (device-width: 768px) {
+        height: 30px;
+        width: 20px;
+    }
+}
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+ nav  li {
+  display: inline;
+  display: inline;
+  margin: 1px;
+  font-size: 14px;
+}
+.mat-toolbar {
+    @include media-breakpoint('lt-md') {
+        width: 30%;
+    }
+    @include media-breakpoint('xs') {
+        width: 100%;
+    }
+    a  {
+        font: Red Hat Display;
+        letter-spacing: 0px;
+        color: #48494B !important;
+        padding: 8px;
+        height: 100% !important;
+        text-decoration: none !important;
+    }
+    a:hover{
+
+    }
+    a.active {
+        .mat-button-wrapper {
+            font: Red Hat Display;
+            color: #65C65D;
+            padding: 8px;
+        }
+        border-style:solid;
+        border-width: 0px 0px 3px 0px;
+        border-color: #65C65D !important;
+    }
+    .button-b:hover {
+        .mat-button-wrapper {
+            font: Red Hat Display;
+            color: #65C65D;
+            padding: 8px;
+        }
+        border-style:solid;
+        border-width: 0px 0px 3px 0px;
+        border-color: #65C65D !important;
+    }
+    .mat-icon {
+        color: #65C65D;
+        width: 30px;
+        height: 30px;
+    }
+    .logo {
+        @include media-breakpoint('lt-md') {
+            margin-right: 7px;
+            margin-left: 7%;
+            height: 65px;
+        }
+        @media only screen and (device-width: 768px) {
+            margin-right: 25px;
+            margin-left: 7%;
+            height: 65px;
+        }
+    }
+}

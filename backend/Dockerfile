@@ -1,0 +1,110 @@
+# Use the official PHP image as a parent image
+FROM php:7.4-fpm
+ENV COMPOSER_MEMORY_LIMIT='-1'
+
+RUN apt-get update && \
+    apt-get install -y --force-yes --no-install-recommends \
+        libmemcached-dev \
+        libmcrypt-dev \
+        libreadline-dev \
+        libgmp-dev \
+        libzip-dev \
+        libz-dev \
+        libpq-dev \
+        libjpeg-dev \
+        libpng-dev \
+        libfreetype6-dev \
+        libssl-dev \
+        openssh-server \
+        libmagickwand-dev \
+        git \
+        cron \
+        nano \
+        libxml2-dev \
+        nginx \
+	mariadb-client
+
+# Install soap extention
+RUN docker-php-ext-install soap
+
+# Install for image manipulation
+RUN docker-php-ext-install exif
+
+# Install the PHP pcntl extention
+RUN docker-php-ext-install pcntl
+
+# Install the PHP intl extention
+RUN docker-php-ext-install intl
+
+# Install the PHP gmp extention
+RUN docker-php-ext-install gmp
+
+# Install the PHP zip extention
+RUN docker-php-ext-install zip
+
+# Install the PHP pdo_pgsql extention
+RUN docker-php-ext-install pdo_pgsql
+
+
+
+#####################################
+# GD:
+#####################################
+
+# Install the PHP gd library
+RUN docker-php-ext-install gd
+
+#####################################
+# Composer:
+#####################################
+
+# Install composer and add its bin to the PATH.
+RUN curl -s http://getcomposer.org/installer | php && \
+    echo "export PATH=${PATH}:/var/www/vendor/bin" >> ~/.bashrc && \
+    mv composer.phar /usr/local/bin/composer
+# Source the bash
+RUN . ~/.bashrc
+
+#####################################
+# Laravel Schedule Cron Job:
+#####################################
+
+RUN echo "* * * * * root /usr/local/bin/php /var/www/artisan schedule:run >> /dev/null 2>&1"  >> /etc/cron.d/laravel-scheduler
+RUN chmod 0644 /etc/cron.d/laravel-scheduler
+
+RUN echo "upload_max_filesize = 100M\npost_max_size = 100M" > /usr/local/etc/php/conf.d/custom-php.ini
+
+# Set the working directory
+WORKDIR /var/www/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+#Se anexa esta línea de código el 28Julio2026, con la finalidad de que arracque bien el localhost del backend.
+# Eliminar el sitio por defecto de Nginx de forma permanente.
+RUN rm -f /etc/nginx/sites-enabled/default
+
+
+# Copy the current directory contents into the container at /var/www/html
+COPY . /var/www/html
+
+#RUN rm  /etc/nginx/sites-enabled/default
+#RUN composer clear-cache
+RUN composer clear-cache
+#Deshabilitado para desarrollo local
+# Composer update intenta actualizar dependencias antiguas de Lumen 7
+# y rompe la compilación.
+#RUN composer update
+
+# Install dependencies
+RUN composer install --no-interaction --prefer-dist
+
+RUN chown -R www-data:www-data /var/www/html
+
+
+
+#RUN composer clear-cache
+# Make port 8081 available to the world outside this container
+EXPOSE 80 9000
+
+ENTRYPOINT ["/bin/sh", "entrypoint.sh"]
+# Run the application
+#CMD ["php", "-S", "0.0.0.0:8081", "-t", "/var/www/html/public"]

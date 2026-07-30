@@ -1,0 +1,55 @@
+{
+    "name": "laravel/lumen",
+    "description": "The Laravel Lumen Framework.",
+    "keywords": ["framework", "laravel", "lumen"],
+    "license": "MIT",
+    "type": "project",
+    "require": {
+        "php": "^7.2.5",
+        "barryvdh/laravel-dompdf": "^0.8.7",
+        "barryvdh/laravel-snappy": "^0.4.8",
+        "doctrine/dbal": "^2.10",
+        "endroid/qr-code": "^3.9",
+        "h4cc/wkhtmltoimage-amd64": "0.12.x",
+        "h4cc/wkhtmltopdf-amd64": "0.12.x",
+        "illuminate/mail": "7.0",
+        "laravel/lumen-framework": "^7.0",
+        "league/flysystem": " ~1.0",
+        "maatwebsite/excel": "^3.1",
+        "spatie/data-transfer-object": "^1.13"
+    },
+    "require-dev": {
+        "fzaninotto/faker": "^1.9.1",
+        "mbezhanov/faker-provider-collection": "^1.2",
+        "mockery/mockery": "^1.3.1",
+        "phpunit/phpunit": "^8.5"
+    },
+    "autoload": {
+        "classmap": [
+            "database/seeds",
+            "database/factories"
+        ],
+        "psr-4": {
+            "App\\": "app/",
+            "AppModels\\": "app/Models/",
+            "AppRepositories\\": "app/Repositories/"
+        }
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests/"
+        ]
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "optimize-autoloader": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "scripts": {
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ]
+    }
+}

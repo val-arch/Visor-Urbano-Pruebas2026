@@ -1,0 +1,143 @@
+@import "src/@fuse/scss/fuse";
+.mat-dialog-container {
+    padding: 0px !important;
+}
+
+mat-dialog-container {
+    padding: 0 !important;
+    @include media-breakpoint('xs') {
+        width: 100%;
+    }
+    @include media-breakpoint('gt-xs') {
+        width: 600px;
+    }
+    .mat-dialog-container {
+        padding: 0 !important;
+        .mat-toolbar {
+            flex: 1 0 auto;
+            min-height: initial;
+        }
+        .toolbar-bottom {
+            height: auto;
+        }
+    }
+    .dialog-content-wrapper {
+        max-height: 90vh;
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+
+/*------------------Input File----------------------*/
+
+.vu-file-upload {
+    display: inline-block;
+    margin-left: 10px;
+    padding-right: 0! important;
+    margin-bottom: 0!important;
+    cursor: pointer;
+    // height: 100%;
+    border: 1px solid#E3E3E3;
+    border-radius: 4px;
+    width: 100%;
+    font-size: 12px;
+    white-space: pre-wrap;
+    //color: transparent !important;
+}
+
+.doc {
+    img {
+        padding: 5px
+    }
+    span {
+        padding: 5px;
+        vertical-align: -webkit-baseline-middle;
+        margin: auto;
+    }
+}
+
+.file {
+    display: inline-block;
+    width: 90%;
+}
+
+input[type="file"] {
+    -webkit-appearance: none;
+    text-align: left !important;
+    -webkit-rtl-ordering: left;
+    color: #7C858C;
+    vertical-align: middle;
+    direction: rtl;
+}
+
+input[type="file"]::-webkit-file-upload-button {
+    -webkit-appearance: none;
+    float: right;
+    margin: 0 !important;
+    border: none !important;
+    height: 30px;
+    width: 50%;
+    color: #7C858C;
+    background-color: hsl(233, 24%, 93%);
+    font-weight: 13px;
+}
+
+input[type="file"]::-webkit-file-upload-button:hover {
+    width: 80px;
+    color: white;
+    background-color: #4A4B64;
+    width: 50%;
+}
+
+.ellipsis {
+    width: 250px;
+    overflow: hidden;
+    display: inline-block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    position: relative;
+    font-weight: bold;
+}
+
+.ellipsis:hover {
+    cursor: pointer;
+}
+
+@media screen and (min-width: 800px) {
+    // this css will only be used when the screen size is min 800px
+    .vu-accordion {
+        // column-count: 3;
+        // -webkit-column-count: 3;
+        // -moz-column-count: 3;
+        // -webkit-column-break-inside: avoid;
+        // page-break-inside: avoid;
+        // break-inside: avoid;
+        display: grid;
+        grid-gap: 1rem;
+        grid-template-columns: 33% 33% 33%;
+        grid-template-rows: auto;
+    }
+    input[type="file"] {
+        -webkit-appearance: none;
+        text-align: left !important;
+        -webkit-rtl-ordering: left;
+        color: #7C858C;
+        padding-left: -50px !important;
+    }
+    input[type="file"]::-webkit-file-upload-button {
+        -webkit-appearance: none;
+        float: right;
+        margin: 0 !important;
+        border: none !important;
+        height: 30px;
+        width: 50%;
+        color: #7C858C;
+        background-color: hsl(233, 24%, 93%);
+        font-weight: 13px;
+        display: block;
+    }
+    .vu-file-upload {
+        padding: 0! important;
+    }
+}

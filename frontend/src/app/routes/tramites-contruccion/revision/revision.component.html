@@ -1,0 +1,217 @@
+<div id="tramite" class="page-layout simple fullwidth">
+    <!-- HEADER -->
+    <div class="header fuse-visor-50 p-24 h-100" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center">
+        <div fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="column" fxLayoutAlign.gt-xs="center start">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <!--span class="secondary-text">Trámites</span>
+               <span class="secondary-text">Nuevo Trámite</span-->
+                <mat-icon class="secondary-text s-18">home</mat-icon>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text">Trámites</span>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text"> trámite</span>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text"> {{folio}} </span>
+            </div>
+            <div class="h2 mt-16">Expediente Digital</div>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content p-24" [@animate]="{ value: '*', params: { delay: '300ms', scale: '.2' } }">
+
+
+        <!-- <visor-resumen-revision *ngIf="folio!=''" [folio]="folio" [necesitaCadena]="false" [role]="role">
+        </visor-resumen-revision> -->
+        <app-resumen-tramite-construccion *ngIf="folio!=''" [folio]="folio" [necesitaCadena]="false"></app-resumen-tramite-construccion>
+
+        <!-- Resoluciones atras  -->
+        <!--
+        <div class="cuerpo" *ngIf="role==4">
+            <div id="resoluciones_dependencias" class="" *ngIf="resolucionRevisores.length>0"
+                style="margin: auto; display: block;">
+                <div class="informacion" fxLayout="row">
+                     <img class="icon" src="assets/icons/visor/ico_help.svg" />
+                    <div class="font-size-40 m-12">
+                        <mat-icon [inline]="true" color="green">history</mat-icon>
+                    </div>
+                    <h3> Historial de resoluciones s</h3>
+                </div>
+
+                <div class="p-24">
+                    <table mat-table #tableRev id="tableRev" [dataSource]="resolucionRevisores">
+                        <ng-container matColumnDef="columnR">
+                            <th mat-header-cell *matHeaderCellDef> Usuario </th>
+                            <td mat-cell *matCellDef="let row"> row.rolename |uppercase</td>
+                        </ng-container>
+                        <ng-container matColumnDef="columnR2">
+                            <th mat-header-cell *matHeaderCellDef> <p>Resolución</p>  </th>
+                            <td mat-cell *matCellDef="let row">
+                                <div [ngSwitch]="row.status_actual">
+                                <p *ngSwitchCase="null">
+                                    Pendiente
+                                </p>
+                                <p *ngSwitchCase="1">
+                                    Aprobado
+                                </p>
+                                <p *ngSwitchCase="2">
+                                    Desechado
+                                </p>
+                                <p *ngSwitchCase="3">
+                                    Prevenido
+                                </p>
+                            </div> </td>
+                        </ng-container>
+                        <ng-container matColumnDef="columnR3">
+                            <th mat-header-cell *matHeaderCellDef> Archivo </th>
+                            <td mat-cell *matCellDef="let row">
+                                <div *ngIf="row.archivo_actual!=null; else elseTemplateArchivo">
+                                    <a href="row.archivo_actual" target="_blank" rel="noopener noreferrer">Ver archivo</a>
+                                </div>
+                                <ng-template #elseTemplateArchivo>
+                                    Sin resolución adjunta
+                                </ng-template>
+                                 
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="['columnR','columnR2','columnR3']"></tr>
+                        <tr mat-row *matRowDef="let row; columns: ['columnR','columnR2','columnR3'];" ></tr>
+                    </table>
+                     <mat-list>
+                        <mat-list-item *ngFor="let resolucionR of resolucionRevisores">
+                            <mat-icon matListIcon>person</mat-icon>
+                            <h3 matLine> resolucionR.rolename | uppercase </h3>
+                            <p matLine>
+                                <span > Resolución estatus:
+                                    resolucionR.resolucion_status </span>
+                                <span> Resolución: resolucionR.status_actual</span>
+                            </p>
+                        </mat-list-item>
+                    </mat-list> 
+                </div>
+
+            </div>
+        </div> -->
+        <!-- Solventaciones  -->
+        <div class="cuerpo">
+
+            <div id="solventacion" class="mt-24" *ngIf="dataSolventacion.length>0" style="margin: auto; display: block;">
+
+                <div class="informacion" fxLayout="row">
+                    <img class="icon" src="assets/icons/visor/ico_help.svg" />
+                    <h3>Requerimientos </h3>
+                </div>
+                <div class="p-24">
+                    <table mat-table #table id="tableSolv" [dataSource]="dataSolventacion">
+                        <ng-container matColumnDef="column">
+                            <th mat-header-cell *matHeaderCellDef> Usuario </th>
+                            <td mat-cell *matCellDef="let row"> {{row.rolename | uppercase}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="column2">
+                            <th mat-header-cell *matHeaderCellDef> Detalle de resolución </th>
+                            <td mat-cell *matCellDef="let row"> {{row.comentario}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="column3">
+                            <th mat-header-cell *matHeaderCellDef> Archivos </th>
+                            <td mat-cell *matCellDef="let row">
+                                <div *ngIf="row.archivos; else elseTemp">
+                                    <div *ngIf="row.archivos.includes('|')">
+                                        <br>
+                                        <li *ngFor="let item of row.archivos.split('|'); let i=index">
+                                            <a href="{{item}}" target="_blank" rel="noopener noreferrer">Ver  archivo {{i+1}}</a>
+                                        </li>
+                                    </div>
+                                    <div *ngIf="!row.archivos.includes('|')">
+                                        <br>
+                                        <li *ngFor="let item of row.archivos.split('|'); let i=index">
+                                            <a href="{{row.archivos}}" target="_blank" rel="noopener noreferrer">Ver archivo</a>
+                                        </li>
+                                    </div>
+                                </div>
+                                <ng-template #elseTemp>
+                                    Sin solventar
+                                </ng-template>
+
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="['column','column2','column3']"></tr>
+                        <tr mat-row *matRowDef="let row; columns: ['column','column2','column3'];"></tr>
+                    </table>
+                    <!-- <table matSort class="mat-elevation-z8">
+                        <tr>
+                          <th mat-sort-header="Usuario">Usuario</th>
+                          <th mat-sort-header="Resolucion">Resolución</th>
+                          <th mat-sort-header="Archivos">Archivos</th>
+                        </tr>
+                      
+                        <tr *ngFor="let resolucionR of dataSolventacion">
+                          <td>{{resolucionR.rolename}} revisor</td>
+                          <td>{{resolucionR.comentario}}</td>
+                          <td><div *ngIf="resolucionR.archivos.includes('|')">
+                            <br>
+                            <li *ngFor="let item of resolucionR.archivos.split('|'); let i=index">
+                                <a href="{{item}}" target="_blank" rel="noopener noreferrer">Ver
+                                    archivo {{i+1}}</a>
+                            </li>
+                        </div>
+                    </td>
+                        </tr>
+                      </table> -->
+
+                </div>
+
+            </div>
+        </div>
+        <div class="cuerpo">
+
+            <!-- Resolucion -->
+            <div id="resolucion" class="mt-24" style="margin: auto; display: block;" *ngIf="!loadingForm">
+
+                <div class="informacion" fxLayout="row">
+                    <img class="icon" src="assets/icons/visor/ico-resolution.svg" />
+                    <h3>Resolución</h3>
+                </div>
+                <form [formGroup]="formRevision">
+                    <div class="radiobutton">
+                        <mat-radio-group aria-label="Seleccionar opción" formControlName="status_resolucion" fxLayout="row wrap" fxLayoutAlign="space-around center">
+                            <mat-radio-button value="1" class="success" matTooltip="Información correcta">Aprobar
+                            </mat-radio-button>
+                            <mat-radio-button value="3" class="warning" matTooltip="Solicitar más Información">Prevenir
+                            </mat-radio-button>
+                            <mat-radio-button *ngIf="role==3 || role==4" value="2" class="danger" matTooltip="Desechar tramite">Desechar </mat-radio-button>
+                            <mat-radio-button *ngIf="role>5" value="2" class="danger" matTooltip="Rechazar tramite">
+                                Rechazar </mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                    <mat-divider class="mt-24 w-60-p" style="display: block; margin: auto;"></mat-divider>
+                    <div fxLayout="column" fxLayoutAlign="center center">
+                        <textarea formControlName="resolucion" placeholder="Detalla el sentido de tu resolución" class="mat-elevation-z4 text-resolucio" name="" id="" rows="10"></textarea>
+                        <mat-error class="mt-24 " *ngIf="formRevision.controls['resolucion'].invalid && formRevision.controls['resolucion'].touched">
+                            Campo requerido
+                        </mat-error>
+                    </div>
+                    <div fxLayout="column" fxLayoutAlign="center center">
+                        <div class="file w-300 mt-24">
+                            <span class="ellipsis" *ngIf="formRevision.controls['status_resolucion'].value=='1' && role==4">Adjuntar resolución / orden de pago</span>
+                            <span class="ellipsis" *ngIf="(formRevision.controls['status_resolucion'].value!='1' && role== 4) || role!=4">Adjuntar resolución / orden de pago</span>
+                            <div fxLayout="row">
+                                <img fxFlex="10%" src="assets/images/icons/ico_upload.svg">
+                                <label fxFlex="90%">
+                                    <input type="file" class="vu-file-upload" (change)="uploadFile($event)"
+                                        data-max-size="2048" accept=".pdf">
+                                </label>
+                            </div>
+                        </div>
+                        <button mat-raised-button class="button-visor-confirm" *ngIf="validarButton()" (click)="enviar()" fxFlex="30">
+                            Guardar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+        <!-- / CONTENT -->
+    </div>
+</div>

@@ -1,0 +1,80 @@
+<h1 class="title">Histórico</h1>
+<grafica-advanced-pie fxLayoutAlign="center center" [extra]="advancedData" *ngIf="loadingAdvanced == false"></grafica-advanced-pie>
+<mat-divider></mat-divider>
+
+<h1 class="title">Licencias emitidas por mes año actual</h1>
+<div fxLayout="row" fxLayoutAlign="end end" *ngIf="loading == false">
+    <button
+        mat-button
+        color="visor"
+        (click)="filtros_activos = !filtros_activos"
+        class="button-visor-new"
+    >
+        Filtros
+    </button>
+</div>
+<div [hidden]="!filtros_activos" @animate [@fadeInOut]="filtros_activos">
+    <form class="formulario" [formGroup]="filtro">
+        <div fxLayout="row" fxLayoutAlign="space-around center">
+            <mat-form-field appearance="outline">
+                <mat-label>Fecha inicio</mat-label>
+                <!-- <mat-icon matSuffix class="secondary-text">date</mat-icon> -->
+                <input
+                    autocomplete="off"
+                    name="f_inicio"
+                    type="date"
+                    formControlName="f_inicio"
+                    matInput
+                    required
+                />
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Fecha fin</mat-label>
+                <!-- <mat-icon matSuffix class="secondary-text">date</mat-icon> -->
+                <input
+                    autocomplete="off"
+                    name="f_fin"
+                    type="date"
+                    formControlName="f_fin"
+                    matInput
+                    required
+                />
+            </mat-form-field>
+            <button
+                mat-button
+                color="visor"
+                (click)="getData()"
+                class="button-visor-confirm"
+            >
+                Buscar
+            </button>
+        </div>
+    </form>
+</div>
+
+<div style="height: 720px; width: 100% !important" *ngIf="loading == false">
+    <ngx-charts-pie-grid
+        [scheme]="colorScheme"
+        [results]="data"
+        (select)="onSelect($event)"
+    >
+    </ngx-charts-pie-grid>
+    <!-- <ngx-charts-pie-grid
+        [legendTitle]="'Estatus'"
+      [scheme]="colorScheme"
+      [results]="data"
+      [gradient]="gradient"
+      [legend]="showLegend"
+      [legendPosition]="legendPosition"
+      [labels]="showLabels"
+      [doughnut]="isDoughnut"
+      [arcWidth]="1"
+      (select)="onSelect($event)"
+      >
+    </ngx-charts-pie-grid> -->
+</div>
+<mat-divider *ngIf="barD"></mat-divider>
+<div #detail_municipio class="mat-elevation-z2"  id="detail_municipio" *ngIf="barD">
+    <h1 class="title">Detalle de {{ act.name }}</h1>
+    <grafica-bar [extra]="barD" [muni]="muni" [fil]="fil"></grafica-bar>
+</div>

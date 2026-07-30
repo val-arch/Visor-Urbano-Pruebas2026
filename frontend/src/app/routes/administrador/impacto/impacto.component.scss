@@ -1,0 +1,213 @@
+
+.ol-attribution.ol-unselectable.ol-control>ul>li:first-child {
+    display: none;
+}
+
+::ng-deep .ol-control.ol-zoom {
+    position: fixed !important;
+    bottom: 35px !important;
+    right: 6px !important;
+    left: auto !important;
+    top: auto !important;
+}
+
+::ng-deep .ol-control.ol-attribution {
+    position: fixed !important;
+    bottom: 7px !important;
+    right: 6px !important;
+    left: auto !important;
+    top: auto !important;
+}
+
+::ng-deep .ol-control {
+    position: absolute;
+    background-color: rgba(255, 255, 255, .4);
+    border-radius: 4px;
+    padding: 20px;
+}
+
+::ng-deep .ol-attribution li {
+    font-size: 12px;
+}
+
+.popContentCustom {
+    margin-top: 6px;
+}
+
+.impactoPopCustom{
+    position: absolute;
+    background-color: white;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #cccccc;
+    bottom: 12px;
+    left: -50px;
+    min-width: 280px;
+}
+
+.ol-popup {
+    position: absolute;
+    background-color: white;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #cccccc;
+    min-width: 280px;
+}
+
+.impactoPopCustom:after, .impactoPopCustom:before {
+    top: 100%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+}
+
+.impactoPopCustom:after {
+    border-top-color: white;
+    border-width: 10px;
+    left: 48px;
+    margin-left: -10px;
+}
+
+.impactoPopCustom:before {
+    border-top-color: #cccccc;
+    border-width: 11px;
+    left: 48px;
+    margin-left: -11px;
+}
+
+.ol-popup-closer {
+    text-decoration: none;
+    position: absolute;
+    top: 2px;
+    right: 5px;
+    z-index: 1;
+    cursor: pointer;
+}
+
+.ol-popup-closer:after {
+    content: "✖";
+    text-decoration: none;
+    color: #84d4bc;
+}
+
+.ol-popup-closer:hover {
+    content: "✖";
+    text-decoration: none;
+    color: #84d4bc;
+}
+
+::ng-deep .ol-tooltip-medir {
+    position: relative;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+    color: white;
+    padding: 4px 8px;
+    opacity: 0.7;
+    white-space: nowrap;
+    font-size: 12px;
+}
+
+::ng-deep .ol-tooltip-medir-measure {
+    opacity: 1;
+    font-weight: bold;
+}
+::ng-deep .ol-tooltip-medir-static {
+    background-color: #0095DA;
+    color: black;
+    border: 1px solid white;
+}
+::ng-deep .ol-tooltip-medir-measure:before,
+::ng-deep .ol-tooltip-medir-static:before {
+    border-top: 6px solid rgba(0, 0, 0, 0.5);
+    border-right: 6px solid transparent;
+    border-left: 6px solid transparent;
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    margin-left: -7px;
+    left: 50%;
+}
+::ng-deep .ol-tooltip-medir-static:before {
+    border-top-color: #0095DA;
+}
+
+::ng-deep .mat-dialog-container {
+    padding: 0px !important;
+}
+
+.ol-control.ol-rotate {
+    position: fixed !important;
+    bottom: auto !important;
+    right: .5em !important;
+    left: auto !important;
+    top: 6.4em !important;
+}
+
+.mat-column-clave {
+    padding-right: 6px;
+}
+
+.mat-column-valor {
+    padding-left: 6px;
+}
+
+input {
+    padding: 0 16px!important;
+}
+
+mat-label.truncate-text {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.mat-autocomplete-panel {
+    border-radius: 0 0 21px 21px !important;
+}
+
+mat-divider {
+    //border-top-color: #0095DA !important;
+    border-top-width: 1px !important;
+}
+
+.titulo {
+    b {
+        color: #63c25b !important;
+    }
+}
+
+.input-b {
+    position: relative;
+    label {
+        display: flex;
+        //position: absolute;
+        color: #0095DA;
+        top: 0;
+        left: 0;
+        user-select: none;
+        z-index: 1500;
+    }
+    input {
+        border-radius: 21px;
+        background-color: #F7F7F7;
+        height: 36px;
+        width: 100%;
+        min-height: 42px;
+        max-height: 36px;
+        border-style: solid;
+        border-color: #dbd8d8;
+        border-width: 3px;
+        outline: none;
+        display: flex;
+    }
+    input:focus {
+        border-width: 2px;
+        border-style: solid;
+        border-color: #003E76;
+    }
+}

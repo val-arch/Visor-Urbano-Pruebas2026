@@ -1,0 +1,45 @@
+<div class="dialog-content-wrapper">
+    <mat-toolbar matDialogTitle class="fuse-visor-50 m-0">
+        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="title dialog-title">Recibo de pago</span>
+            <button mat-icon-button (click)="matDialogRef.close()" aria-label="Close dialog">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+    <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
+        <div *ngIf="orden_pago==''">
+            <span class="mat-subheading-2">Una vez pagada la licencia adjunta el recibo de pago</span>
+            <br><br>
+            <form class="formulario">
+                <div class="file">
+                    <span class=ellipsis>Subir recibo escaneado</span><br />
+                    <div fxLayout="row">
+                        <img fxFlex="10%" src="assets/images/icons/ico_upload.svg">
+                        <label fxFlex="90%">
+                             <input type="file"  (change)="subirOrden($event)"
+                                class="vu-file-upload"
+                                data-max-size="15360"
+                                accept=".pdf">
+                        </label>
+                    </div>
+                </div>
+                <!--  -->
+
+            </form>
+        </div>
+
+
+    </div>
+
+    <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
+
+        <button mat-button class="save-button" (click)="subirOrdenPost()" *ngIf="orden_pago==''" aria-label="SAVE" [ngStyle]="btnCss">
+           Enviar
+        </button>
+        <button mat-button class="save-button" (click)="matDialogRef.close()" aria-label="cancelar" [ngStyle]="btnCssCancel">
+            Cerrar
+        </button>
+    </div>
+</div>

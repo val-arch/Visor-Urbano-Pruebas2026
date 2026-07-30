@@ -1,0 +1,17 @@
+<app-header></app-header>
+
+<article [class.content]="!deviceXs" [class.content-mob]="deviceXs" (scroll)="onScroll($event)">
+    <mat-drawer-container>
+        <mat-drawer-content *ngIf="!loading">
+            <div fxLayout="column wrap" class="reconocimiento" fxLayout.xs="column" fxLayout.sm="column" style="margin-top:40px; margin-bottom:40px;
+        margin-left: 10%; margin-right: 10%;">
+                <div fxLayout="row" class="title" fxLayoutAlign="center center">
+                    <!-- <img src="assets/images/landing/reconocimientos.svg"> -->
+                    <h1> {{blog.titulo}} </h1>
+                </div>
+                <div class="resultado-noticia" [innerHTML]="blog.body | safeHtml"></div>
+            </div>
+            <landing-footer></landing-footer>
+        </mat-drawer-content>
+    </mat-drawer-container>
+</article>

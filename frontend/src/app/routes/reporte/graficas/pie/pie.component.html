@@ -1,0 +1,14 @@
+<div style="height: 720px;" *ngIf="loading==false">
+<ngx-charts-pie-chart
+    [legendTitle]="'Estatus'"
+  [scheme]="colorScheme"
+  [results]="data"
+  [gradient]="gradient"
+  [legend]="showLegend"
+  [legendPosition]="legendPosition"
+  [labels]="showLabels"
+  [doughnut]="isDoughnut"
+  [arcWidth]="1"
+  >
+</ngx-charts-pie-chart>
+</div>

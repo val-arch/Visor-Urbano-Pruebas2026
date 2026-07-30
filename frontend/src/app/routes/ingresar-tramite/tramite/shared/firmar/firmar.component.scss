@@ -1,0 +1,27 @@
+.mat-dialog-container {
+    display: block;
+    padding: 0px !important;
+    border-radius: 4px;
+    box-sizing: border-box;
+    overflow: auto;
+    outline: 0;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100%;
+    min-height: inherit;
+    max-height: inherit;
+}
+
+.firmar-form-dialog>.mat-dialog-container {
+    display: block;
+    padding: 0px !important;
+    border-radius: 4px;
+    box-sizing: border-box;
+    overflow: auto;
+    outline: 0;
+    width: 450px !important;
+    max-width: 450px !important;
+    height: 100%;
+    min-height: inherit;
+    max-height: inherit;
+}

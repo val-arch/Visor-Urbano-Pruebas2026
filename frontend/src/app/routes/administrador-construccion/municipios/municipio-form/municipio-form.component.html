@@ -1,0 +1,265 @@
+<div id="mi-municipio" class="page-layout simple fullwidth">
+    <!-- HEADER -->
+    <div class="header fuse-visor-50 p-24 h-100" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center">
+        <div fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="column" fxLayoutAlign.gt-xs="center start">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <mat-icon class="secondary-text s-18">home</mat-icon>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text">Administrar</span>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text">Mi municipio</span>
+            </div>
+            <div class="h2 mt-16">
+                <mat-icon class="secondary-text s-18">person</mat-icon> Mi Municipio
+            </div>
+        </div>
+    </div>
+    <!-- / HEADER -->
+    <!-- CONTENT -->
+    <div class="content p-24">
+        <mat-card>
+            <mat-toolbar matDialogTitle class="fuse-visor-50 m-0 p-o " >
+                <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+                    <span class="title dialog-title">{{ dialogTitle }}</span>
+                </mat-toolbar-row>
+            </mat-toolbar>
+            <form [formGroup]="municipioForm" class="formulario" (submit)="actualizarMunicipio()">
+                <div fxLayout="row" fxLayoutAlign="start start" class="mt-16">
+                    <mat-form-field appearance="outline" fxFlex>
+                        <mat-label>Nombre del municipio:</mat-label>
+                        <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                        <input name="nombre" formControlName="nombre" matInput required />
+                    </mat-form-field>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="start start">
+                    <mat-form-field appearance="outline" fxFlex>
+                        <mat-label>Nombre de la dependencia encargada de los trámites y autorizaciones
+                        </mat-label>
+                        <mat-icon matSuffix class="secondary-text" matTooltip="Director que firma la licencia. Ejemplo: Tesoreria o padrón y licencias">help
+                        </mat-icon>
+                        <input name="area_encargada" formControlName="area_encargada" matInput required />
+                    </mat-form-field>
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="start start">
+                    <mat-form-field appearance="outline" fxFlex>
+                        <mat-label>Director de la dependencia:</mat-label>
+                        <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                        <input name="director" formControlName="director" matInput required />
+                    </mat-form-field>
+                </div>
+                <!-- <div fxLayout="column" fxLayoutAlign="space-around start">
+                    <mat-label>
+                        Adjuntar firma del director <br> (De preferencia imagen PNG sin fondo para que se vea mejor )<br> <br>
+                    </mat-label>
+                    <input type="file" #UploadFileInputFirma id="fileUploadFirma" (change)="uploadFileFirma($event.target.files[0])" name="fileUploadFirma"  accept="image/*" />
+                </div> -->
+                <br />
+                <div fxLayout="row" fxLayoutAlign="start start">
+                    <mat-form-field appearance="outline" fxFlex>
+                        <mat-label>Domicilio de la dependencia:</mat-label>
+                        <mat-icon matSuffix class="secondary-text">place</mat-icon>
+                        <input name="director" formControlName="direccion" matInput required />
+                    </mat-form-field>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="start start">
+                    <mat-form-field appearance="outline" fxFlex>
+                        <mat-label>Teléfono de la dependencia:</mat-label>
+                        <mat-icon matSuffix class="secondary-text">call</mat-icon>
+                        <input name="telefono" formControlName="telefono" matInput required />
+                    </mat-form-field>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="start start">
+                    <mat-form-field appearance="outline" fxFlex>
+                        <mat-label>Correo electrónico para contacto:</mat-label>
+                        <mat-icon matSuffix class="secondary-text">call</mat-icon>
+                        <input name="email" formControlName="correo_dependencia" matInput required />
+                    </mat-form-field>
+                </div>
+                <mat-toolbar matDialogTitle class="fuse-visor-50 m-0 p-o " >
+                    <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+                        <span class="title dialog-title">Particularidades del trámite</span>
+                    </mat-toolbar-row>
+                </mat-toolbar>
+                <br>
+                <div fxLayout="row" fxLayoutAlign="start start" class="mb-12">
+                    <section class="example-section">
+                        <mat-checkbox class="example-margin" name="licencias_enlinea" color="primary" formControlName="licencias_enlinea">Autorizar que ciudadanos puedan ingresar trámites en línea
+                        </mat-checkbox>
+                    </section>
+                </div>
+                <!--<div fxLayout="row" fxLayoutAlign="start start" class="mb-12">
+                    <section class="example-section">
+                        <mat-checkbox class="example-margin" name="generar_licencia_ventanilla" color="primary" formControlName="generar_licencia_ventanilla">Autorizar que usuario "ventanilla" y "revisor" emitan licencias con cédula de apertura activada
+                        </mat-checkbox>
+                    </section>
+
+                </div>-->
+
+                <div fxLayout="row" fxLayoutAlign="start start" class="mb-12">
+                    <mat-form-field appearance="outline" fxFlex="100">
+                        <mat-label>Autorizar a que emita el resolutivo a: </mat-label>
+                        <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                        <mat-select name="destino_construccion" formControlName="usuarios_emision" multiple>
+                            <mat-option value="{{user.email}} ({{user.name}})" *ngFor="let user of usuariosSelect">{{user.email}} ({{user.name}})</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                </div>
+                <!-- <div fxLayout="row" fxLayoutAlign="start start" class="mt-12 mb-12">
+                    <section class="example-section">
+                        <mat-checkbox class="example-margin" name="ficha_tramite" formControlName="ficha_tramite">¿Emite Cédula de Apertura Provisional?</mat-checkbox>
+                    </section>
+                </div> 
+                <div fxLayout="row" fxLayoutAlign="start start">
+                    <mat-form-field appearance="outline" fxFlex>
+                        <mat-label>Costo de licencia de bajo impacto</mat-label>
+                         <mat-icon matSuffix class="secondary-text" matTooltip="Director que firma la licencia. Ejemplo: Tesoreria o padrón y licencias">help</mat-icon>
+                        <input name="precio_lic" type="number" formControlName="precio_lic" matInput required />
+                    </mat-form-field>
+                </div>-->
+                <div fxLayout="row" fxLayoutAlign="start start">
+                    <mat-form-field appearance="outline" fxFlex>
+                        <mat-label>Dias para solventar alguna prevención</mat-label>
+                        <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                        <input name="dias_solventar" type="number" formControlName="dias_solventar" matInput />
+                    </mat-form-field>
+                </div>
+                <!--<div fxLayout="row" fxLayoutAlign="start start">
+                    <mat-form-field appearance="outline" fxFlex>
+                        <mat-label>Folio inicial(Las licencias emitidas a través de la plataforma empezarán a ser foliadas a partir del número señalado)</mat-label>
+                        <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                        <input name="folio_init" type="number" formControlName="folio_init" matInput />
+                    </mat-form-field>
+                </div>-->
+                <div fxLayout="row" fxLayoutAlign="start start">
+                    <mat-form-field appearance="outline" fxFlex>
+                        <mat-label>Texto adicional en el resolutivo (Este texto aparecerá en la parte inferior del reverso del resolutivo)
+                        </mat-label>
+                        <textarea matInput formControlName="restricciones_licencia" rows="5"></textarea>
+                        <mat-error *ngIf="
+                                municipioForm.get('restricciones_licencia')
+                                    .invalid &&
+                                municipioForm.get('restricciones_licencia')
+                                    .errors.maxlength
+                            ">
+                            Solo puedes ingresar {{ municipioForm.get("restricciones_licencia") .errors.maxlength.requiredLength }} caracteres, actualmente tienes {{ municipioForm.get("restricciones_licencia") .errors.maxlength.requiredLength }}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div fxLayout="column" fxLayoutAlign="space-around start">
+                    <mat-label>
+                        Subir un logo del municipio (Nota: se recomienda que sea una imagen en horizontal para no afectar los estilos. Formato ".png" y sin fondo) <br /><br />
+                    </mat-label>
+                    <input type="file" #UploadFileInput id="fileUpload" [disabled]="user.rol!=4" (change)="uploadFile($event.target.files[0])" name="fileUpload" accept="image/png" />
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="center center" class="mt-20">
+                    <button mat-raised-button class="button-visor-confirm" [disabled]="user.rol!=4" color="primary" type="submit">
+                        Guardar
+                    </button>
+                </div>
+            </form>
+            <br>
+            <form>
+                <mat-toolbar matDialogTitle class="fuse-visor-50 m-0 p-o " >
+                    <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+                        <span class="title dialog-title">Tipos de trámite</span>
+                    </mat-toolbar-row>
+                </mat-toolbar>
+                <div fxLayout="row" fxLayoutAlign="end center" class="mt-20">
+                    <button mat-fab class="btn-verde" (click)="addTipoTramite()">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </div>
+
+                <div fxLayout="row wrap" fxLayoutAlign="space-around center" class="mt-20">
+                    <div *ngFor="let tipo of tiposTramite; let i=index" fxLayout="row" fxLayoutAlign="center center" class="mt-20">
+                        <div>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Tipo de trámite</mat-label>
+                                <input autocomplete="off" [value]="tipo.tramite" matInput disabled>
+                            </mat-form-field>
+                        </div>
+                        <div>
+                            <button mat-icon-button [matMenuTriggerFor]="tipoLicenciaMenu" aria-label="more">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <mat-menu #tipoLicenciaMenu>
+                                <button mat-menu-item color="warn" matTooltip="Template" (click)="openTemplate(tipo.id, tipo.tramite)">
+                                    <mat-icon>description</mat-icon>
+                                    Template
+                                </button>
+                                <button mat-menu-item matTooltip="Editar" (click)="editTipoTramite(i)">
+                                    <mat-icon>edit</mat-icon>
+                                    Editar
+                                </button>
+                                <button mat-menu-item color="warn" matTooltip="Eliminar" (click)="removeTramite(i)">
+                                    <mat-icon>delete</mat-icon>
+                                    Eliminar
+                                </button>
+                            </mat-menu>
+                        </div>
+                    </div>
+                 </div>
+            </form>
+
+            <mat-toolbar matDialogTitle class="fuse-visor-50 mt-24 p-o ">
+                <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+                    <span class="title dialog-title">Firmas que aparecerán en el resolutivo y/o en la autorización</span>
+                </mat-toolbar-row>
+            </mat-toolbar>
+            <div fxLayout="row" fxLayoutAlign="end center" class="mt-20">
+                <button mat-fab class="btn-verde" (click)="addFirma()">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
+            <div fxLayout="row wrap" fxLayoutAlign="space-around center">
+                <div fxFlex="33" class="p-24" *ngFor="let fir of firma; let x=index">
+                    <mat-toolbar matDialogTitle class="fuse-visor-50 mt-24 p-o">
+                        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+                            <span class="title dialog-title">Firma {{x+1}}</span>
+                            <button mat-icon-button [matMenuTriggerFor]="firmasMenu" aria-label="more">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                            
+
+                        </mat-toolbar-row>
+                        <mat-menu #firmasMenu>
+                            <button mat-menu-item matTooltip="Editar" (click)="editFirma(x)">
+                                <mat-icon>edit</mat-icon>
+                                Editar
+                            </button>
+                            <button mat-menu-item color="warn" matTooltip="Eliminar" (click)="removeFirma(x, fir.id)">
+                                <mat-icon>delete</mat-icon>
+                                Eliminar
+                            </button>
+                        </mat-menu>
+                        
+                    </mat-toolbar>
+                    <form class="formulario" *ngIf="firmaLoading" class="marco">
+                        <div fxLayout="row">
+                            <mat-form-field appearance="outline" fxFlex>
+                                <mat-label>Cargo del servidor público firmante
+                                </mat-label>
+                                <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                                <input type="text" [value]="fir.dependencia" matInput disabled />
+                            </mat-form-field>
+                        </div>
+                        <div fxLayout="row">
+                            <mat-form-field appearance="outline" fxFlex>
+                                <mat-label>Nombre del firmante</mat-label>
+                                <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                                <input type="text" [value]="fir.nombre_firmante" matInput disabled="" />
+                            </mat-form-field>
+                        </div>
+                        <div fxLayout="row">
+                            <img src="{{fir.firma}}" style="width: 100%; max-width: 150px; margin: auto; ">
+                        </div>
+                    </form>
+                </div>
+                
+            </div>
+        </mat-card>
+    </div>
+</div>

@@ -1,0 +1,298 @@
+.cabeza {
+    height: auto;
+    background: #E4F0EC 0% 0% no-repeat padding-box;
+    border-radius: 20px 20px 0px 0px;
+    box-shadow: 1px 1px 5px 0px rgba(50, 50, 50, 0.75);
+}
+
+.cabeza p {
+    padding-top: 20px;
+    padding-left: 20px;
+    float: left;
+    font: normal normal bold 15px/15px Red Hat Display;
+}
+.paper{
+
+        margin:4px, 4px; 
+        padding:4px; 
+        background-color: green; 
+        width: 500px; 
+        height: 110px; 
+        overflow-x: hidden; 
+        overflow-y: auto; 
+        text-align:justify; 
+    
+}
+
+
+.cuerpo {
+    background: #ffffff 0% 0% no-repeat padding-box;
+    box-shadow: 1px 1px 5px 0px rgba(50, 50, 50, 0.75);
+}
+.textareaDV{
+    margin: 0px !important;
+    height: 159px !important;
+    width: 902px !important;
+}
+
+.servicios {
+    width: auto;
+    height: auto;
+    background: #F5FCFA;
+    border-radius: 6px;
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-top: 10px;
+    color: #003E76;
+    padding: 8px!important;
+    word-break: break-all;
+}
+
+.clave {
+    float: right;
+}
+
+.codigo {
+    color: #003E76;
+}
+
+.informacion {
+    height: 47px;
+    background-color: #F5FCFA;
+    width: 100%;
+    box-shadow: 0 4px 2px -2px #D0D0D0;
+    padding-left: 20px;
+}
+
+.informacion h3 {
+    color: #003E76;
+    padding-top: 15px;
+    font-weight: bold;
+}
+
+.archivos p {
+    font-style: italic;
+    color: #003E76;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+@media screen and (min-width: 800px) {
+    .parte1 {
+        display: grid !important;
+        grid-gap: 1rem;
+        grid-template-columns: 33% 33% 33%;
+        grid-template-rows: auto;
+    }
+    .parteRadio {
+        column-count: 3;
+        -webkit-column-count: 3;
+        -moz-column-count: 3;
+        -webkit-column-break-inside: avoid;
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+     
+    .notificacion{
+       width: 250px;
+       text-align: center;
+        
+     }
+
+}
+
+.file img {
+    width: 18px;
+    height: 23px;
+}
+
+.file span {
+    padding-left: 5px;
+    color: #2680EB;
+}
+
+
+
+.doc {
+    background: #FAFAFA 0% 0% no-repeat padding-box;
+    width: 198px;
+    height: 40px;
+    // padding-top: 10px;
+    padding-left: 10px;
+    border-radius: 5px;
+    text-overflow: ellipsis;
+}
+
+.label-file {
+    margin-right: 20px;
+}
+
+.doc span {
+    text-overflow: ellipsis;
+}
+
+.mat-button-wrapper {
+    color: #E4F0EC !important;
+}
+
+.comentarios {
+    margin-top: 30px;
+    margin-left: 5%;
+}
+
+.avatar1 {
+    width: 40px;
+    border-radius: 50%;
+    float: left;
+}
+
+.text {
+    margin-left: 70px;
+}
+
+.escribirCom {
+    width: 90%;
+    height: 84px;
+    background: #F0F1F27E 0% 0% no-repeat padding-box;
+    border: 0.5px solid #EAEDEF;
+    border-radius: 7px;
+    opacity: 1;
+    margin-left: 5%;
+    padding-left: 20px;
+    padding-top: 10px;
+}
+
+.foto {
+    margin-top: 20px;
+    margin-left: 5%;
+}
+
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+}
+
+.example-full-width {
+    width: 50%;
+}
+
+.radiobutton {
+    margin-top: 70px;
+    text-align: center;
+}
+
+.mat-radio-button~.mat-radio-button {
+    margin-left: 170px;
+}
+
+.firma {
+    margin-top: 30px;
+    // padding-left: 20px;
+    padding: 20px;
+    width: 90%;
+    height: auto;
+    min-height: 100px;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #A7A7A71A;
+    border: 1px solid #E4F0EC;
+    border-radius: 19px;
+    opacity: 1;
+    margin-left: 5%;
+}
+
+.firma-button {
+    text-align: center;
+    font: normal normal bold 16px/21px Red Hat Display;
+    letter-spacing: 0.4px;
+    color: #5B9468;
+    width: 280px;
+    height: 40px;
+    background: #6EC1E4 0% 0% no-repeat padding-box;
+    border-radius: 20px;
+}
+
+.firmabtn {
+    margin: 32px auto 24px auto;
+    .link {
+        width: 280px;
+        height: 40px;
+        text-align: center;
+        padding-top: 10px;
+        color: #5B9468;
+        background: #6EC1E4 0% 0% no-repeat padding-box;
+        border-radius: 20px;
+        opacity: 1;
+        margin-top: 15px;
+    }
+    .ico_aceptar {
+        width: 20px;
+        float: left;
+    }
+}
+
+.register {
+    margin-top: 30px;
+    margin-left: 10%;
+}
+
+.regresarbtn {
+    margin: 32px auto 24px auto;
+    .link {
+        width: 280px;
+        height: 40px;
+        text-align: center;
+        padding-top: 10px;
+        color: white;
+        background: #003E76 0% 0% no-repeat padding-box;
+        border-radius: 20px;
+        opacity: 1;
+        margin-top: 15px;
+    }
+}
+
+.guardarbtn {
+    margin: 32px auto 24px auto;
+    .link {
+        width: 280px;
+        height: 40px;
+        text-align: center;
+        padding-top: 10px;
+        color: white;
+        background: #003E76 0% 0% no-repeat padding-box;
+        border-radius: 20px;
+        opacity: 1;
+        margin-top: 15px;
+    }
+    .iconA {
+        padding-left: 5px!important;
+    }
+}
+textarea{
+top: 1598px;
+left: 316px;
+width: 951px;
+height: 18px;
+
+background: #F0F1F27E 0% 0% no-repeat padding-box;
+border: 0.5px solid #EAEDEF;
+border-radius: 7px;
+opacity: 1;
+}
+.firmaDiv{
+    top: 669px;
+left: 259px;
+width: 100%;
+height:  100%;
+background: #EDEEF0 0% 0% no-repeat padding-box;
+opacity: 1;
+}
+.paper{
+    top: 490px;
+    left: 275px;
+    width: 411px;
+    height: 592px;
+
+    box-shadow: 0px 3px 15px #00000029;
+    opacity: 1;
+}

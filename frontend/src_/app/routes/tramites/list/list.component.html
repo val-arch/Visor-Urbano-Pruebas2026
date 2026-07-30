@@ -1,0 +1,201 @@
+<div class="contentTable">
+
+    <mat-tab-group mat-stretch-tabs (selectedTabChange)="onClick($event)">
+        <mat-tab label="Mis trámites" class="m-24">
+            <div class="pt-24" *ngIf="tabs==1">
+                <div class="example-header" *ngIf="role>1">
+                    <mat-form-field>
+                        <input matInput (keyup)="getData($event.target.value)" placeholder="Folio">
+                    </mat-form-field>
+                </div>
+                <ng-container *ngIf="!isLoading">
+                    <!-- <mtx-grid [data]="list" [rowHover]="true" [rowStriped]="true" noResultText="Sin datos"
+                    [columns]="columns" [length]="total" [loading]="isLoading" (page)="getNextPage($event)"
+                    [pageIndex]="query.page" [pageSizeOptions]="[10]" pageSize="10">
+                </mtx-grid> -->
+
+                    <mtx-grid [showColumnMenuButton]="false" [rowStriped]="true" [data]="list" nextPageLabel="Siguiente" noResultText="Sin datos" [columns]="columns" [length]="total" [loading]="isLoading" [pageOnFront]="false" (page)="getNextPage($event)" [pageIndex]="query.page"
+                        [pageSizeOptions]="[10]" pageSize="10">
+                    </mtx-grid>
+                </ng-container>
+            </div>
+        </mat-tab>
+        <mat-tab label="En revisiones" *ngIf="role==4">
+            <div class="pt-24" *ngIf="tabs==2">
+                <div class="example-header" *ngIf="role>1">
+                    <mat-form-field>
+                        <input matInput (keyup)="getDataRev($event.target.value)" placeholder="Folio">
+                    </mat-form-field>
+                </div>
+                <ng-container *ngIf="!isLoading">
+
+                    <!-- <mtx-grid [data]="listRev" [rowHover]="true" [rowStriped]="true" noResultText="Sin datos"
+                    [columns]="columns" [length]="totalRev" [loading]="isLoading" (page)="getNextPage($event)"
+                    [pageIndex]="query.page" [pageSizeOptions]="[20]" pageSize="20">
+                </mtx-grid> -->
+                    <mtx-grid [showColumnMenuButton]="false" [rowStriped]="true" [data]="listRev" nextPageLabel="Siguiente" noResultText="Sin datos" [columns]="columns" [length]="totalRev" [loading]="isLoading" [pageOnFront]="false" (page)="getNextPage($event)" [pageIndex]="query.page"
+                        [pageSizeOptions]="[20]" pageSize="20">
+                    </mtx-grid>
+                </ng-container>
+            </div>
+
+        </mat-tab>
+        <mat-tab label="Prevenciones" *ngIf="role==2 || role == 4">
+            <div class="pt-24" *ngIf="(role == 4 && tabs==3) || (role == 2 && tabs == 2)">
+                <div class="example-header" *ngIf="role>1">
+                    <mat-form-field>
+                        <input matInput (keyup)="getDataSolv($event.target.value)" placeholder="Folio">
+                    </mat-form-field>
+                </div>
+                <!-- <mtx-grid [data]="listPrev" [rowHover]="true" [rowStriped]="true" noResultText="Sin datos"
+                    [columns]="columnsPrev" [length]="totalPrev" [loading]="isLoadingPrev" (page)="getNextPage($event)"
+                    [pageIndex]="queryPrev.page" [pageSizeOptions]="[20]" pageSize="20">
+                </mtx-grid> -->
+                <mtx-grid [showColumnMenuButton]="false" [rowStriped]="true" [data]="listPrev" nextPageLabel="Siguiente" noResultText="Sin datos" [columns]="columnsPrev" [length]="totalPrev" [loading]="isLoading" [pageOnFront]="false" (page)="getNextPage($event)" [pageIndex]="query.page"
+                    [pageSizeOptions]="[20]" pageSize="20">
+                </mtx-grid>
+            </div>
+
+        </mat-tab>
+        <mat-tab label="En ventanilla" *ngIf="role==3 || role == 4">
+            <div class="pt-24" *ngIf="(role == 4 && tabs==4) || (role == 3 && tabs == 3)">
+                <div class="example-header" *ngIf="role>1">
+                    <mat-form-field>
+                        <input matInput (keyup)="getDataVentanilla($event.target.value)" placeholder="Folio">
+                    </mat-form-field>
+                </div>
+                <!-- <mtx-grid [data]="listV" [rowHover]="true" [rowStriped]="true" noResultText="Sin datos"
+                    [columns]="columnsVentanilla" [length]="totalV" [loading]="isLoading" (page)="getNextPage($event)"
+                    [pageIndex]="query.page" [pageSizeOptions]="[20]" pageSize="20">
+                </mtx-grid> -->
+                <mtx-grid [showColumnMenuButton]="false" [rowStriped]="true" [data]="listV" nextPageLabel="Siguiente" noResultText="Sin datos" [columns]="columnsVentanilla" [length]="totalV" [loading]="isLoading" [pageOnFront]="false" (page)="getNextPage($event)" [pageIndex]="query.page"
+                    [pageSizeOptions]="[20]" pageSize="20"></mtx-grid>
+            </div>
+
+        </mat-tab>
+        <!-- <mat-tab label="3.Prevenciones">  </mat-tab> -->
+    </mat-tab-group>
+    <br>
+
+    <ng-template #statusTplPrev let-row let-index="index" let-col="colDefPrev">
+        <button mat-icon-button color="primary" routerLink="detalle/{{btoaf(row.folio)}}" matTooltip="Ver detalle">
+            <mat-icon>visibility</mat-icon>
+        </button>
+        <button mat-icon-button color="accent" routerLink="/notificaciones/detalle/{{btoaf(row.folio)}}/{{btoaf(2)}}/{{btoaf(row.noti_id)}}" matTooltip="Agregar archivos">
+            <mat-icon>assignment_return</mat-icon>
+        </button>
+    </ng-template>
+    <ng-template #statusTpl let-row let-index="index" let-col="colDef">
+        <!-- <button mat-raised-button class="button-visor-new" routerLink="revision/{{btoaf(row.folio)}}" style="width: 60px !important; height: 40px !important;" fxFlex="100">
+
+            <mat-icon>visibility</mat-icon>
+        </button> -->
+        <div class="ciudadano" *ngIf="role==1">
+            <p *ngIf="row.enviado_revisores==null && row.tengo_firma==0"> Pendiente - favor de ir a ventanilla municipal
+            </p>
+
+            <button mat-icon-button color="primary" routerLink="detalle/{{btoaf(row.folio)}}" matTooltip="Ver detalle" *ngIf="row.enviado_revisores || row.tengo_firma==0">
+                <mat-icon>visibility</mat-icon>
+            </button>
+            <button mat-icon-button color="accent" routerLink="/tramite/nuevo-tramite/{{btoaf(row.folio)}}" matTooltip="Continuar llenado de información" *ngIf="row.enviado_revisores==null && row.tengo_firma==null">
+                <mat-icon>assignment_return</mat-icon>
+            </button>
+            <!--
+            <button mat-icon-button color="accent" (click)="ordenDialog(row)"
+                *ngIf="row.aprobado_director==1 && row.orden_pago==null" matTooltip="Subir recibo de pago">
+                <mat-icon>monetization_on</mat-icon>
+            </button>
+            <button mat-icon-button color="primary" (click)="verOrden(row)"
+                *ngIf="row.aprobado_director==1 && row.orden_pago!=null" matTooltip="Ver orden pago">
+                <mat-icon>monetization_on</mat-icon>
+            </button>-->
+        </div>
+        <div class="ventanilla" *ngIf="role==2">
+            <button mat-icon-button color="primary" routerLink="detalle/{{btoaf(row.folio)}}" matTooltip="Ver detalle" *ngIf="row.enviado_revisores">
+                <mat-icon>visibility</mat-icon>
+            </button>
+            <button mat-icon-button color="accent" routerLink="/tramite/nuevo-tramite/{{btoaf(row.folio)}}" matTooltip="Continuar llenado de información" *ngIf="row.enviado_revisores==null">
+                <mat-icon>assignment_return</mat-icon>
+            </button>
+        </div>
+        <div class="revisor" *ngIf="role==3">
+
+            <button mat-icon-button color="accent" routerLink="detalle/{{btoaf(row.folio)}}" matTooltip="Ver detalle">
+                <mat-icon>visibility</mat-icon>
+            </button>
+            <button *ngIf="(row.status_actual==0 || row.status_actual==null || row.status_actual==3) && (row.aprobado_director==0 || row.aprobado_director==null)" mat-icon-button color="accent" routerLink="revision/{{btoaf(row.folio)}}" matTooltip="Elaborar resolución">
+                <mat-icon *ngIf="row.solventacion_ciudadano>0" color="primary" [matBadge]="row.solventacion_ciudadano"
+                    matBadgePosition="above after" matBadgeColor="accent">
+                    <img src="assets/icons/visor/ico-resolution.svg" />
+                </mat-icon>
+                <mat-icon *ngIf="row.solventacion_ciudadano==0"><img src="assets/icons/visor/ico-resolution.svg" />
+                </mat-icon>
+            </button>
+        </div>
+        <div class="director" *ngIf="role==4">
+
+            <ng-container *ngIf="tabs==2; else elseTemplate">
+                <button mat-icon-button color="accent" routerLink="detalle/{{btoaf(row.folio)}}" matTooltip="Ver detalle" *ngIf="row.enviado_revisores">
+                    <mat-icon>visibility</mat-icon>
+                </button>
+                <button mat-icon-button color="accent" routerLink="revision/{{btoaf(row.folio)}}" [queryParams]="{dir: 1}" *ngIf="row.enviado_revisores && (row.aprobado_director==0 || row.aprobado_director==null)" matTooltip="Elaborar resolución">
+                    <mat-icon *ngIf="row.solventacion_ciudadano>0" color="primary"
+                        [matBadge]="row.solventacion_ciudadano" matBadgePosition="above after" matBadgeColor="accent">
+                        <img src="assets/icons/visor/ico-resolution.svg" />
+                    </mat-icon>
+                    <mat-icon *ngIf="row.solventacion_ciudadano==0"><img src="assets/icons/visor/ico-resolution.svg" />
+                    </mat-icon>
+                </button>
+            </ng-container>
+            <ng-template #elseTemplate>
+                <button mat-icon-button color="accent" routerLink="detalle/{{btoaf(row.folio)}}" matTooltip="Ver detalle" *ngIf="row.enviado_revisores">
+                    <mat-icon>visibility</mat-icon>
+                </button>
+                <button mat-icon-button color="accent" routerLink="/tramite/nuevo-tramite/{{btoaf(row.folio)}}" matTooltip="Continuar llenado de información" *ngIf="row.enviado_revisores==null">
+                    <mat-icon>assignment_return</mat-icon>
+                </button>
+                <button mat-icon-button color="accent" routerLink="revision/{{btoaf(row.folio)}}" *ngIf="row.enviado_revisores && (row.aprobado_director==0 || row.aprobado_director==null)" matTooltip="Elaborar resolución">
+                    <mat-icon *ngIf="row.solventacion_ciudadano>0" color="primary"
+                        [matBadge]="row.solventacion_ciudadano" matBadgePosition="above after" matBadgeColor="accent">
+                        <img src="assets/icons/visor/ico-resolution.svg" />
+                    </mat-icon>
+                    <mat-icon *ngIf="row.solventacion_ciudadano==0"><img src="assets/icons/visor/ico-resolution.svg" />
+                    </mat-icon>
+                </button>
+                <!--
+                <button mat-icon-button color="accent" (click)="ordenDialog(row)"
+                    *ngIf="row.aprobado_director==1 && row.orden_pago==null" matTooltip="Subir recibo de pago">
+                    <mat-icon>monetization_on</mat-icon>
+                </button>
+                <button mat-icon-button color="primary" (click)="verOrden(row)"
+                    *ngIf="row.aprobado_director==1 && row.orden_pago!=null" matTooltip="Ver orden pago">
+                    <mat-icon>monetization_on</mat-icon>
+                </button>-->
+                <button mat-icon-button color="primary" (click)="emitirDialog(row)" *ngIf="row.aprobado_director==1 && row.pdf_licencia==''" matTooltip="Emitir licencia">
+                    <mat-icon>contact_mail</mat-icon>
+                </button>
+                <button mat-icon-button color="accent" (click)="verLicencia(row)" *ngIf="row.aprobado_director==1 && row.pdf_licencia!=''" matTooltip="Ver licencia">
+                    <mat-icon>assignment_turned_in</mat-icon>
+                </button>
+            </ng-template>
+
+
+        </div>
+
+        <div class="revisor" *ngIf="role>6">
+
+            <button mat-icon-button color="accent" routerLink="detalle/{{btoaf(row.folio)}}" matTooltip="Ver detalle">
+                <mat-icon>visibility</mat-icon>
+            </button>
+            <button mat-icon-button color="accent" routerLink="revision/{{btoaf(row.folio)}}" matTooltip="Elaborar resolución">
+                <mat-icon *ngIf="row.solventacion_ciudadano>0" color="primary" [matBadge]="row.solventacion_ciudadano"
+                    matBadgePosition="above after" matBadgeColor="accent">
+                    <img src="assets/icons/visor/ico-resolution.svg" />
+                </mat-icon>
+                <mat-icon *ngIf="row.solventacion_ciudadano==0"><img src="assets/icons/visor/ico-resolution.svg" />
+                </mat-icon>
+            </button>
+        </div>
+
+    </ng-template>
+</div>

@@ -1,0 +1,25 @@
+<div id="requisitos" class="page-layout simple fullwidth">
+    <!-- HEADER -->
+    <div class="header fuse-visor-50 p-24 h-100" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center">
+        <div fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="column" fxLayoutAlign.gt-xs="center start">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <mat-icon class="secondary-text s-18">home</mat-icon>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text">Administrar</span>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text">Requisitos</span>
+            </div>
+            <div class="h2 mt-16">
+                <mat-icon class="secondary-text s-18 ">assignment_turned_in</mat-icon> Requisitos
+            </div>
+        </div>
+        <button mat-raised-button class="button-visor-new" (click)="newRequisito()" aria-label="Agregar requisito">
+            <mat-icon>add</mat-icon> Agregar requisito
+        </button>
+    </div>
+    <!-- / HEADER -->
+    <!-- CONTENT -->
+    <div class="content p-24">
+        <app-requisitos-list></app-requisitos-list>
+    </div>
+</div>

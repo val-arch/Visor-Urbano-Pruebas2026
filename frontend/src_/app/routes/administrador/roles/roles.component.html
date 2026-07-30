@@ -1,0 +1,24 @@
+<div id="roles" class="page-layout simple fullwidth">
+    <!-- HEADER -->
+    <div class="header fuse-visor-50 p-24 h-100" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center">
+        <div fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="column" fxLayoutAlign.gt-xs="center start">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <mat-icon class="secondary-text s-18">home</mat-icon>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text">Administrar</span>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text">Roles</span>
+            </div>
+            <div class="h2 mt-16">
+                <mat-icon class="secondary-text s-18">person</mat-icon> Roles</div>
+        </div>
+        <button mat-raised-button class="button-visor-new" (click)="newRole()" aria-label="Agregar Rol" [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
+            <mat-icon>add</mat-icon> Agregar Rol
+        </button>
+    </div>
+    <!-- / HEADER -->
+    <!-- CONTENT -->
+    <div class="content p-24" [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
+        <app-roles-list></app-roles-list>
+    </div>
+</div>

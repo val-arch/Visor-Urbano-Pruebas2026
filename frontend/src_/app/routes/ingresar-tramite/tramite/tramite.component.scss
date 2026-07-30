@@ -1,0 +1,57 @@
+@import "src/@fuse/scss/fuse";
+
+::ng-deep .mat-expansion-panel-body {
+    padding: 0 24px 16px;
+    border-top: 3px;
+    border-top-color: #E4F0EC;
+    border-top-style: solid;
+}
+::ng-deep .mat-expansion-panel{
+    border-radius: 25px !important;
+    margin-bottom: 5px !important;
+}
+
+::ng-deep .mat-expansion-panel-header.mat-expanded{
+    height: 48px !important ;
+}
+
+::ng-deep .mat-expansion-panel-header-title{
+    color:#65C65D !important;
+    font: normal normal bold 18px/23px Red Hat Display;
+}
+
+
+.alert{
+  color: red;
+}
+
+
+
+h3{
+  color: #70CE68;
+  padding-top: 15px;
+  font-weight: bold;
+  padding-left: 10px;
+  
+}
+ 
+.weakest {
+  .mat-progress-bar-fill::after {
+    background-color: yellow;
+  }
+}
+ 
+body.theme-default .mat-progress-bar-buffer {
+  background-color: green !important;
+}
+
+  .estilos{
+    margin-top: 20px;
+    margin-right: 20px;
+    color:blue
+  }
+  .estilos2{
+    margin-top: 20px;
+    margin-right: 20px;
+    color:green;
+  }

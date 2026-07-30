@@ -1,0 +1,43 @@
+<div id="cambiarContrasenaForm" fxLayout="column">      
+       
+        <div class="logo">
+            <img src="assets/images/logo.svg">
+        </div>
+
+        <div fxLayout="column">
+            <p>Tienes un mensaje para el siguiente tramite</p>
+            <div class="datos">
+                <span>Folio: </span>
+                <span><b>{{folio}}</b></span>
+                <br>
+                <span>Municipio: </span>
+                <span><b>{{municipio}}</b> </span>
+               
+            </div>
+
+            <div class="pregunta">
+                <p><b>¿Deseas notificarte?</b></p>
+           </div>
+
+            <div class="botones">
+                <button mat-raised-button  mat-dialog-close class="submit-button" [ngStyle]="btnCss2">En otro momento</button>
+                <button mat-raised-button  class="submit-button"  (click)= "updateNotificacion()" [ngStyle]="btnCss1">Si</button>
+            </div>
+
+              <div class="texto">
+                <p>
+                    *Para que tu trámite siga avanzando notifícate y conoce el mensaje correspondiente.
+                    En caso contrario, puede que no siga avanzando por faltar un documento o alguna gestión de tu parte.
+       
+                </p>
+
+              </div>
+                
+        </div>
+
+        <div class="jalisco">
+            <img src="assets/images/landing/logo_jalisco.svg">
+
+        </div>
+</div>
+

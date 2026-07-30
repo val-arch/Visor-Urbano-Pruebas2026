@@ -1,0 +1,64 @@
+<div id="tramite" class="page-layout simple fullwidth">
+
+    <!-- HEADER -->
+    <div class="header fuse-visor-50 p-24 h-120" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center">
+        <div fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="column" fxLayoutAlign.gt-xs="center start">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <mat-icon class="secondary-text s-18">home</mat-icon>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text">Nuevo Trámite</span>
+            </div>
+            <div class="h2 mt-16">
+                Nuevo trámite</div>
+        </div>
+        <a *ngIf="folio==''" mat-raised-button class="button-visor-new" href="/mapa" [@animate]="{value:'*', params:{delay:'500ms',scale:'.2'}}">
+            <mat-icon>add</mat-icon> Nuevo tramite
+        </a>
+    </div>
+    <!-- / HEADER -->
+    <!-- CONTENT -->
+    <div class="content p-24" [@animate]="{value:'*', params:{delay:'500ms',scale:'.2'}}">
+        <mat-expansion-panel expanded [disabled]="true">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Ingresar folio
+                </mat-panel-title>
+                <mat-panel-description>
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div class="pt-20">
+                <div class="terms" fxLayout="row" fxLayoutAlign="center center">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Ejemplo: 1-1/2021</mat-label>
+
+                        <input type="text" [(ngModel)]="folio" matInput placeholder="Ingresar el folio que te otorgo el mapa">
+                        <mat-icon matSuffix>mode_edit</mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <div class="terms" fxLayout="row" fxLayoutAlign="center center">
+                    <mat-checkbox name="terms" [(ngModel)]="disabled" aria-label="I read and accept" required>
+                        <span>He leído y acepto el </span>
+                    </mat-checkbox>&nbsp;
+                    <a (click)="openDialogAvisos()" style="cursor: pointer;">  aviso de privacidad</a>
+                </div>
+                <br>
+                <div class="terms" fxLayout="row" fxLayoutAlign="center center">
+                    <button type="button" mat-button class="button-visor-confirm" (click)="validarFolio()" [disabled]="validar()">Iniciar trámite</button>
+                </div>
+
+            </div>
+        </mat-expansion-panel>
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>

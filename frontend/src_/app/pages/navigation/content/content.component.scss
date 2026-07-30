@@ -1,0 +1,275 @@
+@import "src/@fuse/scss/fuse";
+.redes {
+    margin-top: 30px;
+    width: 100%;
+    height:120px;
+    background-color: #70CE68;
+}
+.article {
+    perspective: 1px;
+    transform-style: preserve-3d;
+    .inicio-banner {
+        width: 100%;
+        height: 100%;
+        margin-top: 40px;
+        margin-left: 5%;
+        margin-right: 5%;
+        //margin-left: 10%;
+        flex: 1 0 auto;
+        position: relative;
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        //z-index: -1;
+        //overflow-x: hidden;
+        //overflow-y: scroll;
+        // transform: translateZ(-1px) scale(2);
+        .description {
+            @include media-breakpoint('xs') {
+                margin-top: 20px;
+                font-size: 20px;
+                line-height: 30px;
+                text-align: left;
+            }
+        }
+        @include media-breakpoint('xs') {
+            margin-top: 18px;
+        }
+    }
+ 
+    .logos_banner1 {
+        @include media-breakpoint('xs') {
+            margin-top: 30px;
+            margin-right: 20%;
+        }
+    }
+    .submit-button {
+        width: 280px;
+        color: #FFFFFF !important;
+        height: 40px;
+        background: #70CE68 0% 0% no-repeat padding-box !important;
+        box-shadow: 0px 10px 20px #90969514;
+        border-radius: 20px;
+        opacity: 1;
+        text-align: center;
+    }
+    .mat-raised-button{
+        width: 280px;
+        color: #FFFFFF !important;
+        height: 40px;
+        background: #70CE68 0% 0% no-repeat padding-box !important;
+        box-shadow: 0px 10px 20px #90969514;
+        border-radius: 20px;
+        opacity: 1;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+    .parte1 p {
+        margin: 50px 0 12px;
+        font-size: 25px;
+        line-height: 47px;
+        @include media-breakpoint('xs') {
+            margin-right: 20px;
+        }
+    }
+    .container {
+        justify-content: center;
+    }
+    .jalisco {
+        font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-bold) 50px/66px var(--unnamed-font-family-red-hat-display);
+        letter-spacing: var(--unnamed-character-spacing-0);
+        text-align: left;
+        font: normal normal bold 50px/66px Red Hat Display;
+        letter-spacing: 0px;
+        color: #161617;
+    }
+    body.theme-default .mat-raised-button.mat-accent {
+        background-color: #70CE68 0% 0% no-repeat padding-box !important;
+    }
+
+    .videos {
+        background: #F6FAFA 0% 0% no-repeat padding-box;
+        padding-bottom: 10px;
+    }
+    .videos h1 {
+        font-size: 40px;
+        font-weight: bold;
+        @include media-breakpoint('xs') {
+            width: 70%;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+    }
+    .noticias2 {
+        margin-top: 30px;
+        font-size: 40px;
+        font-weight: bold;
+        @include media-breakpoint('xs') {
+            width: 70%;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+    }
+    .videos iframe {
+        @include media-breakpoint('xs') {
+            width: 90%;
+        }
+    }
+    .noticias {
+        font-weight: bold;
+        margin-top: 20px;
+        margin-left: 10%;
+        margin-right: 10%;
+    }
+    .noticias p {
+        width: 340px;
+        font-size: 13px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        font-weight: 200;
+    }
+    .noticias span {
+        color: #70CE68;
+        font-weight: bold;
+        font-size: 11px;
+        margin-bottom: 10px;
+    }
+     .noticias h2{
+        font-size: 15px;
+         width: 340px;
+         margin-bottom: 1px;
+  
+    }
+    .consulta {
+        margin: auto;
+        margin-top: 30px;
+        width: 80%;
+        height: 110px;
+        font: normal normal bold 44px/52px Red Hat Display;
+        letter-spacing: 0px;
+        color: #161617;
+        opacity: 1;
+        text-align: center;
+        @include media-breakpoint('xs') {
+            width: 80%;
+            margin-bottom: 40px;
+        }
+      
+    }
+    .licencia-requisitos {
+       
+        background-color: #F6FAFA;
+    }
+    .licencia-requisitos h1{
+        @include media-breakpoint('xs') {
+            font-size: 35px;
+        }
+       
+        @media only screen and  (min-device-width : 320px) and (max-device-width : 480px) {
+            margin-bottom: 40px;
+
+        }
+     
+       
+    }
+
+    
+    .licencia-items {
+        margin-left: 15%;
+        margin-right: 15%;
+        margin-top: 80px;
+      
+    }
+    img.over-image1 {
+        margin-bottom: 20px;
+    }
+    .img1 img {
+        border-radius: 20px;
+        width: 340px;
+        height: 260px;
+    }
+    .licencia-requisitos span {
+        font-weight: bold;
+        text-align: center;
+        font: normal normal bold 16px/21px Red Hat Display;
+        letter-spacing: 0px;
+        color: #327274;
+        margin-bottom: 10px;
+    }
+    .beneficio h1 {
+        font: normal normal 900 50px/66px Red Hat Display;
+        height: 66px;
+        letter-spacing: 0px;
+        color: #161617;
+        opacity: 1;
+    }
+    .beneficio h2 {
+        margin-bottom: 30px;
+        font-size: 40px;
+        line-height: 50px;
+        font-weight: bolder;
+    }
+    .beneficio ul {
+        list-style: none;
+        /* Remove default bullets */
+        font-size: 20px;
+        line-height: 50px;
+    }
+    .beneficio ul li::before {
+        content: "\2022";
+        color: #70CE68;
+        font-weight: bold;
+        display: inline-block;
+        width: 1em;
+        margin-left: -1em;
+    }
+    .content-mob {
+        position: absolute;
+        top: 113px;
+        left: 0px;
+        right: 0px;
+        bottom: 0px;
+        overflow-y: scroll;
+    }
+    .example-card {
+        max-width: 320px;
+        margin: 0px 5px 5px 0px;
+    }
+    .example-header-image {
+        background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+        background-size: cover;
+    }
+    .example-sidenav-content:first-child {
+        margin: 10px 5px 5px 5px;
+    }
+    .list-width {
+        width: 200px;
+    }
+    .list-item:hover {
+        background-color: rgba(83, 83, 83, 0.178);
+        cursor: pointer;
+    }
+}
+
+.img-hover-zoom {
+    width: 340px;
+    border-radius: 20px !important;
+    height: 260px;
+    overflow: hidden;
+}
+
+.img-hover-zoom img {
+    transform-origin: 50% 65%;
+    transition: transform 1s, filter 3s ease-in-out;
+    filter: brightness(95%);
+}
+
+.img-hover-zoom:hover img {
+    filter: brightness(100%);
+    transform: scale(1.1);
+}

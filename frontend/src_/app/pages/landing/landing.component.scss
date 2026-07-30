@@ -1,0 +1,49 @@
+@import "src/@fuse/scss/fuse";
+.menu-spacer {
+    flex: 1 1 auto;
+  }
+
+
+  mat-toolbar{
+    flex-direction: row;
+     box-sizing: border-box; 
+     display: flex;
+     position: fixed;
+  
+  .logo-text {
+    visibility: hidden;
+
+  }
+  .logo{
+      margin-left: 20%;
+  }
+  mat-grid-tile {
+    background: lightblue;
+  }
+}
+
+
+.content {
+    position: absolute;
+    top: 65px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    overflow-y: scroll;
+  background-color: white;
+  }
+  
+  .content-mob {
+    position: absolute;
+    top: 113px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    overflow-y: scroll;
+  
+  }
+
+
+
+
+  

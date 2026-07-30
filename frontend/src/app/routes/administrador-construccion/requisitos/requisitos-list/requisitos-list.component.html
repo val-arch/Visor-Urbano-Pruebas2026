@@ -1,0 +1,22 @@
+<mtx-grid [showToolbar]="true" [showColumnMenuButton]="false" [rowStriped]="true" [toolbarTemplate]="toolbarTpl" [headerTemplate]="headerTpl" [data]="list" nextPageLabel="Siguiente" noResultText="Sin datos" [columns]="columns" [length]="total" [loading]="isLoading"
+    [pageOnFront]="false" (page)="getNextPage($event)" [pageIndex]="query.page" [pageSizeOptions]="[10]" pageSize="10">
+</mtx-grid>
+<ng-template #statusRow let-row let-index="index" let-col="colDef">
+    <mat-slide-toggle *ngIf="row.id_municipio==myUser.id_municipio || row.type=='file'" [checked]="row.id_requi" color="warn" (click)="onStatus(row,$event)">Estado</mat-slide-toggle>
+</ng-template>
+<ng-template #headerTpl let-col>
+    {{col.header}}
+    <mat-icon *ngIf="col.description" [matTooltip]="col.description">info</mat-icon>
+</ng-template>
+<ng-template #toolbarTpl>
+    <form name="buscarUsuarioForm">
+        <div class="example-header pl-24 pt-4">
+            <mat-form-field>
+                <input matInput placeholder="Buscar requisito" [formControl]="filter">
+            </mat-form-field>
+            <button mat-raised-button color="accent" class="submit-button ml-8" (click)="buscar()">
+                Buscar
+            </button>
+        </div>
+    </form>
+</ng-template>

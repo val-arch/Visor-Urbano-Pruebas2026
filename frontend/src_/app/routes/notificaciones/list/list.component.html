@@ -1,0 +1,19 @@
+<div class="contentTable">
+    <mtx-grid [data]="list" [rowHover]="true"
+     [rowStriped]="true" noResultText="Sin datos"
+     [columns]="columns" [length]="total" 
+     [loading]="isLoading" (page)="getNextPage($event)"
+     [pageIndex]="query.page" 
+     [pageSizeOptions]="[20]" 
+     pageSize="20"
+     (cellSelectionChange)="verNotificacion($event)">
+     
+
+    </mtx-grid>
+
+    
+    
+</div>
+<div>
+
+</div>

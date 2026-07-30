@@ -1,0 +1,349 @@
+<style>
+    .mtx-grid .mtx-grid-expansion-detail {
+        align-items: center;
+        display: list-item !important;
+        min-height: 57px;
+        overflow: hidden;
+    }
+    
+    .mtx-grid {
+        margin-left: 3px;
+        margin-right: 10px;
+    }
+</style>
+
+<div id="tramite" class="page-layout simple fullwidth">
+    <!-- HEADER -->
+    <div class="header fuse-visor-50 p-24 h-120" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center">
+        <div fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="column" fxLayoutAlign.gt-xs="center start">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <span class="secondary-text">Historial</span>
+            </div>
+            <div class="h2 mt-16">
+                Licencias emitidas por Visor Urbano</div>
+        </div>
+    </div>
+    <!-- / HEADER -->
+    <!-- CONTENT -->
+    <div class="content p-24">
+        <div class="m-28" fxLayout="row" fxLayoutAlign="center center">
+            <mat-tab-group dynamicHeight>
+                <mat-tab label="Licencias emitidas por Visor Urbano">
+                    <mtx-grid style="margin-top: 13px;" [data]="list2" [showToolbar]="true" [rowStriped]="true" [showColumnMenuButton]="false" [toolbarTemplate]="toolbarTpl" noResultText="Sin datos" [columns]="columns" [length]="total" [expandable]="true" [expansionTemplate]="expansionTpl"
+                        [loading]="isLoading" [pageOnFront]="false" (page)="getNextPage($event)" [pageIndex]="query.page" [pageSizeOptions]="[10]" pageSize="10">
+                    </mtx-grid>
+                </mat-tab>
+                <mat-tab label="Histórico licencias">
+                    <mtx-grid style="position: inherit; margin-top: 13px;" [showToolbar]="true" [showColumnMenuButton]="false" [toolbarTemplate]="toolbarTplHis" [data]="listHistorico" noResultText="Sin datos" [columns]="columnsHistorico" [length]="totalHistorico" [loading]="isLoadingHistorico"
+                        [expandable]="true" [expansionTemplate]="expansionTplHis" [pageOnFront]="false" [showPaginator]="true" (page)="getNextPageHis($event)" [pageIndex]="queryHis.page" [pageSizeOptions]="[20]" [sortOnFront]="true" sortActive="name" sortDirection="asc"
+                        [sortDisableClear]="true" [sortDisabled]="false" sortStart="asc" (sortChange)="log($event)" pageSize="queryHis.page">
+                    </mtx-grid>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+    </div>
+    <!-- / CONTENT -->
+</div>
+<ng-template #expansionTpl let-row>
+    <div *ngIf="list">
+        <div *ngFor="let user of list; index as i; first as isFirst">
+            <div class="mat-table" *ngIf="user.folio == row.folio">
+                <div class="mat-row">
+                    <div class="mat-cell">{{t(user.numero_lic)}}</div>
+                    <div class="mat-cell">{{user.folio}}</div>
+                    <div class="mat-cell">{{user.actividad_comercial}}</div>
+                    <div class="mat-cell">{{solicitante(user.dueno,user.apellido_p,user.apellido_m)}} ---</div>
+                    <div class="mat-cell" style="margin-left:40px;">{{user.calle}} no. {{user.num_ext}} {{user.colonia}}
+                    </div>
+                    <div class="mat-cell">{{user.tipo_licencia}}</div>
+                    <div class="mat-cell">{{user.status_licencia}}</div>
+                    <div class="mat-cell">{{date(user.fecha_emision,1)}}</div>
+                    <div class="mat-cell">
+
+                        <section class="example-section">
+                            <mat-slide-toggle color="primary" [checked]="user.status_pago==1" [disabled]="user.status_pago==1" (click)="seguro($event,user)">
+                                <ng-container *ngIf="user.status_pago; else elseTemplatePago">
+                                    Pagada
+                                </ng-container>
+                                <ng-template #elseTemplatePago>
+                                    Sin pagar
+                                </ng-template>
+                            </mat-slide-toggle>
+                        </section>
+
+                        <button mat-icon-button color="accent" (click)="ordenDialog(user)" *ngIf="user.status_pago && user.archivo_compobante_pago==null" matTooltip="Subir recibo de pago">
+                        <mat-icon>monetization_on</mat-icon>
+                    </button>
+                        <button mat-icon-button color="primary" (click)="verOrden(user)" *ngIf="user && user.archivo_compobante_pago!=null" matTooltip="Ver recibo de pago">
+                        <mat-icon>monetization_on</mat-icon>
+                    </button>
+
+
+
+
+                    </div>
+                    <div class="mat-cell" style="margin-left: 100px;">
+                        <a mat-icon-button color="accent" target="_blank" href="{{server}}licenciaGiros/{{btoaf(row.folio)}}/{{btoaf(user.anio_licencia)}}/{{btoaf(user.tipo_licencia=='Refrendo'?2:1)}}/{{btoaf(row.ids)}}" matTooltip="Ver licencia">
+                            <mat-icon>picture_as_pdf</mat-icon>
+                        </a>
+                        <button mat-icon-button (click)="subirPdfEscaneado(user)" *ngIf="!user.pdf_escaneado && user.status_baja==0" matTooltip="Subir pdf escaneado">
+                            <mat-icon><img src="assets/images/icons/ico_upload.svg" alt="" srcset=""></mat-icon>
+                        </button>
+                        <div>
+                            <button mat-icon-button [matMenuTriggerFor]="userMenu" aria-label="more">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <mat-menu #userMenu="matMenu">
+                                <button mat-menu-item (click)="UpdateStatusLicencia(user)">
+                                    <mat-icon>updated</mat-icon>
+                                    Cambiar estatus
+                                </button>
+                                <button mat-menu-item color="primary" routerLink="/tramites/detalle/{{btoaf(user.folio)}}" matTooltip="Ver detalle">
+                                    <mat-icon>visibility</mat-icon>
+                                    Ver detalle
+                                </button>
+                            </mat-menu>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="list.length === 0"> &nbsp;&nbsp;&nbsp; No existen antecedentes de esta licencia</div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #statusTplPago let-row let-index="index" let-col="colDef">
+    <section class="example-section">
+        <mat-slide-toggle color="primary" [checked]="row.status_pago==1" [disabled]="row.status_pago==1" (click)="seguro($event,row)">
+            <ng-container *ngIf="row.status_pago; else elseTemplatePago">
+                Pagada
+            </ng-container>
+            <ng-template #elseTemplatePago>
+                Sin pagar
+            </ng-template>
+        </mat-slide-toggle>
+        <button mat-icon-button color="accent" (click)="ordenDialog(row)" *ngIf="row.status_pago && row.archivo_compobante_pago==null" matTooltip="Subir recibo de pago">
+            <mat-icon>monetization_on</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" (click)="verOrden(row)" *ngIf="row && row.archivo_compobante_pago!=null" matTooltip="Ver recibo de pago">
+            <mat-icon>monetization_on</mat-icon>
+        </button>
+
+
+    </section>
+</ng-template>
+<ng-template #statusTplPagoHis let-row let-index="index" let-col="colDef">
+    <section class="example-section">
+        <mat-slide-toggle color="primary" [checked]="row.status_pago==1" [disabled]="row.status_pago==1" (click)="seguroHis($event,row)">
+            <ng-container *ngIf="row.status_pago; else elseTemplatePago">
+                Pagada
+            </ng-container>
+            <ng-template #elseTemplatePago>
+                Sin pagar
+            </ng-template>
+        </mat-slide-toggle>
+    </section>
+</ng-template>
+<ng-template #statusTpl let-row let-index="index" let-col="colDef">
+
+    <a mat-icon-button color="accent" target="_blank" href="{{server}}licenciaGiros/{{btoaf(row.folio)}}/{{btoaf(row.anio_licencia)}}/{{btoaf(row.tipo_licencia=='Refrendo'?2:1)}}/{{btoaf(row.ids)}}" matTooltip="Ver licencia">
+        <mat-icon>picture_as_pdf</mat-icon>
+    </a>
+    <!-- <button mat-icon-button  (click)="subirPdfEscaneado(row)"   matTooltip="Subir pdf escaneado" > -->
+    <button mat-icon-button (click)="subirPdfEscaneado(row)" *ngIf="!row.pdf_escaneado && row.status_baja==0" matTooltip="Subir pdf escaneado">
+        <mat-icon><img src="assets/images/icons/ico_upload.svg" alt="" srcset=""></mat-icon>
+    </button>
+    <div>
+        <button mat-icon-button [matMenuTriggerFor]="userMenu" aria-label="more">
+            <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #userMenu="matMenu">
+            <button mat-menu-item (click)="UpdateStatusLicencia(row)">
+                <mat-icon>updated</mat-icon>
+                Cambiar estatus
+            </button>
+            <button mat-menu-item (click)="refrendar(btoaf(row.folio),row.id_municipio,row)">
+                <mat-icon>home</mat-icon>
+                Refrendar
+            </button>
+
+            <button mat-menu-item color="primary" *ngIf="row.tipo_licencia=='Refrendo'" routerLink="/tramites/detalle/{{btoaf(row.folio)}}/1" matTooltip="Ver detalle">
+                <mat-icon>visibility</mat-icon>
+                Ver detalles
+            </button>
+            <button mat-menu-item color="primary" *ngIf="row.tipo_licencia=='Nueva'" routerLink="/tramites/detalle/{{btoaf(row.folio)}}" matTooltip="Ver detalle">
+                <mat-icon>visibility</mat-icon>
+                Ver detalles
+            </button>
+            <button mat-menu-item (click)="editarLicencia(btoaf(row.folio),row.id_municipio,row)">
+                <mat-icon>delete</mat-icon>
+                <span>Editar licencia</span>
+            </button>
+            <button mat-menu-item color="primary" (click)="verAperturaProvicional(btoaf(row.folio),row.id_municipio,row)" matTooltip="Ver cedula de apertura provicional">
+                <mat-icon>document_scanner</mat-icon>
+                Ver cedula de apertura provicional
+            </button>
+
+        </mat-menu>
+    </div>
+</ng-template>
+<ng-template #statusBaja let-row let-index="index" let-col="colDef">
+    <ng-container *ngIf="row.status_baja==1; else elseTemplateBaja">
+        <div style="text-align: center !important;">
+            Dada de baja
+            <br>
+            <button mat-icon-button color="accent" (click)="motivoBaja(row)" matTooltip="Ver motivo">
+                <mat-icon>description</mat-icon>
+            </button>
+        </div>
+    </ng-container>
+    <ng-template #elseTemplateBaja>
+    </ng-template>
+</ng-template>
+<ng-template #toolbarTpl>
+    <form name="buscarUsuarioForm">
+        <div class="example-header pl-24 pt-4">
+            <mat-form-field>
+                <input matInput placeholder="Buscar licencia" (keyup)="getData()" type="email" [formControl]="filter">
+            </mat-form-field>
+            <div class="" style="flex-direction: revert;
+            display: flex;
+            width: 100%;
+            position: absolute;
+            left: 80%;
+            margin-top: -43px;">
+                <button style="background-color:#70CE68 " (click)="exportExcelVisor($event)" mat-mini-fab color="warn" aria-label="Example icon button with a filter list icon" matTooltip="Exportar historico a excel">
+            <mat-icon>arrow_downward</mat-icon>
+
+        </button>
+            </div>
+        </div>
+    </form>
+</ng-template>
+<ng-template #toolbarTplHis style="width:100%;
+    height: 100%; 
+     display: flex; 
+    flex-direction: row-reverse;">
+    <div class="" style="flex-direction: revert;
+        display: flex;
+        width: 100%;
+        position: absolute;
+        left: 80%;">
+        <button style="background-color:#70CE68" (click)="exportExcel($event)" mat-mini-fab color="warn" aria-label="Example icon button with a filter list icon" matTooltip="Exportar historico a excel">
+            <mat-icon>arrow_downward</mat-icon>
+        </button>
+        <button style="background-color:#70CE68" (click)="downloadExcel($event)" mat-mini-fab color="warn" aria-label="Example icon button with a filter list icon" matTooltip="Subir historico">
+            <mat-icon>cloud_upload</mat-icon>
+        </button>
+        <button style="background-color:red" (click)="deleteAll($event)" mat-mini-fab color="warn" aria-label="Example icon button with a filter list icon" matTooltip="Eliminar historico permanente">
+            <mat-icon>delete_forever</mat-icon>
+        </button>
+        <button style="background-color:#70CE68" (click)="descargarDemo($event)" mat-mini-fab color="warn" aria-label="Example icon button with a filter list icon" matTooltip="Descargar plantilla">
+            <mat-icon>cloud_download</mat-icon>
+        </button>
+    </div>
+
+    <form name="buscarUsuarioFormHis">
+        <div class="example-header pl-24 pt-4" style="position: relative;">
+            <mat-form-field>
+                <input matInput placeholder="Buscar Histórico" (keyup)="getDataHistorico()" type="email" [formControl]="filter">
+            </mat-form-field>
+
+        </div>
+    </form>
+
+</ng-template>
+<ng-template #statusTplHis let-row let-index="index" let-col="colDef" style="    background-color: lightgray;">
+    <a mat-icon-button color="accent" target="_blank" href="{{server}}licenciaGiroHistorico/{{btoaf(row.id)}}/{{btoaf(row.anio_licencia)}}/{{btoaf(row.tipo_licencia=='Refrendo'?2:1)}}" matTooltip="Ver licencia">
+        <mat-icon>picture_as_pdf</mat-icon>
+    </a>
+    <a mat-icon-button color="accent" target="_blank" *ngIf="row.pdf_escaneado" href="{{row.pdf_escaneado}}" matTooltip="Ver PDF escaneado">
+        <mat-icon>cloud_download</mat-icon>
+    </a>
+    <!-- <button mat-icon-button  (click)="subirPdfEscaneado(row)"   matTooltip="Subir pdf escaneado" > -->
+    <button mat-icon-button (click)="subirPdfEscaneadoHis(row)" *ngIf="!row.pdf_escaneado && row.status_baja==0" matTooltip="Subir pdf escaneado">
+        <mat-icon><img src="assets/images/icons/ico_upload.svg" alt="" srcset=""></mat-icon>
+    </button>
+    <div>
+        <button mat-icon-button [matMenuTriggerFor]="userMenu" aria-label="more">
+            <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #userMenu="matMenu">
+            <button mat-menu-item (click)="UpdateStatusLicenciaHis(row)">
+                <mat-icon>updated</mat-icon>
+                Cambiar estatus
+            </button>
+            <button mat-menu-item (click)="refrendarHis(btoaf(row.folio),row.id_municipio,row)">
+                <mat-icon>home</mat-icon>
+                Refrendar
+            </button>
+            <button mat-menu-item color="primary" routerLink="/refrendo/detalle/{{btoaf(row.id)}}" matTooltip="Ver detalle">
+                <mat-icon>visibility</mat-icon>
+                Ver detalle
+            </button>
+            <button mat-menu-item (click)="editarLicenciaHist(btoaf(row.folio),row.id_municipio,row)">
+                <mat-icon>delete</mat-icon>
+                <span>Editar licencia</span>
+            </button>
+        </mat-menu>
+    </div>
+</ng-template>
+<ng-template #expansionTplHis let-row>
+    <div *ngIf="listHistorico2" style="margin-top:10px; margin-left: -11px;">
+        <div *ngFor="let user of listHistorico2; index as i; first as isFirst">
+            <div class="mat-table" *ngIf="user.folio_licencia == row.folio_licencia">
+                <div class="mat-row ">
+                    <div class="mat-cell ">{{user.folio_licencia}}</div>
+                    <div class="mat-cell">{{user.giro}}</div>
+                    <div class="mat-cell" style="margin-left:40px;"> {{user.razon_social ? user.razon_social : solicitante(user.nombre_titular,user.apellido_p,user.apellido_m)}}
+                    </div>
+                    <div class="mat-cell" style="margin-left:40px;">{{user.calle_predio}} no. {{user.num_ext_predio}} {{user.colonia_predio}}
+                    </div>
+                    <div class="mat-cell" style="margin-left:40px;">{{user.tipo_licencia}}</div>
+                    <div class="mat-cell">{{user.fecha_emision}}</div>
+                    <div class="mat-cell">{{user.status_licencia}}</div>
+                    <div class="mat-cell" style="width: 250px;">
+                        <section class="example-section">
+                            <mat-slide-toggle color="primary" [checked]="user.status_pago==1" [disabled]="user.status_pago==1" (click)="seguro($event,user)">
+                                <ng-container *ngIf="user.status_pago; else elseTemplatePago">
+                                    Pagada
+                                </ng-container>
+                                <ng-template #elseTemplatePago>
+                                    Sin pagar
+                                </ng-template>
+                            </mat-slide-toggle>
+                        </section>
+                    </div>
+                    <div class="mat-cell" style="margin-left: 100px;">
+                        <a mat-icon-button color="accent" target="_blank" href="{{server}}licenciaGiroHistorico/{{btoaf(user.id)}}/{{btoaf(user.anio_licencia)}}/{{btoaf(row.tipo_licencia=='Refrendo'?2:1)}}" matTooltip="Ver licencia">
+                            <mat-icon>picture_as_pdf</mat-icon>
+                        </a>
+
+                        <button mat-icon-button (click)="subirPdfEscaneadoHis(user)" *ngIf="!user.pdf_escaneado && user.status_baja==0" matTooltip="Subir pdf escaneado">
+                            <mat-icon><img src="assets/images/icons/ico_upload.svg" alt="" srcset=""></mat-icon>
+                        </button>
+                        <div>
+                            <button mat-icon-button [matMenuTriggerFor]="userMenu" aria-label="more">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <mat-menu #userMenu="matMenu">
+                                <button mat-menu-item (click)="UpdateStatusLicenciaHis(user)">
+                                    <mat-icon>updated</mat-icon>
+                                    Cambiar estatus
+                                </button>
+                                <button mat-menu-item color="primary" routerLink="/refrendo/detalle/{{btoaf(user.id)}}" matTooltip="Ver detalle">
+                                    <mat-icon>visibility</mat-icon>
+                                    Ver detalle
+                                </button>
+                                <button mat-menu-item (click)="editarLicenciaHist(btoaf(user.folio),row.id_municipio,user)">
+                                    <mat-icon>delete</mat-icon>
+                                    <span>Editar licencia</span>
+                                </button>
+                            </mat-menu>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="listHistorico2.length === 0"> &nbsp;&nbsp; &nbsp;No existen antecedentes de esta licencia</div>
+</ng-template>

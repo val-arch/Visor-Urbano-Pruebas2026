@@ -1,0 +1,185 @@
+.input-small {
+    width: 60% !important;
+}
+
+.mat-list-base .mat-list-item .mat-list-item-content-reverse,
+.mat-list-base .mat-list-option .mat-list-item-content-reverse {
+    flex-direction: inherit !important;
+    margin-top: 20px;
+}
+
+.float-container {
+    padding: 20px;
+}
+
+.input-c {
+    float: left;
+    width: 60%;
+    margin-top: 23px;
+}
+
+.input-d {
+    float: left;
+    width: 40%;
+    margin-top: 23px;
+}
+
+.float-child {
+    float: left;
+}
+
+.menu-informacion {
+    b {
+        color: #48494B;
+    }
+    z-index: 3;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: block;
+    align-self: center;
+    //text-align: center;
+    width: 400px;
+    height: 100%;
+    background: #F2F2F2 0% 0% no-repeat padding-box;
+    -webkit-box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.16);
+    box-shadow: 3px 3px 15px 3px rgba(0, 0, 0, 0.16);
+    padding: 85px 20px 0 90px;
+    word-break: break-word;
+    overflow-y: auto;
+    //background-color: #ffffff;
+    .botones-acciones {
+        padding-top: 30px;
+        text-align: center;
+        button {
+            width: 100%;
+            background: #003E76 0% 0% no-repeat padding-box;
+            border-radius: 20px;
+            color: white;
+        }
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .menu-informacion {
+        padding: 75px 60px 0 90px;
+    }
+}
+
+.input-small {
+    input {
+        border-radius: 21px;
+        background-color: white;
+        height: 36px;
+        width: 120%;
+        min-height: 42px;
+        max-height: 36px;
+        border-style: solid;
+        border-color: #dbd8d8;
+        border-width: 3px;
+        outline: none;
+        display: flex;
+        padding-left: 16px;
+        margin-top: 8%;
+        margin-left: 24px;
+    }
+    input:focus {
+        border-width: 3px;
+        border-style: solid;
+        border-color: #003E76;
+    }
+}
+
+.input-b {
+    position: relative;
+    label {
+        display: flex;
+        //position: absolute;
+        color: #0095DA;
+        top: 0;
+        left: 0;
+        user-select: none;
+        z-index: 1500;
+    }
+    input {
+        border-radius: 21px;
+        background-color: white;
+        height: 36px;
+        width: 100%;
+        min-height: 42px;
+        max-height: 36px;
+        border-style: solid;
+        border-color: #dbd8d8;
+        border-width: 3px;
+        outline: none;
+        display: flex;
+        padding-left: 10px;
+    }
+    input:focus {
+        border-width: 3px;
+        border-style: solid;
+        border-color: #003E76;
+    }
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.fix-position{
+    margin-top: 110px !important;
+}
+
+.fix-position-input{
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+::ng-deep {
+    .mat-form-field-appearance-outline .mat-form-field-outline {
+        background: white;
+    }
+    .mat-option {
+        white-space: initial;
+        line-height: initial !important;
+        min-height: 46px;
+        max-height: 100px;
+        height: auto;
+        margin: 5px;
+        max-width: 100%;
+        // border-bottom: 1px#003E76 solid;
+        border-bottom-style: inset;
+    }
+    .example-radio-group {
+        display: flex;
+        flex-direction: column;
+        white-space: normal !important;
+        margin: 15px 0;
+    }
+    .example-radio-button {
+        margin: 5px;
+        white-space: normal !important;
+    }
+    .mat-radio-label {
+        white-space: normal !important;
+        word-break: break-word !important;
+        font-size: 15px !important;
+    }
+    .mat-radio-outer-circle {
+        .mat-radio-checked & {
+            border-color: #0095DA !important;
+        }
+    }
+    .mat-radio-inner-circle {
+        background-color: #0095DA !important;
+    }
+    .mat-radio-ripple .mat-ripple-element {
+        background-color: rgba(#0095DA, 0.26) !important;
+    }
+}

@@ -1,0 +1,471 @@
+import {
+    Component,
+    Input,
+    OnInit,
+    TemplateRef,
+    ViewChild,
+} from "@angular/core";
+import { FormControl, FormGroup } from "@angular/forms";
+import { MatDialog } from "@angular/material/dialog";
+import { PageEvent } from "@angular/material/paginator";
+import { MtxGridColumn } from "@ng-matero/extensions";
+import { RequisitosService } from "../../../../services/administrador/requisitos/requisitos.service";
+import { RequisitosDialogComponent } from "../requisitos-dialog/requisitos-dialog.component";
+import { SettingsService } from "@core/settings.service";
+import { RolesService } from "../../../../services/administrador/roles/roles.service";
+import Swal from "sweetalert2";
+@Component({
+    selector: "app-requisitos-list",
+    templateUrl: "./requisitos-list.component.html",
+    styleUrls: ["./requisitos-list.component.scss"],
+
+})
+export class RequisitosListComponent implements OnInit {
+    @ViewChild("statusRow", { static: true }) statusRow: TemplateRef<any>;
+    columns: MtxGridColumn[] = [];
+    filter = new FormControl("");
+
+    myUser;
+    list = [];
+    roles:any = [];
+    total = 0;
+    isLoading = true;
+    disabledCheck = false;
+    page = 0;
+    editId = 0;
+    query = {
+        order: "desc",
+        page: 0,
+    };
+    dialogRef;
+    constructor(
+        private _matDialog: MatDialog,
+        private _requisitos: RequisitosService,
+        private _sett: SettingsService,
+        private _role: RolesService
+    ) {
+        this.myUser = this._sett.user;
+        this.getRoles();
+    }
+    ngOnInit(): void {
+        // console.log(this.statusRow);
+
+        this.columns = [
+            {
+                header: "Título del requisito",
+                field: "description",
+                description: "Título del requisito o información a requerir",
+                width: '250px'
+            },
+            ///{ header: 'Fundamento', field: 'fundamento', },
+            {
+                header: "Tipo campo",
+                field: "type",
+                formatter: (data) => this.getType(data.type),
+            },
+            {
+                header: "Tipo de trámite",
+                field: "tramite",
+            },
+            {
+                header: "Asignado a",
+                field: "opciones",
+                formatter: (data) => this.getAsignado(data.condicion_dependencia),
+                width: "100px",
+            },
+            {
+                header: "Cuándo se requiere",
+                field: "requerido",
+                formatter: (data) => this.getRequeridoF(data.requerido),
+            },
+            {
+                header: "Condición(es) para requerir",
+                field: "condicion_visible",
+                formatter: (data) => this.getCondicion(data),
+            },
+            {
+                header: "Relacionado a",
+                field: "step",
+                formatter: (data) => this.getStepF(data.step),
+            },
+            {
+                header: "Estatus",
+                field: "existe",
+                cellTemplate: this.statusRow,
+            },
+            {
+                header: "Acciones",
+                field: "acciones",
+                type: "button",
+                buttons: [
+                    {
+                        type: "icon",
+                        tooltip: "Editar",
+                        color: "primary",
+                        text: "Editar",
+                        iif: (data) => data.id_municipio,
+                        icon: "create",
+                        click: (data) => this.editRequisito(data),
+                    },
+                    //{ type: 'icon',tooltip:'Ocultar', color: 'warn', text: 'Ocultar', icon: 'visibility_off', click: (data) => this.hideRequisito(data) }
+                ],
+            },
+        ];
+        this.getData();
+    }
+
+    getAsignado(id_dependencia){
+        if(id_dependencia == null){
+            return "-";
+        }else{
+            const result = this.roles.find(({ id }) => id == id_dependencia);
+            if(result!=undefined){
+                return result.name;
+            }
+        }
+    }
+
+
+    getRoles(){
+        this._role.getAllRoles(this.myUser.id_municipio).subscribe((r: any) => {
+            this.roles = r;
+        },(e) => console.error(e));
+    }
+
+    async hideRequisito(data){
+        await Swal.fire({
+          title: "Ocultar requisito",
+          text: 'El requisito se ocultará',
+          icon: "question",
+          showCancelButton: true,
+          confirmButtonColor: "#003E76",
+          cancelButtonColor: "#757575",
+          confirmButtonText: "Confirmar",
+          cancelButtonText: "Cancelar",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this._requisitos.hideRequisitoConstruccion(data.id).subscribe((res)=>{});
+            this.getData();
+            return true;
+          } else {
+            return false;
+          }
+        });
+    }
+
+    buscar() {
+        // console.log(this.filter.value)
+        this.getData();
+    }
+    onStatus(row, $event) {
+        var id_campo = row.id;
+        var id_requisito = row.id_requi;
+
+        //return;
+
+        this.disabledCheck = true;
+        this._requisitos.postRequisitoChangeConstruccion(id_campo, id_requisito || 0)
+            .subscribe((rest) => {
+                //console.log(rest);
+                this.disabledCheck = false;
+                this.getData();
+            });
+    }
+
+    getRequeridoF(data) {
+        switch (data) {
+            case 1:
+                return "Siempre";
+                break;
+            case 2:
+                return "Personalizado";
+                break;
+            case 3:
+                return "Otro";
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    getStepF(data) {
+        switch (data) {
+            case 1:
+                return "Datos del interesado";
+                break;
+            case 3:
+                return "Ubicación del predio / Datos de propiedad";
+                break;
+            case 4:
+                return "Director Responsable de Obra o proyecto";
+                break;
+            case 2:
+                return "Datos del propietario";
+                break;
+            case 5:
+                return "Información del trámite";
+                break;
+            
+
+            default:
+                break;
+        }
+    }
+    getDisabled(data): boolean {
+        if (data == 0) {
+            return true;
+        }
+        return false;
+    }
+
+    getType(data) {
+        switch (data) {
+            case "file":
+                return "Archivo";
+                break;
+            case "multifile":
+                return "Multi archivo";
+                break;
+            case "radio":
+                return "Opciones";
+                break;
+            case "select":
+                return "Selector";
+                break;
+            case "input":
+                return "Campo de texto";
+                break;
+            case "boolean":
+                return "Responder sí o no";
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    getOpciones(data) {
+        if (
+            data.type == "input" ||
+            data.type == "file" ||
+            data.type == "boolean" ||
+            data.type == "multifile"
+        ) {
+            return "";
+        }
+        if (data.opciones == "" || data.opciones == null) {
+            return "";
+        }
+        data = data.opciones;
+        const arrayDeCadenas = data.split("|");
+        if (arrayDeCadenas.length > 1) {
+            let li = "";
+            for (var i = 0; i < arrayDeCadenas.length; i++) {
+                li += `<li>${arrayDeCadenas[i]}</li>`;
+            }
+            return li;
+        } else {
+            return "";
+        }
+    }
+    getCondicion(data) {
+        // console.log(data);
+        const {
+            condicion_visible,
+            id_municipio,
+            requerido,
+            condicion_giro,
+        } = data;
+        if (condicion_visible && id_municipio != 0) {
+            const arrayCondicion = condicion_visible.match(/\(([^)]+)\)/g);
+            const condicionOY = condicion_visible.includes(") || (");
+            let textCondicion = `${condicionOY
+                    ? "Cuando se actualice <b>cualquiera</b> de los siguientes supuestos"
+                    : "Cuando se actualicen <b>todos</b> los supuestos"
+                }`;
+            if (arrayCondicion.length == 0) {
+                return "Algo a ocurrido";
+            } else {
+                // console.log(arrayCondicion);
+
+                for (let i = 0; i < arrayCondicion.length; i++) {
+                    const element = arrayCondicion[i];
+                    //  console.log("Element: ", element);
+                    if (element.includes(">=") || element.includes("<=")) {
+                        let condicion = element.split("=");
+                        // console.log(condicion);
+                        let condicionNombre = condicion[0]
+                            .match(/\/(\w*)/g)[0]
+                            .replace("/", "");
+                        let valorCondicion = condicion[1]
+                            .replace(")", "")
+                            .replace(" ", "");
+                        textCondicion += `<li>
+                                  ${condicionNombre.includes(
+                            "superficie_propiedad"
+                        )
+                                ? "Superficie de la propiedad"
+                                : "Superficie de la actividad"
+                            }
+                                  ${element.includes(">=")
+                                ? "Mayor a "
+                                : " Menor a "
+                            } ${valorCondicion}
+                            </li> `;
+                    } else if (element.includes("==")) {
+                        if (
+                            element.includes("caracter") ||
+                            element.includes("tipo_persona")
+                        ) {
+                            if (element.includes("||")) {
+                                let arrayCaracter = element.split("||");
+                                //console.log(arrayCaracter);
+                                let condicionTextCaracter = "(";
+                                for (let i = 0; i < arrayCaracter.length; i++) {
+                                    const elementCaracter = arrayCaracter[
+                                        i
+                                    ].split("==");
+                                    let condicionNombre = elementCaracter[0]
+                                        .match(/\/(\w*)/g)[0]
+                                        .replace("/", "");
+                                    let valorCondicion = elementCaracter[1]
+                                        .replace(")", "")
+                                        .replace(" ", "")
+                                        .replace(/'/gi, "");
+                                    condicionTextCaracter += `'${valorCondicion}' `;
+                                }
+                                condicionTextCaracter += ")";
+                                textCondicion += `<li>
+                                  Cuando el ${element.includes("tipo_persona")
+                                        ? "Tipo de persona"
+                                        : "caracter del solicitante "
+                                    } sea  ${condicionTextCaracter}
+                            </li>`;
+                            } else {
+                                let condicionTextCaracter;
+                                const elementCaracter = element.split("==");
+                                let condicionNombre = elementCaracter[0]
+                                    .match(/\/(\w*)/g)[0]
+                                    .replace("/", "");
+                                let valorCondicion = elementCaracter[1]
+                                    .replace(")", "")
+                                    .replace(" ", "")
+                                    .replace(/'/gi, "");
+                                textCondicion += `<li>
+              Cuando el ${element.includes("tipo_persona")
+                                        ? "Tipo de persona"
+                                        : "caracter del solicitante "
+                                    } sea  ${valorCondicion}
+        </li>`;
+                                return textCondicion;
+                            }
+                        } /*else if(element.includes('tipo_persona')){
+            if(element.includes('||')){
+
+            }else{
+              
+            }
+          }*/
+                    }
+                }
+            }
+            return textCondicion;
+        } else if (condicion_visible) {
+            if (requerido == 3) {
+                return "Condicion pre establecida";
+            }
+            if (condicion_visible.includes("||")) {
+                let arrayCondicion = condicion_visible.split("||");
+                let textCondicion = "Cuando ";
+                for (let i = 0; i < arrayCondicion.length; i++) {
+                    const element = arrayCondicion[i];
+                    let arrayElement = element.split("==");
+                    if (arrayElement[0].includes("propietario_rad")) {
+                        textCondicion += `Pro pietario es ${arrayElement[1].includes("propietario_i")
+                                ? "Física"
+                                : "Moral"
+                            } ${i + 1 == arrayCondicion.length ? "" : "o "}`;
+                    }
+                    if (arrayElement[0].includes("arrendatario_rad")) {
+                        textCondicion += `${arrayElement[1].includes("representante_arr")
+                                ? "Moral"
+                                : "Física"
+                            } ${i + 1 == arrayCondicion.length ? "" : " o "}`;
+                    }
+                    if (arrayElement[0].includes("carta_poder_rad")) {
+                        textCondicion += `${arrayElement[1].includes("persona_fisica")
+                                ? "Física"
+                                : "Moral"
+                            } ${i + 1 == arrayCondicion.length ? "" : " o "}`;
+                    }
+                }
+                return textCondicion;
+            } else {
+                let textCondicion = "Cuando ";
+                let arrayElement = condicion_visible.split("==");
+                if (arrayElement[0].includes("propietario_rad")) {
+                    textCondicion += `Propietario es ${arrayElement[1].includes("propietario_i")
+                            ? "Física"
+                            : "Moral"
+                        }`;
+                }
+                if (arrayElement[0].includes("arrendatario_rad")) {
+                    textCondicion += `Arrendatario es ${arrayElement[1].includes("representante_arr")
+                            ? "Moral"
+                            : "Física"
+                        } `;
+                }
+                if (arrayElement[0].includes("carta_poder_rad")) {
+                    textCondicion += `Carta poder es ${arrayElement[1].includes("persona_fisica")
+                            ? "Física"
+                            : "Moral"
+                        }`;
+                }
+                return textCondicion;
+            }
+        } else if (requerido == 2 && condicion_giro != "") {
+            return "Condicionado";
+        } else {
+            return "-";
+        }
+    }
+
+    editRequisito(requisito): void {
+        this.dialogRef = this._matDialog.open(RequisitosDialogComponent, {
+            panelClass: "requisito-form-dialog",
+            data: {
+                requisito,
+                action: "edit",
+            },
+        });
+        this.dialogRef.afterClosed().subscribe((response: FormGroup) => {
+            this.getData();
+        });
+    }
+
+    getNextPage(e: PageEvent) {
+        //console.log(e);
+        this.page = e.pageIndex + 1;
+        this.query.page = e.pageIndex;
+        this.getData();
+    }
+
+    getData() {
+        window.scroll(0, 0);
+        this.isLoading = true;
+        document.querySelector(`.header`).scrollIntoView();
+        this._requisitos.getRequisitosConstruccion(this.page, this.filter.value).subscribe(
+            (res: any) => {
+                console.log(res);
+                this.total = res.total;
+                this.list = res.data;
+                this.isLoading = false;
+            },
+            (error) => {
+                this.isLoading = false;
+                //  console.log(error);
+            }
+        );
+    }
+}

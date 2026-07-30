@@ -1,0 +1,133 @@
+<app-header></app-header>
+
+<article [class.content]="!deviceXs" [class.content-mob]="deviceXs" (scroll)="onScroll($event)">
+    <mat-drawer-container>
+        <mat-drawer-content>
+            <div class="reconocimiento">
+                <div class="form" *ngIf="!ingreso">
+                    <mat-form-field class="full-width" appearance="outline">
+                        <mat-label>Ingresar key</mat-label>
+                        <input matInput placeholder="Key" [(ngModel)]="key" type="password" />
+                    </mat-form-field>
+                    <button mat-button class="button-visor-confirm" (click)="getData()">
+                        Ingresar
+                    </button>
+                </div>
+
+                <ng-container *ngIf="ingreso">
+                    <div fxLayout="row" fxLayoutAlign="space-between center" *ngIf="!agregar">
+                        <h1>Noticias agregadas</h1>
+                        <button mat-button class="button-visor-confirm" (click)="createForm()">
+                            Agregar
+                        </button>
+                    </div>
+
+                    <div class="noticias" *ngIf="!agregar" fxLayout="row wrap" fxLayoutAlign="center center">
+                        <ng-container *ngFor="let item of dataGet">
+                            <mat-card class="blog-card">
+                                <mat-card-header>
+                                    <mat-card-title>
+                                        {{ item.titulo }}
+                                    </mat-card-title>
+                                </mat-card-header>
+                                <img mat-card-image [src]="item.img" [alt]="item.titulo" />
+                                <mat-card-content>
+                                        {{ item.resumen }}
+                                </mat-card-content>
+                                <mat-card-actions>
+                                    <button mat-raised-button color="accent" (click)="createForm(item)">
+                                        Editar publicación
+                                    </button>
+                                    <ng-container *ngIf="
+                                            item.publicado == 1;
+                                            else elseTemplate
+                                        ">
+                                        <button mat-raised-button color="warn" (click)="publicar(item,0)" >
+                                            Sin publicar
+                                        </button>
+                                    </ng-container>
+                                    <ng-template #elseTemplate>
+                                        <button mat-raised-button (click)="publicar(item,1)" color="primary">
+                                            Pendiente 
+                                        </button>
+                                    </ng-template>
+                                    <button mat-raised-button (click)="eliminar(item)" color="warn">
+                                        <mat-icon >delete</mat-icon>
+                                    </button>
+                                </mat-card-actions>
+                            </mat-card>
+                        </ng-container>
+                    </div>
+
+                    <div class="form add_noticia" *ngIf="agregar">
+                        <div fxLayout="row" fxLayoutAlign="space-between center">
+                            <h2>Registrar nueva noticia</h2>
+                            <button mat-button class="button-visor-new" (click)="regresar()">
+                                Regresar
+                            </button>
+                        </div>
+                        <mat-form-field class="full-width"  appearance="outline">
+                            <mat-label>Titulo</mat-label>
+                            <input matInput type="text" [(ngModel)]="form.titulo" />
+                        </mat-form-field>
+                        
+                        <mat-form-field class="full-width" appearance="outline">
+                            <textarea matInput required placeholder="Resumen" [(ngModel)]="form.resumen"></textarea>
+                        </mat-form-field>
+
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>Link de la imagen</mat-label>
+                            <input matInput placeholder="link" type="text" [(ngModel)]="form.img" />
+                        </mat-form-field>
+
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>Fecha de la noticia</mat-label>
+                            <input matInput placeholder="link" type="date" [(ngModel)]="form.fecha_noticia" />
+                        </mat-form-field>
+                        
+                        <mat-radio-group aria-label="Seleccionar una opción" class="radio-select" [(ngModel)]="form.type">
+                            <label id="example-radio-group-label">Tipo de noticia</label>
+                            <mat-radio-button [value]="1">Link externo</mat-radio-button>
+                            <mat-radio-button [value]="2">Blog Visor Urbano</mat-radio-button>
+                        </mat-radio-group>
+
+                        <mat-form-field class="full-width" appearance="outline"  *ngIf="form.type == 1">
+                            <mat-label>Link de la noticia</mat-label>
+                            <input matInput placeholder="link" type="url" [(ngModel)]="form.link" />
+                        </mat-form-field>
+
+                        <div class="div_editor" *ngIf="form.type == 2">
+                            <editor apiKey="j3iryv8uh37b0wtxtehyiw1yugobhpt6sfckoyj1ujbz6sjk" 
+                            [(ngModel)]="form.body" [init]="{
+                                    height: 500,
+                                    menubar: true,
+                                    plugins: [
+                                        'advlist autolink lists link image charmap print preview anchor',
+                                        'searchreplace visualblocks code fullscreen',
+                                        'insertdatetime media table paste imagetools wordcount'
+                                    ],
+                                    toolbar: [
+                                        'undo redo | formatselect | fontsizeselect | lineheight | bold italic backcolor | \ ',
+                                        'alignleft aligncenter alignright alignjustify | \
+                           bullist numlist outdent indent | removeformat | link | image | help fontsize_formats'
+                                    ],
+                                    fontsize_formats:
+                                        '8pt 10pt 12pt 14pt 16pt 18pt 24pt 36pt 48pt'
+                                }"></editor>
+
+                            <!-- <button (click)="prueba()" style="margin:5px">prueba</button> -->
+                        </div>
+                        <button mat-button class="button-visor-confirm" (click)="add()">
+                            {{form.id ? 'Actualizar':'Agregar'}}
+                        </button>
+                    </div>
+                </ng-container>
+            </div>
+
+            <ng-container *ngIf="ingreso && dataModel != ''">
+                <h1>Resultado</h1>
+                <div class="resultado-noticia" [innerHTML]="form.body | safeHtml"></div>
+            </ng-container>
+        </mat-drawer-content>
+    </mat-drawer-container>
+</article>

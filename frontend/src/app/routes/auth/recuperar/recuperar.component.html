@@ -1,0 +1,53 @@
+<div id="recuperar" fxLayout="column">
+
+    <img src="assets/images/logo_cuernavaca.png" class="over-img" >
+
+    <div id="recuperar-form-wrapper" fxLayout="column" fxLayoutAlign="center center" >
+      
+       <img src="assets/images/backgrounds/banner.png" class="over-image">
+       <a href="https://www.bloomberg.org/" target="_blank">
+       <img src="assets/images/backgrounds/bloomberg_logo.svg" class="over-image1">
+       </a>
+       <div id="recuperar-form" class=""  >
+
+          
+
+           <div class="logo">
+               <img src="assets/images/logo.svg">
+           </div>
+
+           <div class="title">Ingresa tu correo para restablecer tu contraseña </div>
+
+           <form name="recuperarForm" [formGroup]="recuperarForm" (ngSubmit)="recuperar()">
+
+               <mat-form-field appearance="outline" (focusin)="hover1=true" (focusout)="hover1=false">
+                   <mat-label>Correo electrónico</mat-label>
+                   <input matInput  formControlName="email">
+                   <mat-icon class="secondary-text" matSuffix  >
+                       <img *ngIf="hover1==true" src="assets/images/icons/ico_mail_active.svg" />
+                       <img *ngIf="hover1==false" src="assets/images/icons/ico_mail.svg"/>
+                   </mat-icon>
+                   <mat-error *ngIf="recuperarForm.get('email').hasError('required')">
+                    Correo electrónico requerido
+                </mat-error>
+                <mat-error *ngIf="recuperarForm.get('email').hasError('email')">
+                   Por favor ingresa un correo valido 
+                </mat-error>
+                        
+               </mat-form-field>
+
+               <div style="text-align: center;">
+               <button mat-raised-button color="accent"  type="submit" class="submit-button" >
+                Restablecer
+               </button>
+                </div>
+           </form>
+       
+       </div>
+
+   </div>
+
+
+   
+</div>
+

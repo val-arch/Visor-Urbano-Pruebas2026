@@ -1,0 +1,47 @@
+<div fxLayout="row" *ngIf="!deviceXs" class="footer" fxLayoutAlign="center center"
+    fxLayoutAlign.gt-xs="space-between center" fxFlex>
+
+    <div fxFlex="33" fxLayout="column" fxLayoutAlign="center center">
+        <p>
+        <a href="assets/aviso-privacidad/Aviso-Privacidad.docx">Aviso de Privacidad</a>
+        </p>
+        <p (click)="openDialogScian()"> SCIAN</p>
+       <a href="https://www.bloomberg.org/" target="_blank"><img src="assets/images/backgrounds/bloomberg_logo.svg" class="over-imagef"></a> 
+    </div>
+
+    <div fxFlex="33" fxLayout="column" fxLayoutAlign="center center">
+        <p> <a href="http://marcojuridico.morelos.gob.mx/consultaregmunicipal.jsp?municipio=7"
+                target="_blank">Normatividad</a> </p>
+        <p>
+            <a href="https://www.plataformadetransparencia.org.mx/" target="_blank">Datos Abiertos</a> </p>
+        <img src="assets/icons/visor/logo-default.png" class="over-imagef">
+    </div>
+
+    <div fxFlex="33" fxLayout="column" fxLayoutAlign="center center">
+        <img src="assets/images/logo.svg" class="over-imagef1" style="width: 25%;    padding-top: 43px;">
+    </div>
+</div>
+
+
+
+
+<div fxLayout="column" *ngIf="deviceXs" class="footer" fxLayoutAlign="center center"
+    fxLayoutAlign.gt-xs="space-between center" fxFlex>
+    <div fxFlex="50" fxLayout="column" fxLayoutAlign="center center">
+
+        <a href="assets/aviso-privacidad/Aviso-Privacidad.docx" >Aviso de Privacidad</a>
+        <p (click)="openDialogScian()"> SCIAN</p>
+    </div>
+
+    <div fxFlex="50" fxLayout="column" fxLayoutAlign="center center">
+        <p> <a href="https://congresoweb.congresojal.gob.mx/BibliotecaVirtual/LeyesEstatales.cfm"
+                target="_blank">Normatividad</a> </p>
+        <p>
+            <a href="https://datos.jalisco.gob.mx/" target="_blank">Datos Abiertos</a> </p>
+
+    </div>
+
+    <div fxLayout="column" fxLayoutAlign="center center">
+        <img src="assets/images/logo.svg" class="over-imagef1">
+    </div>
+</div>

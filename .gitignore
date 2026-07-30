@@ -1,0 +1,8 @@
+# Excluir archivos pesados de Angular (Frontend)
+frontend/node_modules/
+frontend/dist/
+
+# Excluir configuraciones confidenciales y bitácoras (Backend)
+backend/.env
+backend/*.log
+backend/Dockerfile.respaldo

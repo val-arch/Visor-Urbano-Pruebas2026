@@ -1,0 +1,35 @@
+<style>
+.cdk-global-overlay-wrapper {
+  display: flex;
+  position: absolute;
+  z-index: 1000;
+  overflow: auto;
+  pointer-events: auto;  
+}
+</style>
+<div class="dialog-content-wrapper">
+    <mat-toolbar matDialogTitle class="mat-accent m-0" [ngStyle]="titulo">
+        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="title dialog-title">{{dialogTitle}}</span>
+            <button mat-icon-button (click)="matDialogRef.close()" aria-label="Close dialog">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+    </mat-toolbar>    
+
+  
+    
+  <div mat-dialog-content class="pb-0 m-0"   >
+    <div *ngFor="let option of list; let i = index">
+      <mat-checkbox [checked]="selected == option.id" (change)="selected = option.id; selectedItem( $event,option.id,option.id_municipio,i)"> {{option.name}}</mat-checkbox>
+    </div>
+         
+              
+        <!-- <ul *ngFor="let optionrole of list_subrole; let j = index">
+        <li *ngIf="i == 2" ><mat-checkbox [checked]="subSelected === optionrole.id" (change)="subSelected = optionrole.id; selectedSubrole($event,optionrole.id,j)" > {{optionrole.nombre}}--{{subSelected}}</mat-checkbox>
+        </li>   
+        </ul>-->
+  </div>
+  <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center"> 
+  </div>
+</div>

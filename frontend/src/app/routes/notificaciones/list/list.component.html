@@ -1,0 +1,23 @@
+<div class="contentTable">
+    <mat-tab-group mat-stretch-tabs>
+        <mat-tab label="Notificaciones giros" class="m-24">
+            <mtx-grid [data]="list" [rowHover]="true"
+             [rowStriped]="true" noResultText="Sin datos"
+             [columns]="columns" [length]="total" 
+             [loading]="isLoading" (page)="getNextPage($event)"
+             [pageIndex]="query.page" 
+             [pageSizeOptions]="[20]" 
+             pageSize="20"
+             (cellSelectionChange)="verNotificacion($event)">
+            </mtx-grid>
+        </mat-tab>
+        <mat-tab label="Notificaciones construcción" class="m-24">
+        </mat-tab>
+    </mat-tab-group>
+
+    
+    
+</div>
+<div>
+
+</div>

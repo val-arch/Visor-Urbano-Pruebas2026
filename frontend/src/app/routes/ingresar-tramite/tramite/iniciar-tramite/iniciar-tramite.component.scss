@@ -1,0 +1,32 @@
+::ng-deep .mat-expansion-panel-body {
+    padding: 0 24px 16px;
+    border-top: 3px;
+    border-top-color: #E4F0EC;
+    border-top-style: solid;
+}
+::ng-deep .mat-expansion-panel{
+    border-radius: 25px !important;
+    margin-bottom: 5px !important;
+}
+
+::ng-deep .mat-expansion-panel-header.mat-expanded{
+    height: 48px !important ;
+}
+
+::ng-deep .mat-expansion-panel-header-title{
+    color:#003E76 !important;
+    font: normal normal bold 18px/23px Red Hat Display;
+}
+
+.mat-button-wrapper{
+    color: #E4F0EC !important;
+}
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .example-full-width {
+    width: 50%;
+  }

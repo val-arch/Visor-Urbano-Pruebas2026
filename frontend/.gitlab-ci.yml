@@ -1,0 +1,37 @@
+stages:
+  - build
+  - test
+  - deploy
+variables:
+  NODE_IMAGE: "node:16.16.0"
+cache:
+  paths:
+    - node_modules/
+build_job:
+  stage: build
+  image: $NODE_IMAGE
+  script:
+    - npm ci --legacy-peer-deps
+    - npm run build
+  artifacts:
+    paths:
+      - dist/
+deploy_job:
+  stage: deploy
+  image: alpine:latest
+  before_script:
+    - apk add --no-cache openssh-client rsync
+  script:
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan $DEPLOY_SERVER >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+    # Asegúrate de reemplazar las rutas según tu estructura de directorios y necesidades
+    - rsync -avz --delete dist/ $DEPLOY_USER@$DEPLOY_SERVER:/path/to/frontend
+  
+  only:
+    - master
+  environment:
+    name: production
+

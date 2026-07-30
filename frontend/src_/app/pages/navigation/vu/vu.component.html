@@ -1,0 +1,138 @@
+<app-header></app-header>
+
+<article [class.content]="!deviceXs" [class.content-mob]="deviceXs" (scroll)="onScroll($event)">
+    <mat-drawer-container>
+        <mat-drawer-content fxLayout="column wrap" layout="column" layout-xs="row" @animate @slideIn>
+
+            <div fxLayout="row" class="vu mt-48" fxLayoutAlign="center center">
+                <div fxLayout="column" class="videos" fxLayoutAlign="center center">
+                    <h1>{{'quees.titulo' | translate}}</h1>
+                    <iframe width="900" height="450" style="border-radius: 20px;"
+                        src="https://www.youtube.com/embed/gi36o_sZORE">
+                    </iframe>
+
+                </div>
+
+            </div>
+
+        </mat-drawer-content>
+
+
+        <mat-drawer-content class="beneficios mt-48">
+            <h1>{{'quees.t1' | translate}}
+            </h1>
+            <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayout.xs="column" fxLayout.sm="column"
+                class="ciudadania" style="margin-top:40px;
+            margin-left: 10%; margin-right: 10%;">
+                <div fxFlex="60" class="image">
+                    <img src="assets/images/landing/img_ciudadania.svg" class="over-image">
+                </div>
+                <div fxFlex="40" class="letras">
+                    <h2>{{'quees.t2' | translate}}</h2>
+                    <ul>
+                        <li>{{'quees.t3' | translate}}</li>
+                        <li>{{'quees.t4' | translate}}</li>
+                        <li>{{'quees.t5' | translate}}</li>
+                        <li>{{'quees.t6' | translate}}</li>
+                        <li>{{'quees.t7' | translate}}</li>
+                        <li>{{'quees.t8' | translate}}</li>
+                        <li>{{'quees.t9' | translate}}</li>
+                    </ul>
+                </div>
+            </div>
+            <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayout.xs="column" fxLayout.sm="column"
+                class="municipios" style=" margin-top:20px;
+              margin-left: 10%; margin-right: 10%; margin-bottom: 50px;">
+                <div fxFlex="50">
+                    <h2>{{'quees.t10' | translate}}</h2>
+                    <ul>
+                        <li>{{'quees.t11' | translate}}</li>
+                        <li>{{'quees.t12' | translate}}</li>
+                        <li>{{'quees.t13' | translate}}
+                        </li>
+                        <li>{{'quees.t14' | translate}}</li>
+                        <li>{{'quees.t15' | translate}}</li>
+                        <li>{{'quees.t16' | translate}}</li>
+                        <li>{{'quees.t17' | translate}}</li>
+                        <li>{{'quees.t18' | translate}}</li>
+                        <li>{{'quees.t19' | translate}}</li>
+
+                    </ul>
+                </div>
+                <div fxFlex="50" class="imagesMuni">
+                    <img src="assets/images/landing/img_municipios.svg" class="over-image">
+                </div>
+
+
+            </div>
+        </mat-drawer-content>
+
+        <mat-drawer-content class="comienzo" *ngIf="!deviceXs">
+            <h1>{{'quees.t20' | translate}}</h1>
+            <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayout.xs="column" fxLayout.sm="column"
+                class="ciudadania" style="margin-top:40px;
+               margin-left: 10%; margin-right: 10%;">
+                <div fxFlex="50" class="vu2016">
+                    <span>2016</span>
+                    <p class="text01">{{'quees.t21' | translate}}
+                    </p>
+
+                </div>
+                <div fxFlex="50" class="vu2020">
+                    <p class="text02">{{'quees.t22' | translate}}
+                    </p>
+                    <span>2020</span>
+                </div>
+            </div>
+        </mat-drawer-content>
+
+        <mat-drawer-content class="comienzo" *ngIf="deviceXs">
+            <h1>{{'quees.t20' | translate}}</h1>
+            <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayout.xs="column" fxLayout.sm="column"
+                class="ciudadania" style="margin-top:40px;
+               margin-left: 10%; margin-right: 10%;">
+                <div fxFlex="50" class="vu2020">
+                    <span>2016</span>
+                    <p class="text04">{{'quees.t21' | translate}}
+                    </p>
+                </div>
+                <div fxFlex="50" class="vu2016">
+                    <span>2020</span>
+                    <p class="text03 ">{{'quees.t22' | translate}}
+                    </p>
+
+                </div>
+
+            </div>
+        </mat-drawer-content>
+
+        <mat-drawer-content>
+            <div fxLayout="row wrap" class="reconocimiento" fxLayoutAlign="center center" fxLayout.xs="column"
+                fxLayout.sm="column" style="margin-top:40px; margin-bottom:40px;
+        margin-left: 10%; margin-right: 10%;">
+                <div fxLayout="row" class="title" fxLayoutAlign="center center">
+                    <img src="assets/images/landing/reconocimientos.svg">
+                    <h1> {{'quees.t23' | translate}} </h1>
+                </div>
+                <div fxLayout="column" fxLayoutAlign="center center">
+                    <p>{{'quees.t24' | translate}}</p>
+                    <br>
+                    <ul>
+                        <li>{{'quees.t25' | translate}}</li>
+                        <li>{{'quees.t26' | translate}}</li>
+                        <li>{{'quees.t27' | translate}}</li>
+                        <li>{{'quees.t28' | translate}}</li>
+                        <li>{{'quees.t29' | translate}}
+                        </li>
+                        <li>{{'quees.t30' | translate}}</li>
+                    </ul>
+                </div>
+                <br>
+                <br>
+
+
+            </div>
+            <landing-footer></landing-footer>
+        </mat-drawer-content>
+    </mat-drawer-container>
+</article>

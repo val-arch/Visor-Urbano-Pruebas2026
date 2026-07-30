@@ -1,0 +1,148 @@
+<div id="login" fxLayout="column">
+    <img src="assets/images/logo_cuernavaca.png" class="over-img over-img-cuernavaca" />
+
+    <div
+        id="login-form-wrapper"
+        fxLayout="column"
+        fxLayoutAlign="center center"
+    >
+        <img src="assets/images/backgrounds/banner.png" class="over-image" />
+        <a href="https://www.bloomberg.org/" target="_blank">
+        <img
+            src="assets/images/backgrounds/bloomberg_logo.svg"
+            class="over-image1"
+        />
+        </a>
+
+        <div
+            id="login-form"
+            class=""
+            [@animate]="{
+                value: '*',
+                params: { duration: '300ms', y: '100px' }
+            }"
+        >
+            <div
+                class="logo"
+                onclick="window.location.href='/mapa/'"
+                style="cursor: pointer"
+            >
+                <img src="assets/images/logo.svg" />
+            </div>
+            <div class="title">Ingresa tu usuario</div>
+            <form name="loginForm" [formGroup]="loginForm" novalidate>
+                <mat-form-field
+                    appearance="outline"
+                    (focusin)="hover1 = true"
+                    (focusout)="hover1 = false"
+                >
+                    <mat-label>Correo electrónico</mat-label>
+                    <input matInput formControlName="email" />
+                    <mat-icon class="secondary-text" matSuffix>
+                        <img
+                            *ngIf="hover1 == true"
+                            src="assets/images/icons/ico_mail_active.svg"
+                        />
+                        <img
+                            *ngIf="hover1 == false"
+                            src="assets/images/icons/ico_mail.svg"
+                        />
+                    </mat-icon>
+                    <mat-error
+                        *ngIf="loginForm.get('email').hasError('required')"
+                    >
+                        El correo es requerido
+                    </mat-error>
+                    <mat-error
+                        *ngIf="
+                            !loginForm.get('email').hasError('required') &&
+                            loginForm.get('email').hasError('email')
+                        "
+                    >
+                        Ingresar un correo valido
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field
+                    appearance="outline"
+                    (focusin)="hover2 = true"
+                    (focusout)="hover2 = false"
+                >
+                    <mat-label>Contraseña</mat-label>
+                    <input
+                        matInput
+                        [type]="hide ? 'password' : 'text'"
+                        (keyup.enter)="login()"
+                        formControlName="password"
+                    />
+                    <button mat-icon-button matSuffix (mouseup)="verPss($event)">
+                        <mat-icon>{{
+                            hide ? "visibility_off" : "visibility"
+                        }}</mat-icon>
+                    </button>
+                    <!-- <mat-icon class="secondary-text" matSuffix>
+                        <img *ngIf="hover2==true" src="assets/images/icons/ico_password_active.svg" />
+                        <img *ngIf="hover2==false" src="assets/images/icons/ico_password.svg" />
+                    </mat-icon> -->
+                    <mat-error> Contraseña es requerida </mat-error>
+                </mat-form-field>
+
+                <div
+                    class="remember-forgot-password"
+                    fxLayout="row"
+                    fxLayout.xs="column"
+                    fxLayoutAlign="space-between center"
+                >
+                    <!--
+                    <mat-checkbox class="remember-me" aria-label="Remember Me">
+                        Recuerdame
+                    </mat-checkbox>-->
+
+                    <a
+                        class="forgot-password"
+                        [routerLink]="'/recuperar'"
+                        style="text-align: center"
+                    >
+                        ¿Olvidaste tu contraseña?
+                    </a>
+                </div>
+                <div style="text-align: center">
+                    <button
+                        mat-raised-button
+                        color="accent"
+                        class="submit-button"
+                        (click)="login()"
+                        aria-label="LOG IN"
+                        [disabled]="loginForm.invalid"
+                    >
+                        Ingresar
+                    </button>
+                </div>
+            </form>
+
+            <div
+                class="register"
+                fxLayout="column"
+                fxLayoutAlign="center center"
+                *ngIf="routeAnterior"
+            >
+                <span class="text">¿Aún no tienes cuenta?</span>
+                <a
+                    class="link"
+                    [routerLink]="'/registrar'"
+                    [queryParams]="{ p: routeAnterior }"
+                    >Crear una cuenta</a
+                >
+            </div>
+            <div
+                class="register"
+                fxLayout="column"
+                fxLayoutAlign="center center"
+                *ngIf="!routeAnterior"
+            >
+                <span class="text">¿Aún no tienes cuenta?</span>
+                <a class="link" [routerLink]="'/registrar'">Crear una cuenta</a>
+            </div>
+        </div>
+    </div>
+</div>

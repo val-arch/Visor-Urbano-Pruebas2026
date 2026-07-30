@@ -1,0 +1,72 @@
+<div id="giros" class="page-layout simple fullwidth">
+    <div class="header fuse-visor-50 p-24 h-100" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row"
+        fxLayoutAlign.gt-xs="space-between center">
+        <div fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="column" fxLayoutAlign.gt-xs="center start">
+            
+            <div class="h2 mt-16">
+                <mat-icon class="secondary-text s-18">assessment</mat-icon> Reportes
+            </div>
+        </div>
+    </div>
+
+    <div class="content p-24">
+
+        <div class="container mat-elevation-z1" >
+            <h1 class="title">Giro</h1>
+            <mtx-grid [data]="list" 
+                noResultText="Sin datos"
+                [columns]="columns" 
+                [length]="total" 
+                [loading]="isLoading" 
+                [pageOnFront]="false"
+                [pageIndex]="query.page">
+            </mtx-grid>
+        </div>
+        <br>
+        <br>
+
+        <div class="container mat-elevation-z1" >
+            <h1 class="title">Construcción</h1>
+            <mtx-grid [data]="list2" 
+                noResultText="Sin datos"
+                [columns]="columns2" 
+                [length]="total2"
+                [loading]="isLoading2" 
+                [pageOnFront]="false"
+                [pageIndex]="query2.page">
+            </mtx-grid>
+        </div>
+        <br>
+        <br>
+
+        <div class="container mat-elevation-z1" >
+            <h1 class="title">Fichas Técnicas Municipios<h3>Fichas totales: {{totalFichas}}</h3></h1>
+            <mtx-grid [data]="list3" 
+                noResultText="Sin datos"
+                [columns]="columns3" 
+                [length]="total3" 
+                [loading]="isLoading3" 
+                [pageOnFront]="false"
+                [pageIndex]="query3.page">
+            </mtx-grid>
+        </div>
+
+        <br>
+        <br>
+
+        <div class="container mat-elevation-z1" >
+            <h1 class="title">Fichas Técnicas Adm<h3>Fichas totales: {{totalFichasAdm}}</h3></h1>
+            <mtx-grid [data]="list4" 
+                noResultText="Sin datos"
+                [columns]="columns4" 
+                [length]="total4" 
+                [loading]="isLoading4" 
+                [pageOnFront]="false"
+                [pageIndex]="query4.page"
+                pageSize = "10"
+                [pageSizeOptions]="[10]">
+            </mtx-grid>
+        </div>
+
+    </div>
+</div>

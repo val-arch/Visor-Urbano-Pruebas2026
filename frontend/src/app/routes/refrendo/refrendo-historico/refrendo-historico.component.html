@@ -1,0 +1,657 @@
+<link rel="stylesheet" href="https://openlayers.org/en/v6.4.3/css/ol.css" type="text/css">
+
+<div id="tramite" class="page-layout simple fullwidth">
+    <!-- HEADER -->
+    <div class="header fuse-visor-50 p-24 h-120" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row"
+        fxLayoutAlign.gt-xs="space-between center">
+        <div fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="column" fxLayoutAlign.gt-xs="center start">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <a routerLink="/licencias-emitidas">
+                    <mat-icon>keyboard_return</mat-icon>
+                </a>
+                <span class="secondary-text">Refrendo</span>
+            </div>
+
+            <div class="h2 mt-16">
+                {{tipoRefrendo}}
+            </div>
+        </div>
+    </div>
+    <div class="content p-24">
+
+        <mat-expansion-panel [expanded]="isExpanded1">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <img class="ico" src="assets/images/icons/ico_predio.svg">
+                    <h3>Información del solicitante</h3>
+                </mat-panel-title>
+                <mat-panel-description>
+                </mat-panel-description>
+                <span class="material-icons estilos" *ngIf="!step1_completed"
+                    matTooltip="Formulario incompleto">info</span>
+                <span class="material-icons estilos2" *ngIf="step1_completed"
+                    matTooltip="Formulario completo">check_circle</span>
+            </mat-expansion-panel-header>
+            <div class="pt-40 h-100-p">
+                <div fxLayout="row" fxLayoutAlign="space-between">
+                    <form [formGroup]="filterForm" class="filter-form w-100-p" (ngSubmit)="Submit(1,$event)">
+                        <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="10px">
+                            <ng-container>
+                                <div fxFlex="30" fxFlex.sm="45" fxFlex.xs="100">
+                                    <div class="vu">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Razón social</mat-label>
+                                            <input matInput tabindex="1" formControlName="razon_social">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="vu">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Segundo apellido</mat-label>
+                                            <input matInput tabindex="4" formControlName="apellido_m">
+                                        </mat-form-field>
+                                    </div>
+
+
+                                    <div class="vu">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Teléfono</mat-label>
+                                            <input matInput tabindex="7" formControlName="telefono">
+                                        </mat-form-field>
+                                    </div>
+
+                                </div>
+                                <div fxFlex="30" fxFlex.sm="45" fxFlex.xs="100">
+                                    <div class="vu">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Nombre del solicitante</mat-label>
+                                            <input matInput tabindex="2" formControlName="nombre">
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="vu">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>CURP</mat-label>
+                                            <input tabindex="5" matInput formControlName="curp">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="vu">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Correo</mat-label>
+                                            <input matInput tabindex="8" formControlName="correo">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div fxFlex="30" fxFlex.sm="45" fxFlex.xs="100">
+                                    <div class="vu">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Primer apellido </mat-label>
+                                            <input matInput tabindex="3" formControlName="apellido_p">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="vu">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>RFC</mat-label>
+                                            <input tabindex="6" matInput formControlName="rfc">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="vu">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Calle</mat-label>
+                                            <input tabindex="9" matInput formControlName="domicilio">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div fxFlex="30" fxFlex.sm="45" fxFlex.xs="100">
+                                    <div class="vu">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>No. exterior y/o letra</mat-label>
+                                            <input tabindex="10" matInput formControlName="num_ext">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div fxFlex="30" fxFlex.sm="45" fxFlex.xs="100">
+                                    <div class="vu">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>No. interior y/o letra</mat-label>
+                                            <input tabindex="11" matInput formControlName="num_int">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div fxFlex="30" fxFlex.sm="45" fxFlex.xs="100">
+                                    <div class="vu">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Colonia</mat-label>
+                                            <input tabindex="12" matInput formControlName="colonia">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div fxFlex="30" fxFlex.sm="45" fxFlex.xs="100">
+
+
+
+                                    <div class="vu">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Código postal</mat-label>
+                                            <input matInput tabindex="13" formControlName="cp">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                        <button mat-raised-button type="submit" color="primary">Guardar y continuar</button>
+                    </form>
+                </div>
+            </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel [expanded]="isExpanded2">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <img class="ico" src="assets/images/icons/ico_predio.svg">
+                    <h3>Información del propietario</h3>
+                </mat-panel-title>
+                <mat-panel-description>
+                </mat-panel-description>
+
+                <span class="material-icons estilos" *ngIf="!step2_completed"
+                    matTooltip="Formulario incompleto">info</span>
+                <span class="material-icons estilos2" *ngIf="step2_completed"
+                    matTooltip="Formulario completo">check_circle</span>
+            </mat-expansion-panel-header>
+            <div class="pt-40 h-100-p">
+                <div fxLayout="row" fxLayoutAlign="space-between">
+                    <form [formGroup]="filterForm_step2" class="filter-form w-100-p" (ngSubmit)="Submit(2,$event)">
+                        <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="10px">
+                            <ng-container>
+                                <div fxFlex="30" fxFlex.sm="45" fxFlex.xs="100">
+                                    <div class="vu">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Nombre del propetario</mat-label>
+                                            <input tabindex="14" matInput formControlName="nombre_propietario">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="vu">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>CURP</mat-label>
+                                            <input matInput tabindex="17" formControlName="curp_propietario">
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="vu">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Correo</mat-label>
+                                            <input matInput tabindex="19" formControlName="correo_propietario">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div fxFlex="30" fxFlex.sm="45" fxFlex.xs="100">
+                                    <div class="vu">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Primer apellido</mat-label>
+                                            <input matInput tabindex="15" formControlName="apellido_p_propietario"
+                                                value="hola">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="vu">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>RFC</mat-label>
+                                            <input matInput tabindex="17" formControlName="rfc_propietario">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="vu">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Calle</mat-label>
+                                            <input matInput tabindex="20" formControlName="domicilio_propietario">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div fxFlex="30" fxFlex.sm="45" fxFlex.xs="100">
+                                    <div class="vu">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Segundo apellido </mat-label>
+                                            <input tabindex="16" matInput formControlName="apellido_m_propietario">
+                                        </mat-form-field>
+
+                                    </div>
+                                    <div class="vu">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Teléfono</mat-label>
+                                            <input matInput tabindex="18" formControlName="telefono_propietario">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="vu">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>No. exterior y/o letra</mat-label>
+                                            <input matInput tabindex="21" formControlName="num_ext_propietario">
+                                        </mat-form-field>
+                                    </div>
+
+                                </div>
+                                <div fxFlex="30" fxFlex.sm="45" fxFlex.xs="100">
+
+                                    <div class="vu">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>No. interior y/o letra</mat-label>
+                                            <input matInput tabindex="22" formControlName="num_int_propietario">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div fxFlex="30" fxFlex.sm="45" fxFlex.xs="100">
+
+                                    <div class="vu">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Colonia</mat-label>
+                                            <input matInput tabindex="23" formControlName="colonia_propietario">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+
+                                <div fxFlex="30" fxFlex.sm="45" fxFlex.xs="100">
+
+                                    <div class="vu">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Código postal</mat-label>
+                                            <input tabindex="24" matInput formControlName="cp_propietario">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                        <button mat-raised-button [disabled]="!step1_completed" type="submit" color="primary">Guardar y
+                            continuar
+                        </button>
+                        <button type="button" (click)="copyData()" mat-raised-button
+                            style="color:white; background-color: gray; margin-left:2%">Llenar con información del
+                            solicitante
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel [expanded]="isExpanded3">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <img class="ico" src="assets/images/icons/ico-predio.svg">
+                    <h3> Información del predio</h3>
+                </mat-panel-title>
+                <mat-panel-description>
+                </mat-panel-description>
+                <span class="material-icons estilos" *ngIf="!step3_completed"
+                    matTooltip="Formulario incompleto">info</span>
+                <span class="material-icons estilos2" *ngIf="step3_completed"
+                    matTooltip="Formulario completo">check_circle</span>
+            </mat-expansion-panel-header>
+            <div class="pt-40 h-100-p">
+                <div fxLayout="row" fxLayoutAlign="space-between">
+                    <form [formGroup]="filterForm_step3" class="filter-form w-100-p" (ngSubmit)="Submit(3,$event)">
+                        <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="10px">
+                            <ng-container>
+                                <div fxFlex="30" fxFlex.sm="45" fxFlex.xs="100">
+                                    <div class="vu">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Calle oficial del predio</mat-label>
+                                            <input matInput tabindex="25" formControlName="calle_predio">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="vu">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Colonia</mat-label>
+                                            <input matInput tabindex="28" formControlName="colonia_predio">
+                                        </mat-form-field>
+                                    </div>
+
+                                </div>
+                                <div fxFlex="30" fxFlex.sm="45" fxFlex.xs="100">
+                                    <div class="vu">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Numero exterior y/o letra</mat-label>
+                                            <input matInput tabindex="26" formControlName="num_ext_predio">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="vu">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Código postal</mat-label>
+                                            <input matInput tabindex="28" formControlName="cp_predio">
+                                        </mat-form-field>
+                                    </div>
+
+                                </div>
+
+                                <div fxFlex="30" fxFlex.sm="45" fxFlex.xs="100">
+                                    <div class="vu">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Num interio y/o letras</mat-label>
+                                            <input matInput tabindex="27" formControlName="num_int_predio">
+                                        </mat-form-field>
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Clave castatral/Cuenta predial</mat-label>
+                                            <input matInput tabindex="29" formControlName="clave_cas">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+
+                                <div style="display: none">
+                                    <mat-form-field [hidden]="true">
+                                        <input matInput formControlName="coordenadas_x">
+                                    </mat-form-field>
+                                    <mat-form-field [hidden]="true">
+                                        <input matInput formControlName="coordenadas_y">
+                                    </mat-form-field>
+                                </div>
+                                <p>Si la ubicación del marcador en el mapa no corresponde con el domicilio registrado,
+                                    se puede corregir arrastrando el marcador a la posición correcta y a continuación
+                                    guardar cambios.</p>
+
+                                <button mat-raised-button (click)="buscarDir()" type="button" color="primary">Buscar
+                                    dirección </button>
+                                <br>
+
+                            </ng-container>
+                        </div>
+                        <div style="padding: 0 2px 26px 2px; margin-top: 25px;">
+                            <div class="map-container">
+
+                                <aol-map #aolmap [loadTilesWhileAnimating]="true" [loadTilesWhileInteracting]="true">
+                                    <aol-view #aolview [zoom]="10" [maxZoom]="22" [minZoom]="7"
+                                        [projection]="'EPSG:4326'">
+                                        <aol-coordinate [x]="-99.23.076" [y]="18.9261" [srid]="'EPSG:4326'"></aol-coordinate>
+                                    </aol-view>
+
+                                    <aol-layer-tile>
+                                        <aol-source-osm></aol-source-osm>
+                                    </aol-layer-tile>
+
+
+                                    <div *ngIf="datos_form">
+                                        <aol-layer-vector [opacity]="1" (click)="onClick($event)">
+                                            <aol-source-vector #ubicacionPredio>
+
+                                                <aol-feature #feature>
+                                                    <aol-geometry-point>
+                                                        <aol-coordinate [x]="datos_form.coordonadas_x"
+                                                            [y]="datos_form.coordonadas_y" [srid]="'EPSG:4326'">
+                                                        </aol-coordinate>
+                                                    </aol-geometry-point>
+                                                    <aol-style>
+                                                        <aol-style-icon [src]="'./assets/icons/visor/location_icon.png'"
+                                                            [anchor]="[0.496, 0.18]" [anchorXUnits]="'fraction'"
+                                                            [anchorYUnits]="'fraction'" [scale]="1"
+                                                            [anchorOrigin]="'bottom-left'">
+                                                        </aol-style-icon>
+                                                    </aol-style>
+                                                </aol-feature>
+
+                                            </aol-source-vector>
+                                        </aol-layer-vector>
+
+                                        <aol-interaction-modify [source]="ubicacionPredio.instance" [features]="feature"
+                                            [style]="setModifyStyle()" (onModifyEnd)="onModifyEnd($event)">
+                                        </aol-interaction-modify>
+
+                                    </div>
+
+                                    <aol-control-defaults></aol-control-defaults>
+
+                                    <aol-interaction-dragpan></aol-interaction-dragpan>
+                                    <aol-interaction-dragzoom></aol-interaction-dragzoom>
+                                    <aol-interaction-doubleclickzoom></aol-interaction-doubleclickzoom>
+
+                                </aol-map>
+
+                            </div>
+                        </div>
+
+                        <button mat-raised-button [disabled]="!step2_completed" type="submit" color="primary">Guardar y
+                            continuar
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel [expanded]="isExpanded4">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <img class="ico" src="assets/images/icons/ico-establecimiento.svg">
+                    <h3>Información del establecimiento</h3>
+                </mat-panel-title>
+                <mat-panel-description>
+                </mat-panel-description>
+                <span class="material-icons estilos" *ngIf="!step4_completed"
+                    matTooltip="Formulario incompleto">info</span>
+                <span class="material-icons estilos2" *ngIf="step4_completed"
+                    matTooltip="Formulario completo">check_circle</span>
+            </mat-expansion-panel-header>
+            <div class="pt-40 h-100-p">
+                <div fxLayout="row" fxLayoutAlign="space-between">
+
+                    <form [formGroup]="filterForm_step4" class="filter-form w-100-p" (ngSubmit)="Submit(4,$event)">
+                        <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="10px">
+                            <ng-container>
+                                <div fxFlex="30" fxFlex.sm="45" fxFlex.xs="100">
+                                    <div class="vu">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Código giro (SCIAN)</mat-label>
+                                            <input matInput tabindex="29" formControlName="giro_codigo">
+                                        </mat-form-field>
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Tipo inmueble</mat-label>
+                                            <select matNativeControl tabindex="32" required
+                                                formControlName="tipo_inmueble">
+                                                <option [value]="'1'">
+                                                    Casa
+                                                </option>
+                                                <option [value]="'2'">
+                                                    Edificio
+                                                </option>
+
+                                                <option [value]="'3'">
+                                                    Mercado
+                                                </option>
+                                                <option [value]="'4'">
+                                                    Plaza
+                                                </option>
+                                                <option [value]="'5'">
+                                                    Lote sin construir
+                                                </option>
+                                                <option [value]="'6'">
+                                                    Local
+                                                </option>
+                                            </select>
+                                        </mat-form-field>
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Numero de cajones</mat-label>
+                                            <input matInput tabindex="31" formControlName="numero_cajones">
+                                        </mat-form-field>
+
+                                    </div>
+
+                                </div>
+                                <div fxFlex="30" fxFlex.sm="45" fxFlex.xs="100">
+                                    <div class="vu">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Actividad comercial solicitada (SCIAN)</mat-label>
+                                            <input type="text" placeholder="Actividad comercial solicitada (SCIAN)"
+                                                matInput formControlName="giro" [matAutocomplete]="auto">
+                                            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                                                <mat-option *ngFor="let option of filteredOptions | async"
+                                                    (click)="setCode(option.codigo)" [value]="option.SCIAN">
+                                                    {{option.SCIAN}}
+                                                </mat-option>
+                                            </mat-autocomplete>
+                                        </mat-form-field>
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Nombre del negocio</mat-label>
+                                            <input matInput tabindex="32" formControlName="nombre_negocio">
+                                        </mat-form-field>
+
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Inversion estimada</mat-label>
+                                            <input matInput tabindex="34" formControlName="inversion">
+                                        </mat-form-field>
+
+                                    </div>
+                                </div>
+                                <div fxFlex="30" fxFlex.sm="45" fxFlex.xs="100">
+                                    <mat-form-field class="example-full-width" appearance="outline">
+                                        <mat-label>Actividad(es) detallada(s) a realizar</mat-label>
+                                        <input tabindex="30" type="text" formControlName="giro_desc" matInput>
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Numero de empleados</mat-label>
+                                        <input tabindex="33" matInput formControlName="numero_empleado">
+                                    </mat-form-field>
+
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Superficie a autorizar</mat-label>
+                                        <input matInput formControlName="superficie" [(ngModel)]="superficie"
+                                            placeholder="Superficie" type="number" value="" />
+                                        <span matSuffix>mts<sup>2</sup></span>
+                                    </mat-form-field>
+
+
+                                </div>
+                                <div fxFlex="30" fxFlex.sm="45" fxFlex.xs="100">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Anuncio</mat-label>
+                                        <input matInput formControlName="anuncio" type="text" placeholder="anuncio"
+                                            autocomplete="off" min="1" value="" />
+                                    </mat-form-field>
+                                    <button mat-raised-button [disabled]="!step3_completed" type="submit"
+                                        color="primary">Guardar y
+                                        continuar
+                                    </button>
+
+                                </div>
+                                <div fxFlex="30" fxFlex.sm="45" fxFlex.xs="100">
+
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Hora de apertura</mat-label>
+                                        <input matInput formControlName="hora_a" [(ngModel)]="hora_a" type="time"
+                                            placeholder="Hora de apertura" autocomplete="off" min="1" value="" />
+                                    </mat-form-field>
+
+
+                                </div>
+
+                                <div fxFlex="30" fxFlex.sm="45" fxFlex.xs="100">
+
+                                    <mat-form-field appearance="outline" style="margin-top:-20px">
+                                        <mat-label>Hora de cierre</mat-label>
+                                        <input matInput formControlName="hora_c" [(ngModel)]="hora_c" type="time"
+                                            placeholder="Hora de cierre" value="" />
+                                    </mat-form-field>
+
+
+
+                                </div>
+                                <div fxFlex="30" fxFlex.sm="45" fxFlex.xs="100">
+
+                                </div>
+
+
+
+                            </ng-container>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel [expanded]="isExpanded4">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <img class="ico" src="assets/images/icons/ico-file.svg">
+                    <h3>{{tituloFilesRefrendo}}</h3>
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div>
+                <div style="display: contents;">
+
+                    <div class="container">
+                        <div class="informacion" fxLayout="row">
+                            <!-- <img class="icon" src="assets/icons/visor/ico_help.svg" /> -->
+                            <div class="font-size-40 m-12">
+                                <mat-icon [inline]="true" color="green">files</mat-icon>
+                            </div>
+                            <h3> Agregar archivos adicionales</h3>
+                        </div>
+                        <div style="margin-left: 5%;">
+                            <mat-form-field class="example-full-width" style="margin-right: 5%;" appearance="fill">
+                                <mat-label>Etiqueta</mat-label>
+                                <input matInput [(ngModel)]="description">
+                            </mat-form-field>
+                            <button mat-raised-button [disabled]="!description" (click)="fileInput.click()">Agregar
+                                Archivo
+                            </button>
+                            <input style="display: none" #attachments type="file" (change)="onFileChanged($event)"
+                                #fileInput multiple="true">
+                            <div *ngFor="let selected of listOfFiles;let index = index">
+                                <mat-grid-list cols="3" class="grid-mat">
+                                    <mat-grid-tile class="grid-title">
+                                        <mat-list-item>{{selected.description}}</mat-list-item>
+                                    </mat-grid-tile>
+                                    <mat-grid-tile class="grid-title">
+                                        <mat-list-item>{{selected.name}}</mat-list-item>
+                                    </mat-grid-tile>
+                                    <mat-grid-tile class="grid-title">
+                                        <button mat-icon-button (click)="removeSelectedFile(index)">
+                                            <mat-icon>delete</mat-icon>
+                                        </button>
+                                    </mat-grid-tile>
+                                    <mat-divider></mat-divider>
+                                </mat-grid-list>
+                            </div>
+                            <div class="m-28">
+                                <div>
+                                    <div style="display:contents">
+                                        <mat-selection-list #shoes>
+                                            <mat-list-item *ngFor="let shoe of archivos ; let index = index">
+                                                <a (click)="download(shoe)">{{shoe.description}}</a>
+                                                <button mat-icon-button (click)="removeSelected(shoe.id,index)">
+                                                    <mat-icon>delete</mat-icon>
+                                                </button>
+                                            </mat-list-item>
+
+
+                                        </mat-selection-list>
+                                    </div>
+                                </div>
+                                <br />
+                            </div>
+                        </div>
+                        <div class="botones" fxLayout="row">
+                            <div class="mb-16" fxLayout="column" fxLayoutAlign="space-between center" fxFlex>
+                                <div fxLayout="row" fxLayoutAlign="space-between center">
+                                    <button mat-raised-button [disabled]="!desValida" class="button-visor-confirm"
+                                        (click)="uploadFiles()" fxFlex="30">
+                                        Guardar archivos
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </mat-expansion-panel>
+        <br>
+        <div class="botones" fxLayout="row" *ngIf="tipoEdit != 'edicion'">
+            <div class="mb-16" fxLayout="column" fxLayoutAlign="space-between center" fxFlex>
+                <div fxLayout="row" fxLayoutAlign="space-between center">
+                    <button mat-raised-button class="button-visor-confirm" [disabled]="!step4_completed"
+                        (click)="emitirDialog('Refrendo')" fxFlex="30">
+                        Generar refrendo
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="botones" fxLayout="row" *ngIf="tipoEdit == 'edicion'">
+            <div class="mb-16" fxLayout="column" fxLayoutAlign="space-between center" fxFlex>
+                <div fxLayout="row" fxLayoutAlign="space-between center">
+                    <button mat-raised-button class="button-visor-confirm" [disabled]="!step4_completed"
+                        (click)="guardarCambios()" fxFlex="30">
+                        Guardar cambios
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

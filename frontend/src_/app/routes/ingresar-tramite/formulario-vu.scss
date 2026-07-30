@@ -1,0 +1,208 @@
+.vu {
+    padding-top: 15px;
+}
+
+button {
+    margin-top: 20px;
+    float: right;
+}
+
+
+/*------------------Input text----------------------*/
+
+::ng-deep .mat-form-field {
+    width: 100%;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-flex {
+    vertical-align: middle;
+    border-color: #65C65D !important;
+    padding-top: 5px !important;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-end {
+    // border-radius: 50px !important;
+    border-top-right-radius: 50px !important;
+    border-bottom-right-radius: 50px !important;
+    width: 40% !important;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-start {
+    // border-radius: 50px !important;
+    border-top-left-radius: 50px !important;
+    border-bottom-left-radius: 50px !important;
+    width: 40% !important;
+}
+
+::ng-deep .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-outline-gap {
+    border-top-color: currentColor !important;
+}
+
+::ng-deep .mat-form-field-label {
+    position: absolute;
+    left: 15px !important;
+}
+
+::ng-deep .mat-form-field .mat-input-element {
+    padding-left: 15px !important;
+}
+
+
+/*------------------Input Radio button----------------------*/
+
+mat-radio-button {
+    padding-top: 5px;
+}
+
+
+/* checkbox */
+
+
+ ::ng-deep .mat-radio-checked .mat-radio-label-content.success {
+    color: #65C65D !important;
+    width: 100%;
+}
+ ::ng-deep .mat-radio-checked .mat-radio-label-content.warning {
+    color: #d47e2d !important;
+    width: 100%;
+}
+ ::ng-deep .mat-radio-checked .mat-radio-label-content.danger {
+    color: #f01c1c !important;
+    width: 100%;
+}
+
+.radioLabel {
+    font-weight: bold;
+}
+
+mat-radio-button.success:checked {
+    padding-top: 5px;
+    color: #65C65D;
+}
+mat-radio-button.warning:checked {
+    padding-top: 5px;
+    color: #d47e2d !important;
+}
+mat-radio-button.danger:checked {
+    padding-top: 5px;
+    color: #f01c1c !important;
+}
+
+.example-radio-group {
+    display: flex;
+    flex-direction: column;
+    margin: 15px 0;
+}
+
+
+/*------------------Input File----------------------*/
+
+.vu-file-upload {
+    display: inline-block;
+    margin-left: 10px;
+    padding-right: 0! important;
+    margin-bottom: 0!important;
+    cursor: pointer;
+    // height: 100%;
+    border: 1px solid#E3E3E3;
+    border-radius: 4px;
+    width: 100%;
+    font-size: 12px;
+    white-space: pre-wrap;
+    //color: transparent !important;
+}
+.doc{
+    img{
+        padding:5px
+    }
+    span{
+        padding: 5px;
+        vertical-align: -webkit-baseline-middle;
+        margin: auto;
+    }
+}
+
+.file {
+    display: inline-block;
+    width: 90%;
+}
+
+input[type="file"] {
+    -webkit-appearance: none;
+    text-align: left !important;
+    -webkit-rtl-ordering: left;
+    color: #7C858C;
+    vertical-align: middle;
+    direction: rtl;
+}
+
+input[type="file"]::-webkit-file-upload-button {
+    -webkit-appearance: none;
+    float: right;
+    margin: 0 !important;
+    border: none !important;
+    height: 30px;
+    width: 50%;
+    color: #7C858C;
+    background-color: hsl(233, 24%, 93%);
+    font-weight: 13px;
+}
+
+input[type="file"]::-webkit-file-upload-button:hover {
+    width: 80px;
+    color: white;
+    background-color: #4A4B64;
+    width: 50%;
+}
+
+.ellipsis {
+    width: 250px;
+    overflow: hidden;
+    display: inline-block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    position: relative;
+    font-weight: bold;
+}
+
+.ellipsis:hover {
+    cursor: pointer;
+}
+
+@media screen and (min-width: 800px) {
+    // this css will only be used when the screen size is min 800px
+    .vu-accordion {
+        // column-count: 3;
+        // -webkit-column-count: 3;
+        // -moz-column-count: 3;
+        // -webkit-column-break-inside: avoid;
+        // page-break-inside: avoid;
+        // break-inside: avoid;
+        display: grid;
+        grid-gap: 1rem;
+        grid-template-columns: 33% 33% 33%;
+        grid-template-rows: auto;
+    }
+    input[type="file"] {
+        -webkit-appearance: none;
+        text-align: left !important;
+        -webkit-rtl-ordering: left;
+        color: #7C858C;
+        padding-left: -50px !important;
+    }
+    input[type="file"]::-webkit-file-upload-button {
+        -webkit-appearance: none;
+        float: right;
+        margin: 0 !important;
+        border: none !important;
+        height: 30px;
+        width: 50%;
+        color: #7C858C;
+        background-color: hsl(233, 24%, 93%);
+        font-weight: 13px;
+        display: block;
+    }
+    .vu-file-upload {
+        padding: 0! important;
+    }
+}

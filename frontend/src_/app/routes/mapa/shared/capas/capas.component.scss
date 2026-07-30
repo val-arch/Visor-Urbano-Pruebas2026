@@ -1,0 +1,29 @@
+::ng-deep .mat-checkbox .mat-checkbox-frame {
+    transform: scale(1.4);
+}
+
+::ng-deep .mat-checkbox-checked .mat-checkbox-background {
+    transform: scale(1.4);
+}
+
+::ng-deep .theme-default .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+    background-color: #3c4252 !important;
+}
+
+::ng-deep .mat-list-base .mat-list-item .mat-list-item-content {
+    padding: 0 16px 0 0 !important;
+}
+
+::ng-deep .mat-list-base {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    display: block;
+}
+
+::ng-deep .mat-button-toggle-label-content {
+    text-align: left;
+}
+
+::ng-deep .mat-tab-body {
+    max-height: 400px;
+}

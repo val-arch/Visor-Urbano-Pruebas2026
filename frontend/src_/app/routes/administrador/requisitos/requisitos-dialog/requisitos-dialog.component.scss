@@ -1,0 +1,16 @@
+::ng-deep .mat-checkbox-label {
+    white-space: pre-wrap !important;
+}
+
+.sub-input {
+    p {
+        margin-top: 10px;
+    }
+    .mat-form-field {
+        padding: 5px;
+    }
+}
+
+::ng-deep .mat-form-field-label-wrapper {
+    font-size: 14px !important;
+}

@@ -1,0 +1,14 @@
+<div class="text-right" style="background-color: rgba(0, 0, 0, 0.2);">
+    <button mat-button mat-dialog-close>Cerrar</button>
+</div>
+<ng-container *ngIf="deviceXs; else elseTemplate">
+    <a href="/mapa/zapopan">
+        <img src="assets/images/planes_xs.png" alt="">
+    </a>
+</ng-container>
+<ng-template #elseTemplate>
+    <a href="/mapa/zapopan">
+        <img src="assets/images/planes.png" alt="">
+    </a>
+</ng-template>
+

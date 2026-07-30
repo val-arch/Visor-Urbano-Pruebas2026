@@ -1,0 +1,481 @@
+<div class="cabeza row" fxLayout="row" fxLayoutAlign="center center" fxLayout.gt-xs="row">
+    <div class="giro" fxFlex="70%" style="float: left">
+        <p>
+            GIRO SOLICITADO:
+            <mat-progress-bar mode="buffer" *ngIf="loading"></mat-progress-bar>
+        </p>
+        <p class="servicios" *ngIf="!loading">
+            {{ infoTramite.giro }}
+        </p>
+    </div>
+    <div class="clave" fxFlex="30%">
+        <p>
+            <!-- <mtx-loader [loading]="true" type="spinner" hasBackDrop="hasBackdrop"> -->
+            FOLIO:
+            <mat-progress-bar mode="buffer" *ngIf="loading"></mat-progress-bar>
+            <!-- </mtx-loader> -->
+        </p>
+        <p class="servicios" *ngIf="!loading">
+            {{ infoTramite.folio_licencia }}
+        </p>
+    </div>
+</div>
+<div class="cuerpo">
+    <div class="info">
+        <div id="informacion-general">
+            <div class="informacion" fxLayout="row">
+                <img class="ico" src="assets/images/icons/ico-predio.svg" />
+                <h3>Información general</h3>
+            </div>
+            <div class="m-28" fxLayout="row" fxLayoutAlign="center center" *ngIf="loading">
+                <mat-progress-spinner mode="indeterminate" color="green"></mat-progress-spinner>
+            </div>
+            <div class="m-28" *ngIf="!loading">
+                <div class="w-p-100" fxLayout="column" fxLayoutAlign="center">
+                    <div class="">
+                        <div fxFlex="60%" fxLayoutAlign="center center">
+                            <div style="width: 100% !important" fxLayout="row">
+                                <div fxFlex="100%">
+                                    <div>
+                                        <p>
+                                            <b>Superficie del
+                                                giro
+                                                solicitado:</b>
+                                        </p>
+                                        <span>{{
+                                            infoTramite.superficie_giro
+                                            }}
+                                            mts<sup>2</sup></span>
+                                    </div>
+                                    <div class="mt-10">
+                                        <p>
+                                            <b>Superficie de la
+                                                propiedad:</b>
+                                        </p>
+                                        <span>{{
+                                            infoTramite.superficie_giro
+                                            }}
+                                            mts<sup>2</sup></span>
+                                    </div>
+                                </div>
+                                <div fxFlex="100%">
+
+                                    <div class="mt-10">
+                                        <p>
+                                            <b>Solicitante:</b>
+                                        </p>
+                                        <span class="font-weight-100">{{ infoTramite.nombre_titular }}
+                                            {{infoTramite.apellido_p}} {{infoTramite.apellido_m}}</span>
+                                    </div>
+                                </div>
+                                <div fxFlex="100%">
+                                    <div>
+                                        <p>
+                                            <b>Ubicación del predio:</b>
+                                        </p>
+                                        <span>{{
+                                            infoTramite.calle_predio 
+                                            }}  {{infoTramite.num_ext_predio}} {{infoTramite.colonia_predio}}</span>
+                                    </div>
+                                    <br>
+
+                                </div>
+                            </div>
+                        </div>
+                     
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="informacion-solicitante">
+            <div class="informacion" fxLayout="row">
+                <img class="ico" src="assets/images/icons/ico_predio.svg" />
+                <h3>Información del solicitante</h3>
+            </div>
+            <div class="m-28">
+                <div fxLayout="row wrap" fxLayoutAlign="space-between">
+                    <ng-container>
+                        <div fxFlex="33">
+                            <div class="arch" style="display: inline-block">
+                                <p class="ellipsis" [matTooltip]="">
+                                    <b>Nombre solicitante: </b>
+                                    <br>
+                                    <span class="font-weight-100">{{ infoTramite.nombre_titular }}
+                                        {{infoTramite.apellido_p}} {{infoTramite.apellido_m}}</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div fxFlex="33">
+                            <div class="arch" style="display: inline-block">
+                                <p class="ellipsis" [matTooltip]="infoTramite.curp">
+                                    <b>CURP: </b>
+                                    <br>
+                                    <span class="font-weight-100">{{ infoTramite.curp }}</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div fxFlex="33">
+                            <div class="arch" style="display: inline-block">
+                                <p class="ellipsis" [matTooltip]="infoTramite.rfc">
+                                    <b>RFC: </b>
+                                    <br>
+                                    <span class="font-weight-100">{{ infoTramite.rfc }}</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div fxFlex="33">
+                            <div class="arch" style="display: inline-block">
+                                <p class="ellipsis" [matTooltip]="infoTramite.email">
+                                    <b>Correo: </b>
+                                    <br>
+                                    <span class="font-weight-100">{{ infoTramite.email }}</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div fxFlex="33">
+                            <div class="arch" style="display: inline-block">
+                                <p class="ellipsis" [matTooltip]="infoTramite.telefono">
+                                    <b>Telefono: </b>
+                                    <br>
+                                    <span class="font-weight-100">{{ infoTramite.telefono }}</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div fxFlex="33">
+                            <div class="arch" style="display: inline-block">
+                                <p class="ellipsis" [matTooltip]="infoTramite.calle">
+                                    <b>Calle: </b>
+                                    <br>
+                                    <span class="font-weight-100">{{ infoTramite.calle_titular }}</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div fxFlex="33">
+                            <div class="arch" style="display: inline-block">
+                                <p class="ellipsis" [matTooltip]="infoTramite.colonia">
+                                    <b>Colonia: </b>
+                                    <br>
+                                    <span class="font-weight-100">{{ infoTramite.colonia_titular }}</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div fxFlex="33">
+                            <div class="arch" style="display: inline-block">
+                                <p class="ellipsis" [matTooltip]="infoTramite.cp_solicitante">
+                                    <b>cp: </b>
+                                    <br>
+                                    <span class="font-weight-100">{{ infoTramite.cp_solicitante }}</span>
+                                </p>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+                <br />
+            </div>
+        </div>
+        <div id="informacion-propietario">
+            <div class="informacion" fxLayout="row">
+                <img class="ico" src="assets/images/icons/ico_predio.svg" />
+                <h3>Información del Propietario</h3>
+            </div>
+
+            <div class="m-28">
+                <div fxLayout="row wrap" fxLayoutAlign="space-between">
+                    <ng-container>
+                        <div fxFlex="33">
+                            <div class="arch" style="display: inline-block">
+                                <p class="ellipsis" [matTooltip]="">
+                                    <b>Nombre Propietario: </b>
+                                    <br>
+                                    <span class="font-weight-100">{{ infoTramite.nombre_solicitante }} {{
+                                        infoTramite.apellido_solicitante_p }} {{ infoTramite.apellido_solicitante_m }}</span>
+
+                                </p>
+                            </div>
+                        </div>
+
+                        <div fxFlex="33">
+                            <div class="arch" style="display: inline-block">
+                                <p class="ellipsis" [matTooltip]="infoTramite.curp">
+                                    <b>CURP Propietario: </b>
+                                    <br>
+
+                                    <span class="font-weight-100">{{ infoTramite.curp_solicitante }}</span>
+
+                                </p>
+                            </div>
+                        </div>
+                        <div fxFlex="33">
+                            <div class="arch" style="display: inline-block">
+                                <p class="ellipsis" [matTooltip]="infoTramite.rfc_solicitante">
+                                    <b>RFC del propietario: </b>
+                                    <br>
+                                    <span class="font-weight-100">{{ infoTramite.rfc_solicitante }}</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div fxFlex="33">
+                            <div class="arch" style="display: inline-block">
+                                <p class="ellipsis" [matTooltip]="infoTramite.email_solicitante">
+                                    <b>
+                                        Correo electrónico del propietario: </b>
+                                    <br>
+                                    <span class="font-weight-100">{{ infoTramite.email_solicitante }}</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div fxFlex="33">
+                            <div class="arch" style="display: inline-block">
+                                <p class="ellipsis" [matTooltip]="infoTramite.telefono_solicitante">
+                                    <b>Teléfono del propietario:
+                                    </b>
+                                    <br>
+                                    <span class="font-weight-100">{{ infoTramite.telefono_solicitante }}</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div fxFlex="33">
+                            <div class="arch" style="display: inline-block">
+                                <p class="ellipsis" [matTooltip]="infoTramite.calle_solicitante">
+                                    <b>Calle: </b>
+                                    <br>
+                                    <span class="font-weight-100">{{ infoTramite.calle_solicitante }}</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div fxFlex="33">
+                            <div class="arch" style="display: inline-block">
+                                <p class="ellipsis" [matTooltip]="infoTramite.colonia">
+                                    <b>Colonia: </b>
+                                    <br>
+                                    <span class="font-weight-100">{{ infoTramite.colonia }}</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div fxFlex="33">
+                            <div class="arch" style="display: inline-block">
+                                <p class="ellipsis" [matTooltip]="infoTramite.cp_titular">
+                                    <b>Código postal: </b>
+                                    <br>
+                                    <span class="font-weight-100">{{ infoTramite.cp_titular }}</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div fxFlex="33">
+                            <div class="arch" style="display: inline-block">
+                                <p class="ellipsis" [matTooltip]="infoTramite.numero_ext">
+                                    <b>No. exterior y/o letra:
+                                    </b>
+                                    <br>
+                                    <span class="font-weight-100">{{ infoTramite.numero_ext }}</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div fxFlex="33">
+                            <div class="arch" style="display: inline-block">
+                                <p class="ellipsis" [matTooltip]="infoTramite.numero_int">
+                                    <b>No. interior y/o letra:
+                                    </b>
+                                    <br>
+                                    <span class="font-weight-100">{{ infoTramite.numero_int }}</span>
+                                </p>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+
+                <br />
+            </div>
+        </div>
+        <div id="informacion-predio">
+            <div class="informacion" fxLayout="row">
+                <img class="ico" src="assets/images/icons/ico_predio.svg" />
+                <h3>Información del predio</h3>
+            </div>
+            <div class="m-28">
+                <div fxLayout="row wrap" fxLayoutAlign="space-between">
+                    <ng-container>
+                        <div fxFlex="33">
+                            <div class="arch" style="display: inline-block">
+                                <p class="ellipsis" [matTooltip]="">
+                                    <b>Calle oficial del predio:
+                                    </b>
+                                    <br>
+                                    <span class="font-weight-100">{{ infoTramite.calle_predio }}</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div fxFlex="33">
+                            <div class="arch" style="display: inline-block">
+                                <p class="ellipsis" [matTooltip]="infoTramite.num_ext_predio">
+                                    <b>
+                                        Número exterior y/o letra:
+                                    </b>
+                                    <br>
+                                    <span class="font-weight-100">{{ infoTramite.num_ext_predio }}</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div fxFlex="33">
+                            <div class="arch" style="display: inline-block">
+                                <p class="ellipsis" [matTooltip]="infoTramite.num_int_predio">
+                                    <b>Número interior y/o letra:
+                                    </b>
+                                    <br>
+                                    <span class="font-weight-100">{{ infoTramite.num_int_predio }}</span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div fxFlex="33">
+                            <div class="arch" style="display: inline-block">
+                                <p class="ellipsis" [matTooltip]="infoTramite.colonia_predio">
+                                    <b>
+                                        Colonia:
+                                    </b>
+                                    <br>
+                                    <span class="font-weight-100">{{ infoTramite.colonia_predio }}</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div fxFlex="33">
+                            <div class="arch" style="display: inline-block">
+                                <p class="ellipsis" [matTooltip]="infoTramite.cp_predio">
+                                    <b>Código postal:
+
+                                    </b>
+                                    <br>
+                                    <span class="font-weight-100">{{ infoTramite.cp_predio }}</span>
+                                </p>
+                            </div>
+                        </div>
+
+                    </ng-container>
+                </div>
+
+                <br />
+            </div>
+        </div>
+        <div id="informacion-predio">
+            <div class="informacion" fxLayout="row">
+                <img class="ico" src="assets/images/icons/ico_predio.svg" />
+                <h3>Información del establecimiento</h3>
+            </div>
+            <div class="m-28">
+                <div fxLayout="row wrap" fxLayoutAlign="space-between">
+                    <ng-container>
+                        <div fxFlex="33">
+                            <div class="arch" style="display: inline-block">
+                                <p class="ellipsis" [matTooltip]="">
+                                    <b>Código giro (SCIAN): </b>
+                                    <br>
+                                    <span class="font-weight-100">{{ infoTramite.codigo_giro }}</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div fxFlex="33">
+                            <div class="arch" style="display: inline-block">
+                                <p class="ellipsis" [matTooltip]="">
+                                    <b>Actividad comercial solicitada (SCIAN): </b>
+                                    <br>
+                                    <span class="font-weight-100">{{ infoTramite.giro }}</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div fxFlex="33">
+                            <div class="arch" style="display: inline-block">
+                                <p class="ellipsis" [matTooltip]="infoTramite.descripcion_detallada">
+                                    <b>Descripción de actividad a realizar:
+                                    </b>
+                                    <br>
+                                    <span class="font-weight-100">{{ infoTramite.descripcion_detallada }}</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div fxFlex="33">
+                            <div class="arch" style="display: inline-block">
+                                <p class="ellipsis" [matTooltip]="">
+                                    <b>Tipo del inmueble: </b>
+                                    <br>
+                                    <span class="font-weight-100">{{ infoTramite.tipo_inmueble }}</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div fxFlex="33">
+                            <div class="arch" style="display: inline-block">
+                                <p class="ellipsis" [matTooltip]="infoTramite.nombre_negocio">
+                                    <b>
+                                        Nombre del negocio:
+                                    </b>
+                                    <br>
+                                    <span class="font-weight-100">{{ infoTramite.nombre_negocio }}</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div fxFlex="33">
+                            <div class="arch" style="display: inline-block">
+                                <p class="ellipsis" [matTooltip]="infoTramite.nombre_negocio">
+                                    <b>
+                                        Nombre del negocio:
+                                    </b>
+                                    <br>
+                                    <span class="font-weight-100">{{ infoTramite.nombre_negocio }}</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div fxFlex="33">
+                            <div class="arch" style="display: inline-block">
+                                <p class="ellipsis" [matTooltip]="infoTramite.numero_empleado">
+                                    <b>Número de empleados: </b>
+                                    <br>
+                                    <span class="font-weight-100">{{ infoTramite.numero_empleado }}</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div fxFlex="33">
+                            <div class="arch" style="display: inline-block">
+                                <p class="ellipsis" [matTooltip]="infoTramite.inversion">
+                                    <b>Inversión estimada:: </b>
+                                    <br>
+                                    <span class="font-weight-100">{{ infoTramite.inversion }}</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div fxFlex="33">
+                            <div class="arch" style="display: inline-block">
+                                <p class="ellipsis" [matTooltip]="infoTramite.numero_cajones">
+                                    <b>
+                                        No. Cajones de estacionamientos:
+                                    </b>
+                                    <br>
+                                    <span class="font-weight-100">{{ infoTramite.numero_cajones }}</span>
+                                </p>
+                            </div>
+                        </div>
+                      
+
+                    </ng-container>
+                </div>
+
+                <br />
+            </div>
+        </div>
+        <div id="informacion-documentos">
+            <div class="informacion" fxLayout="row">
+                <img class="ico" src="assets/images/icons/ico-file.svg" />
+                <h3>Documentos Adicionales</h3>
+            </div>
+            <div class="m-28">
+                <div>
+                    <div style="display:contents">
+                        <mat-selection-list #shoes>
+                            <mat-list-item *ngFor="let shoe of archivos ">
+                                <a (click)="download(shoe)">{{shoe.description}}</a>
+                            </mat-list-item>
+                        </mat-selection-list>
+                    </div>
+                </div>
+                <br />
+            </div>
+        </div>
+    </div>

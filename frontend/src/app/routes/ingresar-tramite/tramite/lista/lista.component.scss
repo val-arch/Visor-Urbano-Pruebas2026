@@ -1,0 +1,57 @@
+tr:nth-child(even) {
+    background-color: #FAFBFD;
+  }
+
+table {
+    width: 100%;
+  
+
+}
+
+::ng-deep body.theme-default .mat-header-cell{
+    font-weight: bold !important;
+    color: inherit !important;
+
+}
+/*li{
+    list-style: none;
+    position: relative;
+}
+ li::before {
+    content: "•";
+    font-size: 40px; 
+    padding-right: 5px;
+    padding-bottom: 50px !important;
+   // position: absolute;
+}*/
+
+/*li::marker{
+   // content:"\25A0" 
+   content: "•";
+    font-size: 2.5rem;
+    // color: black;
+    vertical-align: top;
+ }*/
+
+ /* active tab */
+   ::ng-deep .mat-tab-list .mat-tab-labels .mat-tab-label-active {
+    color:#003E76;
+   
+    }
+    
+   
+    ::ng-deep .mat-ink-bar {
+        background-color: #003E76 !important;
+        width: 30%;
+
+    }
+  
+    
+
+    ng-deep button{
+        background-color: #E4F0EC 0% 0% no-repeat padding-box;
+    }
+
+    img{
+            padding-top: 5px;
+    }

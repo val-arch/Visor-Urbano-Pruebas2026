@@ -1,0 +1,21 @@
+
+  
+        <mtx-grid [data]="listRole" 
+        noResultText="Sin datos"
+        [columns]="columnsRole" 
+        [length]="totalRole" 
+        [loading]="isLoadingRole" 
+        [pageOnFront]="false"
+        (page)="getNextPage($event)" 
+        [pageIndex]="queryRole.page" 
+        [rowStriped]="true"
+        [pageSizeOptions]="[20]"
+         pageSize="20">
+</mtx-grid>
+
+<ng-template #statusTpl let-row let-index="index" let-col="colDef"> 
+        <!-- <a ><mat-icon  *ngIf="row.id_municipio == 1" (click)="deleteRole(row)" aria-hidden="false" aria-label="Example home icon">delete</mat-icon></a> -->
+        <a ><mat-icon  *ngIf="row.id_municipio == 1" aria-hidden="false"  (click)="editRole(row)" aria-label="Example home icon">edit</mat-icon></a>  
+</ng-template>
+
+   

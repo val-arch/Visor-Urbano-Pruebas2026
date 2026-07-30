@@ -1,0 +1,29 @@
+<div class="container p-40">
+    <div class="img-visor">
+        <img class="img-logo" src="./assets/icons/visor/visor_urbano_logo.svg" alt="" />
+    </div>
+    
+    
+    <div class="texto" *ngIf="data.emite==1; else elseTemplate">
+       <b> La información enviada se guardó de forma exitosa.</b> <br><br> Ahora que conoces los requisitos para tu licencia de negocio <br>
+       <b class="mt-24">¿Qué deseas realizar?</b>
+    </div>
+    <ng-template class="texto" #elseTemplate>
+        <b> La lista de requisitos se generó correctamente.</b> <br><br> <b>Importante:</b> Este Municipio no está disponible para hacer el trámite en línea, por lo que se recomienda acudir a él para realizar el trámite y validar la vigencia de los requisitos. <br>
+       <!-- <b class="mt-24">¿Qué deseas realizar?</b> -->
+    </ng-template>
+    <div class="img-jalisco">
+        <img class="" style="width: 20%;" src="./assets/icons/visor/Icon.ico" alt="" />
+    </div>
+    <div class="boton pl-60 pr-60">
+        <button mat-raised-button mat-dialog-close="1" *ngIf="data.emite==1" color="green" style="margin-top: 20px">
+            <mat-icon class="mat-icon2" >forward</mat-icon>
+            Tramitar licencia
+        </button>
+        <br>
+        <button class="buttonG" mat-raised-button mat-dialog-close="2" color="default" style="margin-top: 20px">
+            <mat-icon class="mat-icon2" >clear</mat-icon>
+            Seguir navegando en el mapa
+        </button>
+    </div>
+</div>

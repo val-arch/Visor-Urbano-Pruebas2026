@@ -1,0 +1,47 @@
+.container {
+    margin: auto;
+    padding-left: 50px;
+    padding-right: 50px;
+    text-align: center;
+}
+
+::ng-deep .myDialogStyle .mat-dialog-container {
+    border-radius: 30px !important;
+}
+
+img {
+    width: 155px;
+}
+
+.img-visor {
+    padding-bottom: 25px;
+}
+
+.img-jalisco {
+    padding-top: 25px;
+}
+
+.texto {
+    // font: normal normal bold 16px/33px Red Hat Display;
+    //margin-left: 20px;
+    //margin-right: 20px;
+}
+
+.boton {
+    padding-top: 30px;
+    text-align: center;
+    button {
+        width: 100%;
+        background: #65C65D 0% 0% no-repeat padding-box;
+        border-radius: 20px;
+        color: white;
+    }
+}
+
+
+    .buttonG {
+        width: 100%;
+        background: #999999 0% 0% no-repeat padding-box !important;
+        border-radius: 20px;
+        color: white;
+    }

@@ -1,0 +1,35 @@
+ <mat-toolbar matDialogTitle class="fuse-visor-50 m-0 p-o fix-height" >
+    <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+        <span class="title dialog-title">Template de {{tipoTramite}}</span>
+    </mat-toolbar-row>
+</mat-toolbar>
+<div fxLayout="row" fxLayoutAlign="end center" class="mt-20">
+    <button mat-fab class="btn-verde" (click)="addCampo()">
+        <mat-icon>add</mat-icon>
+    </button>
+</div>
+<div fxLayout="row wrap" fxLayoutAlign="space-around center" class="mt-20">
+    <div *ngFor="let campo of campos; let i=index" fxLayout="row" fxLayoutAlign="center center" class="mt-20">
+        <div>
+            <mat-form-field appearance="outline">
+                <mat-label>Campo</mat-label>
+                <input autocomplete="off" [value]="campo.campo" matInput disabled>
+            </mat-form-field>
+        </div>
+        <div>
+            <button mat-icon-button [matMenuTriggerFor]="tipoLicenciaMenu" aria-label="more">
+                <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #tipoLicenciaMenu>
+                <button mat-menu-item matTooltip="Editar" (click)="editCampo(campo.id, campo.campo)">
+                    <mat-icon>edit</mat-icon>
+                    Editar
+                </button>
+                <button mat-menu-item color="warn" matTooltip="Eliminar" (click)="removeCampo(campo.id)">
+                    <mat-icon>delete</mat-icon>
+                    Eliminar
+                </button>
+            </mat-menu>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,51 @@
+<div class="dialog-content-wrapper">
+    <mat-toolbar matDialogTitle class="mat-accent m-0" [ngStyle]="btnCss">
+        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="title dialog-title">Actualizar estatus del documento</span>
+        </mat-toolbar-row>
+    </mat-toolbar>
+    <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
+        <mat-card class="example-card">
+            <mat-card-content>
+                <p>Estatus:{{status_licencia2}}</p>
+                <p>Motivo: {{motivo2}}</p>
+                <p>Fecha Cambio: {{fecha_cambio_status}}</p>
+                <p>Archivo: <a (click)="onClick($event)">Descargar</a> </p>
+            </mat-card-content>
+        </mat-card>
+        <form [formGroup]="checkoutForm" class="formulario" (ngSubmit)="onSubmit()">
+            <div class="vu">
+                <mat-form-field appearance="fill">
+                    <mat-label>Etatus de resolutivo y/o autorización</mat-label>
+                    <select matNativeControl required formControlName="status">
+                        <option value="Cancelada">Cancelado</option>
+                        <option value="Suspendida">Suspendido</option>
+                        <option value="Vigente">Vigente</option>
+                        <option value="Sancion">Sanción</option>
+                        <option value="Adeudo">Adeudo</option>
+                    </select>
+                </mat-form-field>
+            </div>
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Motivo</mat-label>
+                <textarea matInput formControlName="motivo"></textarea>
+            </mat-form-field>
+            <div style="margin-left: 25%;">
+                <input #csvInput hidden="true" type="file" onclick="this.value=null" (change)="InputChange($event)" />
+                <a mat-flat-button color="primary" style="background-color: darkgrey;" (click)="csvInput.click()">Subir Archivo </a>
+                <mat-divider>
+                    <p>{{archivoNombre}}</p>
+                </mat-divider>
+
+            </div>
+            <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
+                <button mat-button type="submit" class="save-button" [ngStyle]="btnCss">
+                    Agregar
+                </button>
+                <button mat-button class="cancel-button" (click)="updateStatus()" aria-label="SAVE" [ngStyle]="btnCssCancel">
+                    Cancelar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

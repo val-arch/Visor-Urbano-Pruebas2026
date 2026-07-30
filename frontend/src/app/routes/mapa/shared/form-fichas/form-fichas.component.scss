@@ -1,0 +1,29 @@
+.dialog-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.form-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.midt-width {
+    width: 50%;
+}
+
+.checkbox-container {
+    flex: 0 0 33.33%;
+    box-sizing: border-box;
+}
+
+.checkbox-container mat-checkbox {
+    display: block;
+}

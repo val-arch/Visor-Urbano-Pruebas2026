@@ -1,0 +1,200 @@
+<div id="tramite" class="page-layout simple fullwidth">
+    <!-- HEADER -->
+    <div class="header fuse-visor-50 p-24 h-100" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center">
+        <div fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="column" fxLayoutAlign.gt-xs="center start">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <!--span class="secondary-text">Trámites</span>
+               <span class="secondary-text">Nuevo Trámite</span-->
+                <mat-icon class="secondary-text s-18">home</mat-icon>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text">Trámites</span>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text">Nuevo Trámite</span>
+            </div>
+            <div class="h2 mt-16">Resumen</div>
+        </div>
+    </div>
+    <!-- / HEADER -->
+    <!-- CONTENT -->
+    <div class="content p-24" [@animate]="{ value: '*', params: { delay: '300ms', scale: '.2' } }">
+        <div class="cabeza row" fxLayout="row" fxLayoutAlign="center center" fxLayout.gt-xs="row">
+            <div class="giro" fxFlex="70%" style="float: left">
+                <p>
+                    GIRO SOLICITADO:
+                    <mat-progress-bar mode="buffer" *ngIf="loading"></mat-progress-bar>
+                </p>
+                <p class="servicios" *ngIf="!loading">
+                    {{ infoTramite.nombre_scian }}
+                </p>
+            </div>
+            <div class="clave" fxFlex="30%">
+                <p>
+                    <!-- <mtx-loader [loading]="true" type="spinner" hasBackDrop="hasBackdrop"> -->
+                    FOLIO:
+                    <mat-progress-bar mode="buffer" *ngIf="loading"></mat-progress-bar>
+                    <!-- </mtx-loader> -->
+                </p>
+                <p class="servicios" *ngIf="!loading">
+                    {{ infoTramite.folio }}
+                </p>
+            </div>
+        </div>
+        <div class="cuerpo">
+            <div class="info">
+
+
+                <div id="informacion-general" *ngIf="!loadingCampos">
+                    <div class="informacion" fxLayout="row">
+                        <img class="ico" src="assets/images/icons/ico-notificacion.svg" />
+                        <h3>Información de la notificación</h3>
+                    </div>
+                    <div class="m-28" fxLayout="row" fxLayoutAlign="center center" *ngIf="loadingCampos">
+                        <mat-progress-spinner mode="indeterminate" color="green"></mat-progress-spinner>
+                    </div>
+                    <div class="m-28">
+                        <div fxLayout="row wrap" fxLayoutAlign="space-between" *ngIf="!loadingCampos">
+                            <!-- {{campos_notificacione | json}}
+                            <ng-container *ngFor="let item of campos_notificacione"> -->
+                            <!-- <div [ngSwitch]="item.type" fxLayout="row wrap" fxLayoutAlign="space-between"> -->
+                            <div class="arch" fxLayout="row" style="display: inline-block">
+                                <p class="ellipsis notificacion" fxFlex="33">
+                                    <b>Folio: </b>
+                                    <br>
+                                    <span class="font-weight-100">{{ campos_notificacione[0].folio }}</span>
+                                </p>
+
+                            </div>
+                            <div class="arch" fxLayout="row" style="display: inline-block">
+                                <p class="ellipsis notificacion" fxFlex="33">
+                                    <b>Fecha: </b>
+                                    <br>
+                                    <span class="font-weight-100">{{ campos_notificacione[0].fecha }}</span>
+                                </p>
+
+                            </div>
+                            <!-- </div> -->
+                            <div fxFlex="33">
+                                <div class="arch" style="display: inline-block">
+                                    <p class="ellipsis" [matTooltip]="campos_notificacione[0].municipio">
+                                        <b>Municipio: </b>
+                                        <br>
+                                        <span class="font-weight-100">{{ campos_notificacione[0].municipio }}</span>
+                                    </p>
+                                </div>
+
+                            </div>
+
+
+
+
+
+                            <!-- </div> -->
+                            <!-- </ng-container> -->
+                        </div>
+                        <div fxLayout="row">
+                            <div fxFlex="100">
+                                <div class="arch" style="display: inline-block" *ngIf="!loadingCampos">
+                                    <p class="ellipsis" [matTooltip]="campos_notificacione[0].mensaje">
+                                        <b>Mensaje: </b>
+                                        <br>
+                                        <span class="font-weight-100">{{ campos_notificacione[0].mensaje }}</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <br />
+
+                        </div>
+                    </div>
+
+                    <div id="informacion-predio" *ngIf="!loadingCampos">
+                        <div class="informacion" fxLayout="row">
+                            <img class="ico" src="assets/images/icons/ico-predio.svg" />
+                            <h3>Información del predio</h3>
+                        </div>
+                        <div class="m-28" fxLayout="row" fxLayoutAlign="center center" *ngIf="loadingCampos">
+                            <mat-progress-spinner mode="indeterminate" color="green"></mat-progress-spinner>
+                        </div>
+                        <div class="m-28">
+                            <div fxLayout="row wrap" fxLayoutAlign="space-between">
+                                <ng-container *ngFor="let item of campos_dinamicos">
+                                    <div [ngSwitch]="item.type" *ngIf="item.step == 3 && item.type != 'file'" fxFlex="33">
+                                        <div class="arch" *ngSwitchCase="'input'" style="display: inline-block">
+                                            <p class="ellipsis" [matTooltip]="item.value">
+                                                <b>{{ item.description }}: </b>
+                                                <br>
+                                                <span class="font-weight-100">{{ item.value }}</span>
+                                            </p>
+                                        </div>
+
+                                    </div>
+                                </ng-container>
+                            </div>
+                            <br />
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="cuerpo" *ngIf="consultaPDF != null && consultaPDF != ''">
+                <div *ngIf="loader_pdf">
+                    <mat-progress-bar mode="query"></mat-progress-bar>
+                    <mat-progress-bar mode="query"></mat-progress-bar>
+                </div>
+                <div id="firmaElectronica">
+                    <div class="firmaDiv">
+                        <div id="paper">
+                            <embed [src]="consultaPDF | safe" class="w-80-p" style=" height: 750px; margin: auto;display: block;" type="application/pdf">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="cuerpo" *ngIf="tipo != 1">
+                <div id="firmaElectronica" *ngIf="!loading">
+                    <div class="informacion mt-28" fxLayout="row">
+                        <img class="icon" src="assets/images/icons/ico-comments.svg" />
+                        <h3> Comentarios</h3>
+                    </div>
+                    <div class="firmaDiv" *ngIf="role==1">
+                        <div class="firma" fxLayout="column" fxLayoutAlign="space-around star" *ngIf="cadena_firmada!=''" [@animate]="{ value: '*', params: { delay: '300ms', scale: '.2' } }">
+                            <div>
+                                <p class="" style="padding-top: 15px"><b>Cadena Firmada</b></p>
+                            </div>
+                            <div fxLayout="row">
+                                <img class="ico_aceptar" style="width: 40px" src="assets/images/icons/ico_aceptar.svg" />
+                                <p class="accent-300-fg" style="overflow-wrap: anywhere;"><b> {{cadena_firmada}} </b>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ventanilla mt-44" fxLayout="column" fxLayoutAlign="center center">
+                        <textarea class="textareaDV" matInput #fondovalor evcdkAutosizeMinRows="100" cdkAutosizeMaxRows="60"></textarea>
+                        <div class="file w-300 mt-12" fxFlex="50">
+                            <div fxLayout="row">
+                                <img fxFlex="10%" src="assets/images/icons/ico_upload.svg">
+                                <label fxFlex="90%">
+                                    <input type="file" (change)="subirFiles($event.target.files)" name="images[]"
+                                        multiple="multiple" class="vu-file-upload" data-max-size="15360" accept=".pdf">
+                                </label>
+                            </div>
+                        </div>
+                        <div>
+                            <mat-progress-bar *ngIf="progressFiles" mode="indeterminate"></mat-progress-bar>
+                            <mat-selection-list #shoes>
+                                <mat-list-item *ngFor="let item of files ; let i = index">
+                                    Archivo {{i+1}}
+                                    <a style="cursor: pointer;" (click)="deleteFiles(i)">
+                                        <mat-icon style="color: red;" mat-list-icon>delete</mat-icon>
+                                    </a>
+                                </mat-list-item>
+                            </mat-selection-list>
+                        </div>
+                    </div>
+                    <div class="botones" fxLayout="row">
+                        <div class="regresarbtn" style="cursor: pointer;" (click)="guardaComentarios()" fxLayout="column" fxLayoutAlign.gt-xs="space-between center" fxFlex>
+                            <a class="link">Finalizar</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- / CONTENT -->
+            </div>

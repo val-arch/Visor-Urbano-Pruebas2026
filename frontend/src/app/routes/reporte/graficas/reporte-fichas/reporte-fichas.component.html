@@ -1,0 +1,17 @@
+<div id="giros" class="page-layout simple fullwidth">
+
+    <div class="content p-24">
+        <div>
+            <mat-label>Desde:</mat-label>
+            <input type="date" [(ngModel)]="fechaInicio" (change)="filtrarDatos()">
+            <mat-label>Hasta:</mat-label>
+            <input type="date" [(ngModel)]="fechaFin" (change)="filtrarDatos()">
+        </div>
+        <ngx-charts-bar-vertical [view]="[width, height]" [scheme]="colorScheme" [results]="datosFiltrados"
+            [gradient]="gradient" [xAxis]="true" [yAxis]="true" [legend]="true" [showXAxisLabel]="true"
+            [showYAxisLabel]="true" xAxisLabel="Fecha" yAxisLabel="Fichas">
+        </ngx-charts-bar-vertical>
+
+        <div>Total de Fichas: {{ totalFichas }}</div>
+    </div>
+</div>

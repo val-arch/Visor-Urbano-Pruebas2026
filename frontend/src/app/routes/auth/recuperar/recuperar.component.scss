@@ -1,0 +1,217 @@
+@import "src/@fuse/scss/fuse";
+
+    #recuperar {
+        width: 100%;
+        background-size: cover !important; 
+        background-image: url('/assets/images/backgrounds/imgBack.svg')
+                                 ;
+            background-repeat: no-repeat,
+                no-repeat,
+                no-repeat;
+            background-position: bottom right,
+            right,left;
+              .over-img{
+                position: absolute;
+                top: 2%;
+                left: 2.5%;
+                width: 97px;
+                height: 97px;
+              }
+        #recuperar-form-wrapper {
+            flex: 1 0 auto;
+            padding: 32px;
+            position: relative;
+             z-index: 1;
+
+            @include media-breakpoint('xs') {
+                padding: 16px;
+            }
+            .over-image{
+                position: absolute;
+                width: 637px;
+                height: 492px;
+                bottom:0;
+                left: 60%;
+                z-index: -3;
+            }
+            .over-image1{
+                position: absolute;
+                top: 7%;
+                left: 87%;
+                z-index: -3;
+            }
+            #recuperar-form {
+                width: 384px;
+                max-width: 384px;
+                padding: 32px;
+                text-align: center;
+                box-shadow: 0px -2px 40px #18621229;
+                border: 1px solid #E4F0EC;
+                border-radius: 20px;
+                opacity: 1;
+                background-color: white;
+                @include mat-elevation(16);
+                @include media-breakpoint('xs') {
+                    padding: 24px;
+                    width: 100%;
+                }
+                .logo {
+                    width: 128px;
+                    margin: 32px auto;
+                }
+                .title {
+                    font-size: 20px;
+                    margin: 16px 0 32px 0;
+                }
+                form {
+                    width: 100%;
+                    text-align: left;
+
+                    .mat-form-field {
+                        .mat-input-element {
+                            color: slategray;
+                        }
+                        .mat-form-field-label {
+                            color: slategray;
+                        }
+                        .mat-form-field-underline {
+                            background-color: slategray;
+                        }
+                        .mat-form-field-ripple {
+                            background-color: slategray;
+                        }
+                        .mat-form-field-required-marker {
+                            color: slategray;
+                        }
+                    }
+                    .mat-form-field.mat-focused {
+                        .mat-form-field-label {
+                            color: #003E76;
+                            border-radius: 20px;
+                        }
+                        .mat-form-field-ripple {
+                            background-color: #003E76;
+                        }
+                        .mat-form-field-required-marker {
+                            color: #003E76;
+                        }
+                        .mat-input-element {
+                            color: #003E76;
+                        }
+                        .mat-icon {
+                            color: #003E76;
+                        }
+                    }
+                    mat-form-field {
+                        width: 100%;
+                        border-radius: 20px;
+                    }
+                    mat-checkbox {
+                        margin: 0;
+                    }
+              
+                    .submit-button {
+                      
+                       
+                        width: 280px;
+                        height: 40px;
+                        background: #003E76 0% 0% no-repeat padding-box;
+                        box-shadow: 0px 10px 20px #90969514;
+                        border-radius: 20px;
+                        opacity: 1;
+                        text-align: center;
+
+                        
+                        font: normal normal bold 16px/21px Red Hat Display;
+                        letter-spacing: 0.4px;
+                        color: #FFFFFF;
+                        opacity: 1;
+                        @include media-breakpoint('xs') {
+                            width: 90%;
+                        }
+                    }
+                   
+                }
+                .recuperar {
+                    margin: 32px auto 24px auto;
+                    font-weight: 600;
+                    .text {
+                        margin-right: 8px;
+                        text-align: center;
+                        font: normal normal medium 16px/21px Red Hat Display;
+                        letter-spacing: 0px;
+                        color: #9B9B9B;
+                        opacity: 1;
+
+                        
+    
+                    }
+                    .link{
+                       
+                        width: 280px;
+                        height: 40px;
+                        text-align: center;
+                        padding-top: 10px;
+                        color: #003E76;
+                        background: #6EC1E4 0% 0% no-repeat padding-box;
+                        box-shadow: 0px 10px 20px #90969514;
+                        border-radius: 20px;
+                        opacity: 1;
+                        margin-top: 15px;
+
+                    }
+                }
+                .separator {
+                    font-size: 15px;
+                    font-weight: 600;
+                    margin: 24px auto;
+                    position: relative;
+                    overflow: hidden;
+                    width: 100px;
+                    .text {
+                        display: inline-flex;
+                        position: relative;
+                        padding: 0 8px;
+                        z-index: 9999;
+                        &:before,
+                        &:after {
+                            content: '';
+                            display: block;
+                            width: 30px;
+                            position: absolute;
+                            top: 10px;
+                            border-top: 1px solid;
+                        }
+                        &:before {
+                            right: 100%;
+                        }
+                        &:after {
+                            left: 100%;
+                        }
+                    }
+                }
+                button {
+                    &.google,
+                    &.facebook {
+                        width: 192px;
+                        text-transform: none;
+                        color: #FFFFFF;
+                        font-size: 13px;
+                    }
+                    @include media-breakpoint('xs') {
+                        width: 80%;
+                    }
+                    &.google {
+                        background-color: #D73D32;
+                        margin-bottom: 8px;
+                    }
+                    &.facebook {
+                        background-color: rgb(63, 92, 154);
+                    }
+                }
+            }
+        }
+    }
+
+
+

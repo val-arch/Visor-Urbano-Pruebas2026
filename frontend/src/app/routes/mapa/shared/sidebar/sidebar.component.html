@@ -1,0 +1,92 @@
+<div class="barra-lateral active" *ngIf="barraIOpen" @animate [@slideInLeft]="barraIOpen" #barraLateral>
+    <div *ngIf="activeMedia=='xs'" style="margin-top: -45px;margin-bottom: 20px;">
+        <button mat-icon-button aria-label="Cerrar" (click)="removeActive()">
+            <mat-icon> highlight_off</mat-icon>
+        </button>
+    </div>
+    
+    <div class="items-barra">
+        <div class="item-menu">
+            <a mat-button color="primary" class="margin" href="/tramites" matTooltip="Ir a mis trámites">
+                <mat-icon class="mat-icon2 icon-b"><img src="./assets/icons/visor/ico_login-blanco.svg"/></mat-icon>
+            </a>
+        </div>
+        <div class="item-menu">
+            <button mat-button color="primary" class="margin" (click)="iniciarTramiteButton()" [disabled]="barraInfoOpen">
+                <mat-icon class="mat-icon2 icon-b">
+                    <img class="" src="./assets/icons/visor/ico_nuevo_tramite.svg"/>
+                </mat-icon>
+                <br><b>Nuevo trámite</b>
+            </button>
+        </div>
+        <div class="item-menu" *ngIf="municipioId > 0">
+            <button mat-button color="primary" class="margin" (click)="panelHerramientasButton('capas')">
+                <mat-icon class="mat-icon2 icon-b"><img src="./assets/icons/visor/capas.svg"/></mat-icon>
+                <br><b>Capas</b>
+            </button>
+        </div>
+        <!-- <div class="{{ mapZoom < 14 ? 'item-menu-disabled' : 'item-menu'}}" *ngIf="municipioId > 0"
+             matTooltip="{{ mapZoom < 14 ? 'Necesita zoom >= 15 (actual: ' + mapZoom + ')' : '' }}">
+            <button mat-button style="padding: 0" color="primary" [disabled]="mapZoom < 15 && 1 == 2" (click)="panelHerramientasButton('analisis-comercial')">
+                <mat-icon class="mat-icon2 icon-b">
+                    <img class="" src="./assets/icons/visor/ico_diagnostico.svg"/>
+                </mat-icon>
+                <br><b>Diagnóstico comercial</b>
+            </button>
+        </div>
+        <div class="{{ mapZoom < 10 ? 'item-menu-disabled' : 'item-menu'}}" *ngIf="municipioId > 0">
+            <button mat-button class="margin"
+                    style="padding: 0 6px;" color="primary" (click)="panelHerramientasButtonIdentifica2()">
+                <mat-icon >
+                    archive
+                </mat-icon>
+                <br><b>Ficha Semadet</b>
+            </button>
+        </div> -->
+        <div class="{{ mapZoom < 18 ? 'item-menu-disabled' : 'item-menu'}}" *ngIf="municipioId > 0"
+             matTooltip="{{ mapZoom < 18 ? 'Necesita zoom >= 18 (actual: ' + mapZoom + ')' : '' }}">
+            <button mat-button style="padding: 0" color="primary" [disabled]="mapZoom < 18 && 1 == 2" (click)="panelHerramientasButton('herramientas-seleccion')">
+                <mat-icon class="mat-icon2 icon-b">
+                    <img class="" src="./assets/icons/visor/ico_ruler.svg"/>
+                </mat-icon>
+                <br><b>Medición y selección</b>
+            </button>
+        </div>
+        <div class="{{ mapZoom < 12 ? 'item-menu-disabled' : 'item-menu'}}" *ngIf="municipioId > 0"
+             matTooltip="{{ mapZoom < 12 ? 'Necesita zoom >= 12 (actual: ' + mapZoom + ')' : 'Subir archivo de la geometría del predio a consultar' }}">
+            <button mat-button class="margin"
+                    style="padding: 0 6px;" color="primary"
+                    [disabled]="mapZoom < 12 && 1 == 2"
+                    (click)="panelHerramientasButtonSubirArchivo()">
+                <mat-icon style="color: rgba(0,0,0,0.28)">
+                    cloud_upload
+                </mat-icon>
+                <br><b>Subir archivo</b>
+            </button>
+        </div>
+        <div class="{{ mapZoom < 18 ? 'item-menu-disabled' : 'item-menu'}}" *ngIf="municipioId > 0"
+             matTooltip="{{ mapZoom < 18 ? 'Necesita zoom >= 18 (actual: ' + mapZoom + ')' : '' }}">
+            <button mat-button class="margin"
+                    style="padding: 0 6px;" color="primary"
+                    [disabled]="mapZoom < 18 && 1 == 2"
+                    (click)="panelHerramientasButtonIdentifica()">
+                <mat-icon style="color: rgba(0,0,0,0.28)">
+                    info
+                </mat-icon>
+                <br><b>Identifica</b>
+            </button>
+        </div>
+       
+   
+
+
+        <!--
+        <button mat-button color="primary" class="margin">
+            <mat-icon class="mat-icon2"><img class="icon-b" src="./assets/icons/visor/medir.svg"/></mat-icon>
+        </button>
+        <button mat-button color="primary" class="margin">
+            <mat-icon class="mat-icon2"><img class="icon-b" src="./assets/icons/visor/ico_help.svg"/></mat-icon>
+        </button>
+        -->
+    </div>
+</div>

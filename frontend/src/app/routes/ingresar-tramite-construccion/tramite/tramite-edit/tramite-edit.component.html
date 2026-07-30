@@ -1,0 +1,968 @@
+<div id="tramite" class="page-layout simple fullwidth">
+    <!-- HEADER -->
+    <div class="header fuse-visor-50 p-24 h-120" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center">
+        <div fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="column" fxLayoutAlign.gt-xs="center start">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <mat-icon class="secondary-text s-18">home</mat-icon>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text">Nuevo Trámite</span>
+            </div>
+            <div class="h2 mt-16">
+                Nuevo trámite</div>
+        </div>
+    </div>
+    <!-- / HEADER -->
+    <!-- CONTENT -->
+    <div class="content p-24">
+        <div class="m-28" fxLayout="row" fxLayoutAlign="center center" *ngIf="loading">
+            <mat-progress-spinner mode="indeterminate" color="green"></mat-progress-spinner>
+        </div>
+        <mat-accordion>
+            <mat-expansion-panel [expanded]="isExpanded1" *ngIf="step1_visible">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <img class="ico" src="assets/images/icons/ico_predio.svg">
+                        <h3>Datos del interesado</h3>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                    </mat-panel-description>
+                    <span class="material-icons estilos" *ngIf="!step1_completed" matTooltip="Formulario incompleto">info</span>
+                    <span class="material-icons estilos2" *ngIf="step1_completed" matTooltip="Formulario completo">check_circle</span>
+                </mat-expansion-panel-header>
+                <div class="pt-40 h-100-p">
+                    <div fxLayout="row" fxLayoutAlign="space-between">
+                        <form [formGroup]="filterForm" class="filter-form w-100-p" (ngSubmit)="Submit(1,$event)">
+                            <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="10px">
+                                <ng-container *ngFor="let item of camposDinamicos; let i = index">
+                                    <div *ngIf="['nombre_dueno_negocio','razon_social_dueno_moral','nombre_arrendatario','nombre_apoderado','nombre_apoderado_moral'].includes(item.name)" fxFlex="100">
+                                        <H2>{{ item.description }}</H2>
+                                    </div>
+
+                                    <div *ngIf="item.name=='int_moral_rsocial' && int_mostrar_razon_social" class="vu" fxFlex="100" fxFlex.sm="100" fxFlex.xs="100">
+                                        <mat-list>
+                                            <mat-label class="radioLabel" style="font-weight: bold;">
+                                                Informacion Persona moral</mat-label><br>
+                                            <mat-checkbox class="example-margin" (change)="checkCopy($event, 'int_mostrar_razon_social')">Copiar Domicilio</mat-checkbox>
+                                        </mat-list>
+                                        <mat-divider></mat-divider>
+                                    </div>
+
+
+                                    <div [ngSwitch]="item.type" *ngIf="item.step==1 && item.secuencia < 16" fxFlex="30" fxFlex.sm="45" fxFlex.xs="100">
+                                        <div *ngSwitchCase="'input'" class="vu">
+                                            <mat-form-field appearance="outline">
+                                                <mat-label>{{item.description}}</mat-label>
+                                                <input matInput formControlName="{{item.name}}">
+                                            </mat-form-field>
+                                        </div>
+                                        <div *ngSwitchCase="'file'" class="vu">
+                                            <div class="file">
+                                                <span class=ellipsis matTooltip="{{item.description}}">{{item.description}}</span><br />
+                                                <div fxLayout="row">
+                                                    <img fxFlex="10%" fxFlex.lg="8%" fxFlex.xl="8%" [src]="item.imgUrl != null ? item.imgUrl :  'assets/images/icons/ico_upload.svg'">
+                                                    <label fxFlex="90%">
+                                                        <input type="file" formControlName="{{item.name}}"
+                                                            class="vu-file-upload" data-max-size="2048"
+                                                            accept="application/pdf, image/gif,image/jpeg,image/png"
+                                                            (change)="fileChangeEvent($event,item.name,i)">
+                                                    </label>
+                                                </div>
+                                                <div class="progress form-group" *ngIf="progress > 0 && mostrarbar ==  item.name">
+                                                    <mat-progress-bar mode="query"></mat-progress-bar>
+                                                </div>
+                                                <div class="doc" *ngIf="item.value">
+                                                    <a href="{{env}}{{item.value}}" target="_blank"><img src="assets/images/icons/ico-file.svg">
+                                                        <span>Ver archivo</span></a>
+                                                </div>
+                                            </div>
+                                            <div *ngIf="item.name != 'anexo_1'">
+                                                <div *ngIf="filterForm.controls[item.name].invalid && (filterForm.controls[item.name].dirty || filterForm.controls[item.name].touched || submitted )" class="alert">
+                                                    <div *ngIf="filterForm.controls[item.name].errors.required">
+                                                        Seleccione archivo {{item.description}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div *ngSwitchCase="'multifile'" class="vu">
+                                            <div class="file">
+                                                <span class=ellipsis matTooltip="{{item.description}}">{{item.description}}</span><br />
+                                                <div fxLayout="row">
+                                                    <img fxFlex="10%" fxFlex.lg="8%" fxFlex.xl="8%" [src]="item.imgUrl != null ? item.imgUrl :  'assets/images/icons/ico_upload.svg'">
+                                                    <label fxFlex="90%">
+                                                        <input type="file" formControlName="{{item.name}}"
+                                                            class="vu-file-upload" data-max-size="2048"
+                                                            accept="application/pdf, image/gif,image/jpeg,image/png"
+                                                            (change)="fileChangeEvent($event,item.name,i)">
+                                                    </label>
+                                                </div>
+                                                <div class="progress form-group" *ngIf="progress > 0 && mostrarbar ==  item.name">
+                                                    <mat-progress-bar mode="query"></mat-progress-bar>
+                                                </div>
+                                                <div class="doc" *ngIf="item.value">
+                                                    <a href="{{env}}{{item.value}}" target="_blank"><img src="assets/images/icons/ico-file.svg">
+                                                        <span>Ver archivo</span></a>
+                                                </div>
+                                            </div>
+                                            <div *ngIf="filterForm.controls[item.name].invalid && (filterForm.controls[item.name].dirty || filterForm.controls[item.name].touched || submitted)" class="alert">
+                                                <div *ngIf="filterForm.controls[item.name].errors.required">
+                                                    Seleccione archivo {{item.description}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="vu" *ngSwitchCase="'radio'">
+                                            <mat-label class="radioLabel" style="font-weight: bold;">
+                                                {{item.description}}</mat-label><br>
+                                            <mat-radio-group class="example-radio-group" [value]="item.value" [formControlName]="item.name" formControlName="{{item.name}}">
+                                                <mat-radio-button [value]="controlText" *ngFor="let controlText of item.opciones.split('|'); let i = index" (click)="validarPersona(item.name,controlText)">
+                                                    {{controlText}}
+                                                </mat-radio-button>
+                                            </mat-radio-group>
+                                        </div>
+                                        <div *ngSwitchCase="'select'" class="vu">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>{{item.description}}</mat-label>
+                                                <select matNativeControl required formControlName="{{item.name}}">
+                                                    <option [value]="item.opciones_desc.split('|')[i]"
+                                                        *ngFor="let controlText of item.opciones.split('|'); let i = index">
+                                                        {{controlText}}
+                                                    </option>
+                                                </select>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+
+                                    <div [ngSwitch]="item.type" *ngIf="item.step==1 && item.secuencia > 15 && int_mostrar_razon_social" fxFlex="30" fxFlex.sm="45" fxFlex.xs="100">
+                                        <div *ngSwitchCase="'input'" class="vu">
+                                            <mat-form-field appearance="outline">
+                                                <mat-label>{{item.description}}</mat-label>
+                                                <input matInput formControlName="{{item.name}}">
+                                            </mat-form-field>
+                                        </div>
+                                        <div *ngSwitchCase="'file'" class="vu">
+                                            <div class="file">
+                                                <span class=ellipsis matTooltip="{{item.description}}">{{item.description}}</span><br />
+                                                <div fxLayout="row">
+                                                    <img fxFlex="10%" fxFlex.lg="8%" fxFlex.xl="8%" [src]="item.imgUrl != null ? item.imgUrl :  'assets/images/icons/ico_upload.svg'">
+                                                    <label fxFlex="90%">
+                                                        <input type="file" formControlName="{{item.name}}"
+                                                            class="vu-file-upload" data-max-size="2048"
+                                                            accept="application/pdf, image/gif,image/jpeg,image/png"
+                                                            (change)="fileChangeEvent($event,item.name,i)">
+                                                    </label>
+                                                </div>
+                                                <div class="progress form-group" *ngIf="progress > 0 && mostrarbar ==  item.name">
+                                                    <mat-progress-bar mode="query"></mat-progress-bar>
+                                                </div>
+                                                <div class="doc" *ngIf="item.value">
+                                                    <a href="{{env}}{{item.value}}" target="_blank"><img src="assets/images/icons/ico-file.svg">
+                                                        <span>Ver archivo</span></a>
+                                                </div>
+                                            </div>
+                                            <div *ngIf="item.name != 'anexo_1'">
+                                                <div *ngIf="filterForm.controls[item.name].invalid && (filterForm.controls[item.name].dirty || filterForm.controls[item.name].touched || submitted )" class="alert">
+                                                    <div *ngIf="filterForm.controls[item.name].errors.required">
+                                                        Seleccione archivo {{item.description}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div *ngSwitchCase="'multifile'" class="vu">
+                                            <div class="file">
+                                                <span class=ellipsis matTooltip="{{item.description}}">{{item.description}}</span><br />
+                                                <div fxLayout="row">
+                                                    <img fxFlex="10%" fxFlex.lg="8%" fxFlex.xl="8%" [src]="item.imgUrl != null ? item.imgUrl :  'assets/images/icons/ico_upload.svg'">
+                                                    <label fxFlex="90%">
+                                                        <input type="file" formControlName="{{item.name}}"
+                                                            class="vu-file-upload" data-max-size="2048"
+                                                            accept="application/pdf, image/gif,image/jpeg,image/png"
+                                                            (change)="fileChangeEvent($event,item.name,i)">
+                                                    </label>
+                                                </div>
+                                                <div class="progress form-group" *ngIf="progress > 0 && mostrarbar ==  item.name">
+                                                    <mat-progress-bar mode="query"></mat-progress-bar>
+                                                </div>
+                                                <div class="doc" *ngIf="item.value">
+                                                    <a href="{{env}}{{item.value}}" target="_blank"><img src="assets/images/icons/ico-file.svg">
+                                                        <span>Ver archivo</span></a>
+                                                </div>
+                                            </div>
+                                            <div *ngIf="filterForm.controls[item.name].invalid && (filterForm.controls[item.name].dirty || filterForm.controls[item.name].touched || submitted)" class="alert">
+                                                <div *ngIf="filterForm.controls[item.name].errors.required">
+                                                    Seleccione archivo {{item.description}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="vu" *ngSwitchCase="'radio'">
+                                            <mat-label class="radioLabel" style="font-weight: bold;">
+                                                {{item.description}}</mat-label><br>
+                                            <mat-radio-group class="example-radio-group" [value]="controlText" [formControlName]="item.name" formControlName="{{item.name}}">
+                                                <mat-radio-button [value]="controlText" *ngFor="let controlText of item.opciones.split('|'); let i = index" (click)="validarPersona(item.name,controlText)">
+                                                    {{controlText}}
+                                                </mat-radio-button>
+                                            </mat-radio-group>
+                                        </div>
+                                        <div *ngSwitchCase="'select'" class="vu">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>{{item.description}}</mat-label>
+                                                <select matNativeControl required formControlName="{{item.name}}">
+                                                    <option [value]="item.opciones_desc.split('|')[i]"
+                                                        *ngFor="let controlText of item.opciones.split('|'); let i = index">
+                                                        {{controlText}}
+                                                    </option>
+                                                </select>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+
+
+
+
+
+                                </ng-container>
+                            </div>
+                            <br>
+                            <button mat-raised-button type="submit" color="primary">Guardar y continuar</button>
+                        </form>
+                    </div>
+                </div>
+            </mat-expansion-panel>
+            <mat-expansion-panel [expanded]="isExpanded2" *ngIf="step2_visible">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <img class="ico" src="assets/images/icons/ico-predio.svg">
+                        <h3> Información del propietario</h3>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                    </mat-panel-description>
+                    <span class="material-icons estilos" *ngIf="!step2_completed" matTooltip="Formulario incompleto">info</span>
+                    <span class="material-icons estilos2" *ngIf="step2_completed" matTooltip="Formulario completo">check_circle</span>
+                </mat-expansion-panel-header>
+                <div class="pt-20">
+                    <div fxLayout="row" fxLayoutAlign="space-between">
+                        <form [formGroup]="filterForm_step2" class="filter-form w-100-p" (ngSubmit)="Submit(2,$event)">
+                            <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="10px">
+                                <mat-list fxFlex="100">
+                                    <mat-checkbox class="example-margin" (change)="checkCopy($event, 'copyall')">Copiar de datos del interesado</mat-checkbox>
+                                </mat-list>
+                                <ng-container *ngFor="let item of camposDinamicos; let i = index">
+                                    <div *ngIf="['nombre_propietario','razon_social'].includes(item.name)" fxFlex="100">
+                                        <H2>{{ item.description }}</H2>
+                                    </div>
+                                    <div *ngIf="item.name=='propmoral_rsocial' && prop_mostrar_razon_social" class="vu" fxFlex="100" fxFlex.sm="100" fxFlex.xs="100">
+                                        <mat-list>
+                                            <mat-label class="radioLabel" style="font-weight: bold;">
+                                                Informacion Persona moral</mat-label><br>
+                                            <mat-checkbox class="example-margin" (change)="checkCopy($event, 'prop_mostrar_razon_social')">Copiar Domicilio</mat-checkbox>
+                                        </mat-list>
+                                        <mat-divider></mat-divider>
+                                    </div>
+                                    <div [ngSwitch]="item.type" *ngIf="item.step==2 && item.secuencia < 16" fxFlex="30" fxFlex.sm="45" fxFlex.xs="100">
+                                        <div *ngSwitchCase="'file'" class="vu" fxFlex="100">
+
+                                            <div class="file">
+                                                <span class=ellipsis matTooltip="{{item.description}}">{{item.description}}</span><br />
+                                                <div fxLayout="row">
+                                                    <img fxFlex="10" [src]="item.imgUrl != null ? item.imgUrl :  'assets/images/icons/ico_upload.svg'">
+                                                    <!-- Progress Bar -->
+                                                    <label fxFlex="90">
+                                                        <input type="file" formControlName="{{item.name}}"
+                                                            class="vu-file-upload"
+                                                            (change)="fileChangeEvent($event,item.name,i)">
+                                                    </label>
+                                                </div>
+                                                <div class="progress form-group" *ngIf="progress > 0 && mostrarbar ==  item.name">
+                                                    <mat-progress-bar mode="query"></mat-progress-bar>
+                                                </div>
+                                                <div class="doc" *ngIf="item.value">
+                                                    <a href="{{env}}{{item.value}}" target="_blank"><img src="assets/images/icons/ico-file.svg">
+                                                        <span>Ver archivo</span></a>
+                                                </div>
+                                            </div>
+                                            <div *ngIf="item.name != 'anexo_2'">
+                                                <div *ngIf="filterForm_step2.controls[item.name].invalid && (filterForm_step2.controls[item.name].dirty || filterForm_step2.controls[item.name].touched || submitted)" class="alert">
+                                                    <div *ngIf="filterForm_step2.controls[item.name].errors.required">
+                                                        Seleccione archivo {{item.description}}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div *ngSwitchCase="'multifile'" class="vu" fxFlex="100">
+                                            <div class="file">
+                                                <span class=ellipsis matTooltip="{{item.description}}">{{item.description}}</span><br />
+                                                <div fxLayout="row">
+                                                    <img fxFlex="10" [src]="item.imgUrl != null ? item.imgUrl :  'assets/images/icons/ico_upload.svg'">
+                                                    <!-- Progress Bar -->
+                                                    <label fxFlex="90">
+                                                        <input type="file" formControlName="{{item.name}}"
+                                                            class="vu-file-upload"
+                                                            (change)="fileChangeEvent($event,item.name,i)">
+                                                    </label>
+                                                </div>
+                                                <div class="progress form-group" *ngIf="progress > 0 && mostrarbar ==  item.name">
+                                                    <mat-progress-bar mode="query"></mat-progress-bar>
+                                                </div>
+                                                <div class="doc" *ngIf="item.value">
+                                                    <a href="{{env}}{{item.value}}" target="_blank"><img src="assets/images/icons/ico-file.svg">
+                                                        <span>Ver archivo</span></a>
+                                                </div>
+                                            </div>
+
+                                            <div *ngIf="filterForm_step2.controls[item.name].invalid && (filterForm_step2.controls[item.name].dirty || filterForm_step2.controls[item.name].touched || submitted )" class="alert">
+                                                <div *ngIf="filterForm_step2.controls[item.name].errors.required">
+                                                    Seleccione archivo {{item.description}}
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                        <div *ngSwitchCase="'input'" class="vu">
+                                            <mat-form-field appearance="outline">
+                                                <mat-label>{{item.description}}</mat-label>
+                                                <input matInput formControlName="{{item.name}}">
+                                            </mat-form-field>
+                                        </div>
+
+                                        <div *ngSwitchCase="'select'" class="vu">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>{{item.description}}</mat-label>
+                                                <select matNativeControl required formControlName="{{item.name}}">
+                                                    <option [value]="item.opciones_desc.split('|')[i]"
+                                                        *ngFor="let controlText of item.opciones.split('|'); let i = index">
+                                                        {{controlText}}
+                                                    </option>
+                                                </select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="vu" *ngSwitchCase="'radio'">
+                                            <mat-label class="radioLabel" style="font-weight: bold;">
+                                                {{item.description}}
+                                            </mat-label><br>
+                                            <mat-radio-group class="example-radio-group" [formControlName]="item.name" *ngIf="item && item.name" formControlName="{{item.name}}">
+                                                <mat-radio-button [value]="controlText" *ngFor="let controlText of item.opciones.split('|'); let i = index" (click)="validarPersona(item.name,controlText)">
+                                                    {{controlText}}
+                                                </mat-radio-button>
+                                            </mat-radio-group>
+                                        </div>
+                                    </div>
+                                    <div [ngSwitch]="item.type" *ngIf="item.step==2 && item.secuencia > 15 && prop_mostrar_razon_social" fxFlex="30" fxFlex.sm="45" fxFlex.xs="100">
+                                        <div *ngSwitchCase="'file'" class="vu" fxFlex="100">
+
+                                            <div class="file">
+                                                <span class=ellipsis matTooltip="{{item.description}}">{{item.description}}</span><br />
+                                                <div fxLayout="row">
+                                                    <img fxFlex="10" [src]="item.imgUrl != null ? item.imgUrl :  'assets/images/icons/ico_upload.svg'">
+                                                    <!-- Progress Bar -->
+                                                    <label fxFlex="90">
+                                                        <input type="file" formControlName="{{item.name}}"
+                                                            class="vu-file-upload"
+                                                            (change)="fileChangeEvent($event,item.name,i)">
+                                                    </label>
+                                                </div>
+                                                <div class="progress form-group" *ngIf="progress > 0 && mostrarbar ==  item.name">
+                                                    <mat-progress-bar mode="query"></mat-progress-bar>
+                                                </div>
+                                                <div class="doc" *ngIf="item.value">
+                                                    <a href="{{env}}{{item.value}}" target="_blank"><img src="assets/images/icons/ico-file.svg">
+                                                        <span>Ver archivo</span></a>
+                                                </div>
+                                            </div>
+                                            <div *ngIf="item.name != 'anexo_2'">
+                                                <div *ngIf="filterForm_step2.controls[item.name].invalid && (filterForm_step2.controls[item.name].dirty || filterForm_step2.controls[item.name].touched || submitted)" class="alert">
+                                                    <div *ngIf="filterForm_step2.controls[item.name].errors.required">
+                                                        Seleccione archivo {{item.description}}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div *ngSwitchCase="'multifile'" class="vu" fxFlex="100">
+                                            <div class="file">
+                                                <span class=ellipsis matTooltip="{{item.description}}">{{item.description}}</span><br />
+                                                <div fxLayout="row">
+                                                    <img fxFlex="10" [src]="item.imgUrl != null ? item.imgUrl :  'assets/images/icons/ico_upload.svg'">
+                                                    <!-- Progress Bar -->
+                                                    <label fxFlex="90">
+                                                        <input type="file" formControlName="{{item.name}}"
+                                                            class="vu-file-upload"
+                                                            (change)="fileChangeEvent($event,item.name,i)">
+                                                    </label>
+                                                </div>
+                                                <div class="progress form-group" *ngIf="progress > 0 && mostrarbar ==  item.name">
+                                                    <mat-progress-bar mode="query"></mat-progress-bar>
+                                                </div>
+                                                <div class="doc" *ngIf="item.value">
+                                                    <a href="{{env}}{{item.value}}" target="_blank"><img src="assets/images/icons/ico-file.svg">
+                                                        <span>Ver archivo</span></a>
+                                                </div>
+                                            </div>
+
+                                            <div *ngIf="filterForm_step2.controls[item.name].invalid && (filterForm_step2.controls[item.name].dirty || filterForm_step2.controls[item.name].touched || submitted )" class="alert">
+                                                <div *ngIf="filterForm_step2.controls[item.name].errors.required">
+                                                    Seleccione archivo {{item.description}}
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                        <div *ngSwitchCase="'input'" class="vu">
+                                            <mat-form-field appearance="outline">
+                                                <mat-label>{{item.description}}</mat-label>
+                                                <input matInput formControlName="{{item.name}}">
+                                            </mat-form-field>
+                                        </div>
+
+                                        <div *ngSwitchCase="'select'" class="vu">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>{{item.description}}</mat-label>
+                                                <select matNativeControl required formControlName="{{item.name}}">
+                                                    <option [value]="item.opciones_desc.split('|')[i]"
+                                                        *ngFor="let controlText of item.opciones.split('|'); let i = index">
+                                                        {{controlText}}
+                                                    </option>
+                                                </select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="vu" *ngSwitchCase="'radio'">
+                                            <mat-label class="radioLabel" style="font-weight: bold;">
+                                                {{item.description}}
+                                            </mat-label><br>
+                                            <mat-radio-group class="example-radio-group" [formControlName]="item.name" *ngIf="item && item.name" formControlName="{{item.name}}">
+                                                <mat-radio-button [value]="item.opciones_desc.split('|')[i]" *ngFor="let controlText of item.opciones.split('|'); let i = index" (click)="validarPersona(item.name,controlText)">
+                                                    {{controlText}}
+                                                </mat-radio-button>
+                                            </mat-radio-group>
+                                        </div>
+                                    </div>
+
+                                </ng-container>
+
+                            </div>
+                            <button mat-raised-button type="submit" color="primary">Guardar y continuar</button>
+                        </form>
+                    </div>
+                </div>
+            </mat-expansion-panel>
+            <mat-expansion-panel [expanded]="isExpanded3" *ngIf="step3_visible">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <img class="ico" src="assets/images/icons/ico-establecimiento.svg">
+                        <h3>Ubicación del predio / Datos de propiedad</h3>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                    </mat-panel-description>
+                    <span class="material-icons estilos" *ngIf="!step3_completed" matTooltip="Formulario incompleto">info</span>
+                    <span class="material-icons estilos2" *ngIf="step3_completed" matTooltip="Formulario completo">check_circle</span>
+                </mat-expansion-panel-header>
+                <div class="pt-20 ">
+                    <div fxLayout="row" fxLayoutAlign="space-between">
+                        <form [formGroup]="filterForm_step3" class="filter-form w-100-p" (ngSubmit)="Submit(3,$event)">
+                            <mat-card>El domicilio del predio obtenido del mapa es el siguiente:
+                                <p>{{calle}}, {{colonia}}
+                                </p>
+                                <br>
+                                <p><b>Importante</b>: Si son correctos, reitera la información, en caso de un error, señala los correctos </p>
+                            </mat-card>
+                            <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="10px">
+                                <ng-container *ngFor="let item of camposDinamicos; let i = index">
+
+                                    <div [ngSwitch]="item.type" *ngIf="item.step==3 && (item.name!='tipo_dcto_propiedad_otro' && item.name!='notario_publico' && item.name!='fedatario_publico_otro')" fxFlex="30" fxFlex.sm="45" fxFlex.xs="100">
+                                        <div *ngSwitchCase="'file'" class="vu">
+                                            <div class="file">
+                                                <span class=ellipsis matTooltip="{{item.description}}">{{item.description}}</span><br />
+                                                <div fxLayout="row">
+                                                    <img fxFlex="10%" fxFlex.lg="8%" fxFlex.xl="8%" [src]="item.imgUrl != null ? item.imgUrl :  'assets/images/icons/ico_upload.svg'">
+                                                    <label fxFlex="90%">
+                                                        <input type="file" formControlName="{{item.name}}"
+                                                            class="vu-file-upload"
+                                                            (change)="fileChangeEvent($event,item.name,i)">
+                                                    </label>
+
+                                                </div>
+
+                                                <div class="doc" *ngIf="item.value">
+
+                                                    <a href="{{env}}{{item.value}}" target="_blank"><img src="assets/images/icons/ico-file.svg">
+                                                        <span>Ver archivo</span></a>
+                                                </div>
+                                                <div *ngIf="item.name != 'anexo_3'">
+                                                    <div *ngIf="filterForm_step3.controls[item.name].invalid && (filterForm_step3.controls[item.name].dirty || filterForm_step3.controls[item.name].touched || submitted)" class="alert">
+                                                        <div *ngIf="filterForm_step3.controls[item.name].errors.required">
+                                                            Seleccione archivo {{item.description}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="vu" *ngSwitchCase="'radio'">
+                                            <mat-label class="radioLabel" style="font-weight: bold;">
+                                                {{item.description}}
+                                            </mat-label><br>
+                                            <mat-radio-group class="example-radio-group" [formControlName]="item.name" *ngIf="item && item.name" formControlName="{{item.name}}">
+                                                <mat-radio-button [value]="item.opciones_desc.split('|')[i]" *ngFor="let controlText of item.opciones.split('|'); let i = index">
+                                                    {{controlText}}
+                                                </mat-radio-button>
+                                            </mat-radio-group>
+                                        </div>
+                                        <div *ngIf="item.description!='Otro' && item.description != 'Fecha de expedición'">
+                                            <div *ngSwitchCase="'input'" class="vu">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>{{item.description}}</mat-label>
+                                                    <input matInput formControlName="{{item.name}}">
+                                                </mat-form-field>
+                                                <mat-form-field appearance="outline" *ngIf="item.description=='Otro' && filterForm_step3.value.tipo_dcto_propiedad=='5'">
+                                                    <mat-label>{{item.description}}</mat-label>
+                                                    <input matInput formControlName="{{item.name}}">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="item.description!='Otro' && item.description == 'Fecha de expedición'">
+                                            <div *ngSwitchCase="'input'" class="vu">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>{{item.description}}</mat-label>
+                                                    <input matInput [matDatepicker]="picker" formControlName="{{item.name}}">
+                                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                                    <mat-datepicker #picker></mat-datepicker>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="item.description=='Otro' && filterForm_step3.value.tipo_dcto_propiedad=='5'">
+                                            <div *ngSwitchCase="'input'" class="vu">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>{{item.description}}</mat-label>
+                                                    <input matInput formControlName="{{item.name}}">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="vu" *ngSwitchCase="'radio'">
+                                            <mat-label class="radioLabel" style="font-weight: bold;">
+                                                {{item.description}}
+                                            </mat-label><br>
+                                            <mat-radio-group class="example-radio-group" [formControlName]="item.name" *ngIf="item && item.name" formControlName="{{item.name}}">
+                                                <mat-radio-button [value]="item.opciones_desc.split('|')[i]" *ngFor="let controlText of item.opciones.split('|'); let i = index">
+                                                    {{controlText}}
+                                                </mat-radio-button>
+                                            </mat-radio-group>
+                                        </div>
+                                        <div *ngSwitchCase="'multifile'" class="vu">
+                                            <div class="file">
+                                                <span class=ellipsis matTooltip="{{item.description}}">{{item.description}}</span><br />
+                                                <div fxLayout="row">
+
+
+                                                    <img fxFlex="10%" fxFlex.lg="8%" fxFlex.xl="8%" [src]="item.imgUrl != null ? item.imgUrl :  'assets/images/icons/ico_upload.svg'">
+                                                    <label fxFlex="90%">
+                                                        <input type="file" formControlName="{{item.name}}"
+                                                            class="vu-file-upload"
+                                                            (change)="fileChangeEvent($event,item.name,i)">
+                                                    </label>
+
+                                                </div>
+
+                                                <div class="doc" *ngIf="item.value">
+
+                                                    <a href="{{env}}{{item.value}}" target="_blank"><img src="assets/images/icons/ico-file.svg">
+                                                        <span>Ver archivo</span></a>
+                                                </div>
+                                                <div *ngIf="filterForm_step3.controls[item.name].invalid && (filterForm_step3.controls[item.name].dirty || filterForm_step3.controls[item.name].touched || submitted)" class="alert">
+                                                    <div *ngIf="filterForm_step3.controls[item.name].errors.required">
+                                                        Seleccione archivo {{item.description}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div *ngSwitchCase="'select'" class="vu">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>{{item.description}}</mat-label>
+                                                <select matNativeControl required formControlName="{{item.name}}"  (change)="changeSelect()">
+                                                    <option [value]="item.opciones_desc.split('|')[i]"
+                                                        *ngFor="let controlText of item.opciones.split('|'); let i = index">
+                                                        {{controlText}}
+                                                    </option>
+                                                </select>
+                                            </mat-form-field>
+                                            <mat-form-field appearance="fill" *ngIf="item.name=='tipo_dcto_propiedad' && filterForm_step3.value.tipo_dcto_propiedad=='5'">
+                                                <mat-label>Otro</mat-label>
+                                                <input matInput formControlName="tipo_dcto_propiedad_otro">
+                                            </mat-form-field>
+
+                                            <mat-form-field appearance="fill" *ngIf="item.name=='fedatario_publico' && filterForm_step3.value.fedatario_publico=='4'">
+                                                <mat-label>Notario público</mat-label>
+                                                <select matNativeControl required formControlName="notario_publico">
+                                                    <option [value]="notario.nombre"
+                                                        *ngFor="let notario of notarios_publicos; let i = index">
+                                                        {{notario.nombre}}
+                                                    </option>
+                                                </select>
+                                            </mat-form-field>
+
+                                            <mat-form-field appearance="fill" *ngIf="item.name=='fedatario_publico' && filterForm_step3.value.fedatario_publico=='3'">
+                                                <mat-label>Otro</mat-label>
+                                                <input matInput formControlName="fedatario_publico_otro">
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </div>
+                            <button mat-raised-button type="submit" color="primary">Guardar y continuar</button>
+
+                        </form>
+                    </div>
+                </div>
+            </mat-expansion-panel>
+            <mat-expansion-panel [expanded]="isExpanded4" *ngIf="step4_visible">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <img class="ico" src="assets/images/icons/ico-establecimiento.svg">
+                        <h3>Director Responsable de Obra o proyecto</h3>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                    </mat-panel-description>
+                    <span class="material-icons estilos" *ngIf="!step4_completed">info</span>
+                    <span class="material-icons estilos2" *ngIf="step4_completed">check_circle</span>
+                </mat-expansion-panel-header>
+                <div class="pt-20 ">
+                    <div fxLayout="row" fxLayoutAlign="space-between">
+                        <form [formGroup]="filterForm_step4" class="filter-form w-100-p" (ngSubmit)="Submit(4,$event)">
+                            <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="10px">
+                                <ng-container *ngFor="let item of camposDinamicos; let i = index">
+                                    <div [ngSwitch]="item.type" *ngIf="item.step==4" fxFlex="30" fxFlex.sm="45" fxFlex.xs="100">
+
+                                        <div *ngSwitchCase="'file'" class="vu">
+                                            <div class="file">
+                                                <span class=ellipsis matTooltip="{{item.description}}">{{item.description}}</span><br />
+                                                <div fxLayout="row">
+                                                    <img fxFlex="10%" fxFlex.lg="8%" fxFlex.xl="8%" [src]="item.imgUrl != null ? item.imgUrl :  'assets/images/icons/ico_upload.svg'">
+                                                    <label fxFlex="90%">
+                                                        <input type="file" formControlName="{{item.name}}"
+                                                            class="vu-file-upload"
+                                                            (change)="fileChangeEvent($event,item.name,i)">
+                                                    </label>
+                                                </div>
+                                                <div class="doc" *ngIf="item.value">
+                                                    <a href="{{env}}{{item.value}}" target="_blank"><img src="assets/images/icons/ico-file.svg">
+                                                        <span>Ver archivo</span></a>
+                                                </div>
+                                                <div *ngIf="item.name != 'anexo_4'">
+                                                    <div *ngIf="filterForm_step4.controls[item.name].invalid && (filterForm_step4.controls[item.name].dirty || filterForm_step4.controls[item.name].touched || submitted)" class="alert">
+                                                        <div *ngIf="filterForm_step4.controls[item.name].errors.required">
+                                                            Seleccione archivo {{item.description}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div *ngSwitchCase="'input'" class="vu">
+                                            <mat-form-field appearance="outline">
+                                                <mat-label>{{item.description}}</mat-label>
+                                                <input matInput formControlName="{{item.name}}">
+                                            </mat-form-field>
+                                        </div>
+                                        <div *ngSwitchCase="'multifile'" class="vu">
+                                            <div class="file">
+                                                <span class=ellipsis matTooltip="{{item.description}}">{{item.description}}</span><br />
+                                                <div fxLayout="row">
+                                                    <img fxFlex="10%" fxFlex.lg="8%" fxFlex.xl="8%" [src]="item.imgUrl != null ? item.imgUrl :  'assets/images/icons/ico_upload.svg'">
+                                                    <label fxFlex="90%">
+                                                        <input type="file" formControlName="{{item.name}}"
+                                                            class="vu-file-upload"
+                                                            (change)="fileChangeEvent($event,item.name,i)">
+                                                    </label>
+                                                </div>
+                                                <div class="doc" *ngIf="item.value">
+                                                    <a href="{{env}}{{item.value}}" target="_blank"><img src="assets/images/icons/ico-file.svg">
+                                                        <span>Ver archivo</span></a>
+                                                </div>
+                                                <div *ngIf="filterForm_step4.controls[item.name].invalid && (filterForm_step4.controls[item.name].dirty || filterForm_step4.controls[item.name].touched || submitted)" class="alert">
+                                                    <div *ngIf="filterForm_step4.controls[item.name].errors.required">
+                                                        Seleccione archivo {{item.description}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="vu" *ngSwitchCase="'radio'">
+                                            <mat-label class="radioLabel" style="font-weight: bold;">
+                                                {{item.description}}
+                                            </mat-label><br>
+                                            <mat-radio-group class="example-radio-group" [formControlName]="item.name" *ngIf="item && item.name" formControlName="{{item.name}}">
+                                                <mat-radio-button [value]="item.opciones_desc.split('|')[i]" *ngFor="let controlText of item.opciones.split('|'); let i = index" (click)="validarPersona(item.name,controlText)">
+                                                    {{controlText}}
+                                                </mat-radio-button>
+                                            </mat-radio-group>
+                                        </div>
+                                        <div *ngSwitchCase="'select'" class="vu">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>{{item.description}}</mat-label>
+                                                <select matNativeControl required formControlName="{{item.name}}">
+                                                    <option [value]="item.opciones_desc.split('|')[i]"
+                                                        *ngFor="let controlText of item.opciones.split('|'); let i = index">
+                                                        {{controlText}}
+                                                    </option>
+                                                </select>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </div>
+                            <button mat-raised-button type="submit" color="primary">Guardar y continuar</button>
+                        </form>
+                    </div>
+                </div>
+            </mat-expansion-panel>
+            <mat-expansion-panel [expanded]="isExpanded5" *ngIf="step5_visible">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <img class="ico" src="assets/images/icons/ico-establecimiento.svg">
+                        <h3>Información del trámite</h3>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                    </mat-panel-description>
+                    <span class="material-icons estilos" *ngIf="!step5_completed">info</span>
+                    <span class="material-icons estilos2" *ngIf="step5_completed">check_circle</span>
+                </mat-expansion-panel-header>
+                <div class="pt-20 ">
+                    <div fxLayout="row" fxLayoutAlign="space-between">
+                        <form [formGroup]="filterForm_step5" class="filter-form w-100-p" (ngSubmit)="Submit(5,$event)">
+                            <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="10px">
+                                <ng-container *ngFor="let item of camposDinamicos; let i = index">
+                                    <div [ngSwitch]="item.type" *ngIf="item.step==5" fxFlex="30" fxFlex.sm="45" fxFlex.xs="100">
+
+                                        <div *ngSwitchCase="'file'" class="vu">
+                                            <div class="file">
+                                                <span class=ellipsis matTooltip="{{item.description}}">{{item.description}}</span><br />
+                                                <div fxLayout="row">
+                                                    <img fxFlex="10%" fxFlex.lg="8%" fxFlex.xl="8%" [src]="item.imgUrl != null ? item.imgUrl :  'assets/images/icons/ico_upload.svg'">
+                                                    <label fxFlex="90%">
+                                                        <input type="file" formControlName="{{item.name}}"
+                                                            class="vu-file-upload"
+                                                            (change)="fileChangeEvent($event,item.name,i)">
+                                                    </label>
+                                                </div>
+                                                <div class="doc" *ngIf="item.value">
+                                                    <a href="{{env}}{{item.value}}" target="_blank"><img src="assets/images/icons/ico-file.svg">
+                                                        <span>Ver archivo</span></a>
+                                                </div>
+                                                <div *ngIf="item.name != 'anexo_5'">
+                                                    <div *ngIf="filterForm_step5.controls[item.name].invalid && (filterForm_step5.controls[item.name].dirty || filterForm_step5.controls[item.name].touched || submitted)" class="alert">
+                                                        <div *ngIf="filterForm_step5.controls[item.name].errors.required">
+                                                            Seleccione archivo {{item.description}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div *ngSwitchCase="'input'" class="vu">
+                                            <mat-form-field appearance="outline" *ngIf="item.name!='lic_info_adicional'">
+                                                <mat-label>{{item.description}}</mat-label>
+                                                <input matInput formControlName="{{item.name}}">
+                                            </mat-form-field>
+                                        </div>
+                                        
+                                        <div *ngSwitchCase="'multifile'" class="vu">
+                                            <div class="file">
+                                                <span class=ellipsis matTooltip="{{item.description}}">{{item.description}}</span><br />
+                                                <div fxLayout="row">
+                                                    <img fxFlex="10%" fxFlex.lg="8%" fxFlex.xl="8%" [src]="item.imgUrl != null ? item.imgUrl :  'assets/images/icons/ico_upload.svg'">
+                                                    <label fxFlex="90%">
+                                                        <input type="file" formControlName="{{item.name}}"
+                                                            class="vu-file-upload"
+                                                            (change)="fileChangeEvent($event,item.name,i)">
+                                                    </label>
+                                                </div>
+                                                <div class="doc" *ngIf="item.value">
+                                                    <a href="{{env}}{{item.value}}" target="_blank"><img src="assets/images/icons/ico-file.svg">
+                                                        <span>Ver archivo</span></a>
+                                                </div>
+                                                <div *ngIf="filterForm_step4.controls[item.name].invalid && (filterForm_step4.controls[item.name].dirty || filterForm_step4.controls[item.name].touched || submitted)" class="alert">
+                                                    <div *ngIf="filterForm_step4.controls[item.name].errors.required">
+                                                        Seleccione archivo {{item.description}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="vu" *ngSwitchCase="'radio'">
+                                            <mat-label class="radioLabel" style="font-weight: bold;">
+                                                {{item.description}}
+                                            </mat-label><br>
+                                            <mat-radio-group class="example-radio-group" [formControlName]="item.name" *ngIf="item && item.name" formControlName="{{item.name}}">
+                                                <mat-radio-button [value]="item.opciones_desc.split('|')[i]" *ngFor="let controlText of item.opciones.split('|'); let i = index">
+                                                    {{controlText}}
+                                                </mat-radio-button>
+                                            </mat-radio-group>
+                                        </div>
+                                        <div *ngSwitchCase="'select'" class="vu">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>{{item.description}}</mat-label>
+                                                <select matNativeControl required formControlName="{{item.name}}">
+                                                    <option [value]="item.opciones_desc.split('|')[i]"
+                                                        *ngFor="let controlText of item.opciones.split('|'); let i = index">
+                                                        {{controlText}}
+                                                    </option>
+                                                </select>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </div>
+                            <mat-divider></mat-divider>
+                            <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="10px">
+                                <ng-container [formGroup]="filterForm_static">
+
+                                    <div fxFlex="30" fxFlex.sm="45" fxFlex.xs="100">
+                                        <div class="vu">
+                                            <mat-form-field appearance="outline">
+                                                <mat-label>m2 Habitacional</mat-label>
+                                                <input matInput formControlName="m2_habitacional">
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div fxFlex="30" fxFlex.sm="45" fxFlex.xs="100">
+                                        <div class="vu">
+                                            <mat-form-field appearance="outline">
+                                                <mat-label>m2 Comercial y Servicios</mat-label>
+                                                <input matInput formControlName="m2_comercial">
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div fxFlex="30" fxFlex.sm="45" fxFlex.xs="100">
+                                        <div class="vu">
+                                            <mat-form-field appearance="outline">
+                                                <mat-label>m2 Industrial</mat-label>
+                                                <input matInput formControlName="m2_industrial">
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div fxFlex="30" fxFlex.sm="45" fxFlex.xs="100">
+                                        <div class="vu">
+                                            <mat-form-field appearance="outline">
+                                                <mat-label>m2 Turístico</mat-label>
+                                                <input matInput formControlName="m2_turistico">
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div fxFlex="30" fxFlex.sm="45" fxFlex.xs="100">
+                                        <div class="vu">
+                                            <mat-form-field appearance="outline">
+                                                <mat-label>m2 Equipamiento</mat-label>
+                                                <input matInput formControlName="m2_equipamiento">
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div fxFlex="30" fxFlex.sm="45" fxFlex.xs="100">
+                                        <div class="vu">
+                                            <mat-form-field appearance="outline">
+                                                <mat-label>m2 Espacios verdes</mat-label>
+                                                <input matInput formControlName="m2_espacios_verdes">
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div fxFlex="30" fxFlex.sm="45" fxFlex.xs="100">
+                                        <div class="vu">
+                                            <mat-form-field appearance="outline">
+                                                <mat-label>m2 Otro</mat-label>
+                                                <input matInput formControlName="m2_otro">
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div fxFlex="30" fxFlex.sm="45" fxFlex.xs="100">
+                                        <div class="vu">
+                                            <mat-form-field appearance="outline">
+                                                <mat-label>m2 a construir</mat-label>
+                                                <input matInput formControlName="m2_a_construir" [value]="mts_total_value" readonly>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div fxFlex="30" fxFlex.sm="45" fxFlex.xs="100">
+                                        <div class="vu">
+                                            <mat-form-field appearance="outline">
+                                                <mat-label>m2 a demoler</mat-label>
+                                                <input matInput formControlName="m2_a_demoler">
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </div>
+                            <mat-divider></mat-divider>
+                            <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px">
+                                <ng-container [formGroup]="filterForm_step5">
+                                    <div fxFlex="100">
+                                        <div class="vu">
+                                            <mat-form-field appearance="outline"  fxFlex="100">
+                                                <mat-label>Información adicional</mat-label>
+                                                <textarea matInput formControlName="lic_info_adicional"></textarea>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </div>
+                            <button mat-raised-button type="submit" color="primary">Guardar</button>
+                        </form>
+                    </div>
+                </div>
+            </mat-expansion-panel>
+            <mat-expansion-panel [expanded]="isExpanded6" *ngIf="step5_visible">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <img class="ico" src="assets/images/icons/ico-establecimiento.svg">
+                        <h3>Archivos adicionales prórroga</h3>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                    </mat-panel-description>
+                    <span class="material-icons estilos" *ngIf="!step5_completed">info</span>
+                    <span class="material-icons estilos2" *ngIf="step5_completed">check_circle</span>
+                </mat-expansion-panel-header>
+                <div class="pt-20 ">
+                    <div fxLayout="row" fxLayoutAlign="end center">
+                        <div>
+                            <button type="button" (click)="addFile('+')" mat-mini-fab color="primary" style="margin-left:120px; margin-top: 10px;">
+                                    <mat-icon>add</mat-icon>
+                                </button>
+                        </div>
+
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="space-between">
+                        <form [formGroup]="filterForm_step6" class="filter-form w-100-p" (ngSubmit)="Submit(6,$event)">
+
+
+
+                            <ng-container *ngFor="let item of arrayNameFiles; let i = index">
+                                <div fxLayout="row wrap" fxLayoutAlign="center">
+                                    <div>
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Nombre archivo</mat-label>
+                                            <input matInput formControlName="input{{i}}">
+                                        </mat-form-field>
+                                    </div>
+                                    <div>
+                                        <input type="file" style="margin-top: 23px;" (change)="
+                                    uploadFile2($event.target.files[0], i)
+                                ">
+                                    </div>
+                                    <button *ngIf="i > 0" type="button" (click)="addFile('-', i)" mat-mini-fab [ngStyle]="btnCssCancel" style="margin-top: 10px;">
+                                        <mat-icon>delete</mat-icon>
+                                    </button>
+
+                                </div>
+                            </ng-container>
+
+                            <button mat-raised-button type="submit" color="primary">Guardar</button>
+                        </form>
+                    </div>
+                </div>
+            </mat-expansion-panel>
+        </mat-accordion>
+        <div class="terms" *ngIf="formCompleted && prorroga == 0" fxLayout="row" fxLayoutAlign="center center">
+            <button type="button" mat-button class="button-visor-confirm" (click)="verResumen()">Finalizar
+                captura</button>
+        </div>
+
+        <div class="terms" *ngIf="formCompleted && prorroga == 1" fxLayout="row" fxLayoutAlign="center center">
+            <button type="button" mat-button class="button-visor-confirm" (click)="generarProrroga()">Generar Prórroga</button>
+        </div>
+    </div>
+    <!-- / CONTENT -->
+</div>

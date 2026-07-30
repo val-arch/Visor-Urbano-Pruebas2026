@@ -1,0 +1,84 @@
+<mat-toolbar color="basic" class="sticky">
+    <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+        <button *ngIf="deviceXs" mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
+        </button>
+        <button *ngIf="deviceXs" mat-icon-button (click)="sheetIdioma()">
+            <mat-icon>translate</mat-icon>
+          </button>
+        <div>
+            <div class="logo">
+                <a routerLink="/">
+                    <img class="logo" src="assets/images/logo.svg">
+                    <span class="logo-text secondary-text ">Visor Urbano</span>
+                </a>
+            </div>
+
+        </div>
+        <div>
+
+            <a *ngIf="deviceXs" mat-button href="/ingresar" matTooltip="Ingresar a tu cuenta">
+                <mat-icon><img src="assets/icons/visor/ico_login.svg" alt=""> </mat-icon>
+            </a>
+            <div *ngIf="!deviceXs" fxLayout="row">
+                <nav>
+                    <ul>
+                        <button mat-icon-button [matMenuTriggerFor]="menuIdioma" >
+                            <mat-icon>translate</mat-icon>
+                          </button>
+                        <li><a matRipple class="button-b" href="/inicio#home" routerLinkActive="active">{{'header.inicio' | translate}}</a></li>
+                        <!-- <li><a matRipple  (click)="openDialogVU()" class="button-b">¿Qué es VU?</a></li> -->
+                        <li><a matRipple routerLink="/vu" routerLinkActive="active" class="button-b">{{'header.quees' | translate}}</a>
+                        </li>
+                        <li><a matRipple routerLink="/boletin" routerLinkActive="active" class="button-b">{{'header.boletin' | translate}}</a>
+                        </li>
+                        <li><a matRipple class="button-b" href="/mapa/" routerLinkActive="active">{{'header.mapa' | translate}}</a></li>
+                        <!-- <li><a matRipple class="button-b" routerLink="/tutoriales">Tutoriales</a></li> -->
+                        <li><a matRipple class="button-b" href="/inicio#noticias">{{'header.noticias' | translate}}</a></li>
+                        <!-- <li><a matRipple class="button-b" href="/blog/1">blog</a></li> -->
+                        <!-- <li><a matRipple class="button-b" href="#tutoriales" >Noticias</a></li> -->
+                        <!-- <li><a matRipple (click)="openDialog()" class="button-b">Contacto</a></li> -->
+                        <li>
+                            <a matRipple href="/ingresar" matTooltip="Ingresar a tu cuenta">
+                                <mat-icon><img src="assets/icons/visor/ico_login.svg" alt=""> </mat-icon>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+        </div>
+    </mat-toolbar-row>
+</mat-toolbar>
+<!-- Menu Items -->
+<mat-menu #menu="matMenu" fxLayoutAlign="end">
+
+    <button mat-button class="button-b" routerLink="/inicio#home" routerLinkActive="active">{{'header.inicio' | translate}}</button>
+    <a mat-button class="button-b" href="/vu" routerLinkActive="active">{{'header.quees' | translate}}</a>
+    <a mat-button class="button-b" href="/boletin" routerLinkActive="active">{{'header.boletin' | translate}}</a>
+    <!--button mat-button (click)="openDialogVU()" class="button-b">¿Qué es VU?</button-->
+    <a mat-button class="button-b" href="/mapa/" routerLinkActive="active">{{'header.mapa' | translate}}</a>
+    <!-- <button mat-button class="button-b" (click)="sectionView('tutoriales')">Tutoriales</button> -->
+    <button mat-button class="button-b" (click)="sectionView('noticias')">{{'header.noticias' | translate}}</button>
+    <!-- <button mat-button (click)="openDialog()" class="button-b">Contacto</button> -->
+</mat-menu>
+
+<mat-menu #menuIdioma="matMenu">
+    <button mat-menu-item (click)="idioma('esp')">
+        <mat-icon><img src="assets/icons/flags/mx.jpg" alt=""></mat-icon>
+        <span>Español</span>
+      </button>
+    <button mat-menu-item (click)="idioma('en')">
+      <mat-icon> <img src="assets/icons/flags/us.png" alt=""> </mat-icon>
+      <span>English</span>
+    </button>
+    <button mat-menu-item (click)="idioma('pg')" >
+      <mat-icon><img src="assets/icons/flags/br.png" alt=""></mat-icon>
+      <span>Português</span>
+    </button>
+    <button mat-menu-item (click)="idioma('fr')" >
+        <mat-icon><img src="assets/icons/flags/fr.png" alt=""></mat-icon>
+        <span>
+          Français</span>
+      </button>
+  </mat-menu>

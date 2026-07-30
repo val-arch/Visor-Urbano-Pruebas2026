@@ -1,0 +1,12 @@
+
+<ng-container  *ngIf="loading==false">
+<ngx-charts-advanced-pie-chart 
+  [view]="[1000,400]"
+  [scheme]="colorScheme"
+  [results]="values"
+  [gradient]="gradient"
+  (select)="onSelect($event)"
+  [label]="'Total'"
+  >
+</ngx-charts-advanced-pie-chart>
+</ng-container>

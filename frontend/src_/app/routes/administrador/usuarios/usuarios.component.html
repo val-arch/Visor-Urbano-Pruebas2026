@@ -1,0 +1,30 @@
+<div id="users" class="page-layout simple fullwidth">
+
+    <!-- HEADER -->
+    <div class="header fuse-visor-50 p-24 h-120" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center">
+        <div fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="column" fxLayoutAlign.gt-xs="center start">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <mat-icon class="secondary-text s-18">home</mat-icon>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text">Administrar</span>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text">Usuarios</span>
+            </div>
+            <div class="h2 mt-16">
+                <mat-icon class="secondary-text s-18">person</mat-icon> Usuarios</div>
+        </div>
+
+        <button mat-raised-button class="button-visor-new" id="add-contact-button" (click)="newContact()" aria-label="add contact" [@animate]="{value:'*', params:{delay:'500ms',scale:'.2'}}">
+            <mat-icon>add</mat-icon> Agregar Usuario
+        </button>
+
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content p-24" [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
+        <app-usuarios-list></app-usuarios-list>
+    </div>
+
+</div>

@@ -1,0 +1,180 @@
+<div id="register" fxLayout="column">
+
+    <img src="assets/images/logo_cuernavaca.png" class="over-img">
+
+
+    <div id="register-form-wrapper" fxLayout="column" fxLayoutAlign="center center">
+        <img src="assets/images/backgrounds/banner.png" class="over-image">
+        <a href="https://www.bloomberg.org/" target="_blank">
+        <img src="assets/images/backgrounds/bloomberg_logo.svg" class="over-image1">
+
+        </a>
+        <div id="register-form" [@animate]="{value:'*',params:{duration:'300ms',y:'100px'}}">
+
+            <div class="logo" onclick="window.location.href='/mapa/'" style="cursor: pointer;">
+                <img src="assets/images/logo.svg">
+            </div>
+
+            <div class="title">Crear una cuenta</div>
+
+            <form name="registerForm" [formGroup]="registerForm" novalidate>
+                <div fxLayout="column">
+
+
+                    <div fxLayout="row" class="ocultar" fxLayoutAlign="space-between">
+
+                        <mat-form-field appearance="outline" class="ingresar" (focusin)="hover=true" (focusout)="hover=false">
+                            <mat-label>Nombre</mat-label>
+                            <input matInput formControlName="nombre"  >
+                            <mat-icon class="secondary-text" matSuffix>
+                                <img *ngIf="hover==true" src="assets/images/icons/ico_person_active.svg" />
+                                <img *ngIf="hover==false" src="assets/images/icons/ico_person.svg" />
+                            </mat-icon>
+                            <mat-error *ngIf="registerForm.get('nombre').hasError('required')">
+                                Nombre es requerido
+                            </mat-error>
+                        </mat-form-field>
+                        <mat-form-field fxLayout="column" appearance="outline" (focusin)="hover1=true" (focusout)="hover1=false">
+                            <mat-label>Primer apellido</mat-label>
+                            <input matInput formControlName="apellidoP">
+                            <mat-icon class="secondary-text" matSuffix>
+                                <img *ngIf="hover1==true" src="assets/images/icons/ico_person_active.svg" />
+                                <img *ngIf="hover1==false" src="assets/images/icons/ico_person.svg" />
+                            </mat-icon>
+                            <mat-error *ngIf="registerForm.get('apellidoP').hasError('required')">
+                                Primer apellido es requerido
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div fxLayout="row" class="ocultar" fxLayoutAlign="space-between">
+
+
+                        <mat-form-field fxLayout="column" appearance="outline" (focusin)="hover2=true" (focusout)="hover2=false">
+                            <mat-label>Segundo apellido</mat-label>
+                            <input matInput formControlName="apellidoM">
+                            <mat-icon class="secondary-text" matSuffix>
+                                <img *ngIf="hover2==true" src="assets/images/icons/ico_person_active.svg" />
+                                <img *ngIf="hover2==false" src="assets/images/icons/ico_person.svg" />
+
+                            </mat-icon>
+                        </mat-form-field>
+
+                        <mat-form-field fxLayout="column" appearance="outline" (focusin)="hover3=true" (focusout)="hover3=false">
+                            <mat-label>Número de celular </mat-label>
+                            <input matInput formControlName="celular">
+                            <mat-icon class="secondary-text" matSuffix>
+                                <img *ngIf="hover3==true" src="assets/images/icons/ico_cel_active.svg" />
+                                <img *ngIf="hover3==false" src="assets/images/icons/ico_cel.svg" />
+                            </mat-icon>
+                            <mat-error *ngIf="registerForm.get('celular').hasError('required')">
+                                Número de celular es requerido
+                            </mat-error>
+                            <mat-error *ngIf="registerForm.get('celular').hasError('minlength')">
+                               Ingresa un celular valido
+                            </mat-error>
+                            <mat-error *ngIf="registerForm.get('celular').hasError('maxlength')">
+                                Ingresa un celular valido
+                             </mat-error>
+                        </mat-form-field>
+
+                    </div>
+                    <div fxLayout="row"  fxLayoutAlign="space-between">
+                        <mat-form-field fxLayout="column" appearance="outline" (focusin)="hover3=true" (focusout)="hover3=false">
+                            <mat-label>CURP</mat-label>
+                            <input matInput formControlName="curp"  ngModel required>
+                            <mat-icon class="secondary-text" matSuffix>fingerprint</mat-icon>
+
+                            <mat-error *ngIf="registerForm.get('curp').hasError('required')">
+                                CURP es requerido 
+                            </mat-error>
+                            <mat-error *ngIf="registerForm.get('curp').hasError('maxlength')">
+                                
+                                Ingresa un curp valido
+                             </mat-error>
+                             <mat-error *ngIf="registerForm.get('curp').hasError('minlength')">
+                                
+                                Ingresa un curp valido
+                             </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" fxFlex="100" (focusin)="hover4=true" (focusout)="hover4=false">
+                            <mat-label>Correo electrónico</mat-label>
+                            <input matInput formControlName="email">
+                            <mat-icon class="secondary-text" matSuffix>
+                                <img *ngIf="hover4==true" src="assets/images/icons/ico_mail_active.svg" />
+                                <img *ngIf="hover4==false" src="assets/images/icons/ico_mail.svg" />
+                            </mat-icon>
+                            <mat-error *ngIf="registerForm.get('email').hasError('required')">
+                               Correo electrónico es requerido
+                            </mat-error>
+                            <mat-error *ngIf="registerForm.get('email').hasError('email')">
+                               Ingresa un correo electrónico valido
+                            </mat-error>
+                        </mat-form-field>
+
+                    </div>
+
+                    <div fxLayout="row" fxLayoutAlign="space-between">
+
+                        <mat-form-field appearance="outline" (focusin)="hover5=true" (focusout)="hover5=false">
+                            <mat-label>Contraseña</mat-label>
+                            <input matInput type="password" formControlName="password" >
+                            <mat-icon class="secondary-text" matSuffix>
+                                <img *ngIf="hover5==true" src="assets/images/icons/ico_password_active.svg" />
+                                <img *ngIf="hover5==false" src="assets/images/icons/ico_password.svg" />
+
+                            </mat-icon>
+                            <mat-error>
+                                Contraseña es requerida
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" (focusin)="hover6=true" (focusout)="hover6=false">
+                            <mat-label>Confirmar contraseña</mat-label>
+                            <input matInput type="password" formControlName="passwordConfirm">
+                            <mat-icon class="secondary-text" matSuffix>
+                                <img *ngIf="hover6==true" src="assets/images/icons/ico_password_active.svg" />
+                                <img *ngIf="hover6==false" src="assets/images/icons/ico_password.svg" />
+                            </mat-icon>
+                            <mat-error *ngIf="registerForm.get('passwordConfirm').hasError('required')">
+                                Confirmación de contraseña es requerida
+                            </mat-error>
+                            <mat-error *ngIf="!registerForm.get('passwordConfirm').hasError('required') &&
+                                        registerForm.get('passwordConfirm').hasError('passwordsNotMatching')">
+                                Las contraseñas deben ser identicas
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="terms" fxLayout="row" fxLayoutAlign="center center">
+                        <mat-checkbox name="terms" #confirmed aria-label="I read and accept" required>
+                            <span>He leído </span>
+                        </mat-checkbox>
+                        <a href="assets/aviso-privacidad/Aviso-Privacidad.docx"> aviso de privacidad</a>
+                    </div>
+
+                    <button mat-raised-button color="accent" class="submit-button" aria-label="CREATE AN ACCOUNT" (click)="registro()" [disabled]="registerForm.invalid || !confirmed.checked">
+                    Crear mi cuenta
+                </button>
+
+                </div>
+
+            </form>
+
+
+
+            <div class="register" fxLayout="column" fxLayoutAlign="center center" *ngIf="routeAnterior">
+                <span class="text">¿Ya tienes una cuenta registrada?</span>
+                <a class="link" [routerLink]="'/ingresar'"  [queryParams]="{p: routeAnterior}">Inicia Sesion</a>
+            </div>
+            <div class="register" fxLayout="column" fxLayoutAlign="center center" *ngIf="!routeAnterior">
+                <span class="text">¿Ya tienes una cuenta registrada?</span>
+                <a class="link" [routerLink]="'/ingresar'">Inicia Sesion</a>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

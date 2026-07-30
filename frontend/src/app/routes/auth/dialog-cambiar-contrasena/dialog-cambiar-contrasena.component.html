@@ -1,0 +1,65 @@
+
+<div id="cambiarContrasenaForm" fxLayout="column">      
+       
+       <div id="cambiarContrasena-form" >
+
+           <div class="logo">
+               <img src="assets/images/logo.svg">
+           </div>
+
+           <div class="title">Cambiar contraseña</div>
+
+           <form name="cambiarContrasenaForm" [formGroup]="cambiarContrasenaForm"  (ngSubmit)="OnSubmit()">
+
+            
+            <mat-form-field appearance="outline"  (focusin)="hover1=true" (focusout)="hover1=false">
+                <mat-label>Contraseña Actual</mat-label>
+                <input matInput type="password" formControlName="currentPassword">
+                <mat-icon class="secondary-text" matSuffix >
+                    <img *ngIf="hover1==true" src="assets/images/icons/ico_password_active.svg" />
+                    <img *ngIf="hover1==false" src="assets/images/icons/ico_password.svg"/>
+                </mat-icon>
+                <mat-error>
+                    Contraseña es requerida
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" (focusin)="hover2=true" (focusout)="hover2=false">
+                <mat-label>Nueva Contraseña</mat-label>
+                <input matInput type="password" formControlName="password">
+                <mat-icon class="secondary-text" matSuffix>
+                    <img *ngIf="hover2==true" src="assets/images/icons/ico_password_active.svg" />
+                    <img *ngIf="hover2==false" src="assets/images/icons/ico_password.svg" />
+
+                </mat-icon>
+                <mat-error>
+                    Contraseña es requerida
+                </mat-error>
+            </mat-form-field>
+
+               <mat-form-field appearance="outline"  (focusin)="hover3=true" (focusout)="hover3=false">
+                <mat-label>Confirmar contraseña</mat-label>
+                <input matInput type="password" formControlName="passwordConfirm">
+                <mat-icon class="secondary-text" matSuffix >
+                    <img *ngIf="hover3==true" src="assets/images/icons/ico_password_active.svg" />
+                    <img *ngIf="hover3==false" src="assets/images/icons/ico_password.svg"/>
+                </mat-icon>
+                <mat-error *ngIf="cambiarContrasenaForm.get('passwordConfirm').hasError('required')">
+                    Confirmación de contraseña es requerida
+                </mat-error>
+                <mat-error *ngIf="!cambiarContrasenaForm.get('passwordConfirm').hasError('required') &&
+                cambiarContrasenaForm.get('passwordConfirm').hasError('passwordsNotMatching')">
+                    Las contraseñas deben ser identicas
+                </mat-error>
+            </mat-form-field>
+
+               
+               <div style="text-align: center;">
+               <button mat-raised-button color="accent" type="submit" class="submit-button" [disabled]="cambiarContrasenaForm.invalid" >
+                   Cambiar Contraseña
+               </button>
+           </div>
+           </form>
+       </div>
+</div>
+

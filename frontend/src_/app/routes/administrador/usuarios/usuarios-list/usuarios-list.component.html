@@ -1,0 +1,37 @@
+
+
+<mtx-grid [showToolbar]="true"
+[showColumnMenuButton]="false" [toolbarTemplate]="toolbarTpl"
+ [data]="list"
+          noResultText="Sin datos"
+          [columns]="columns"
+          [length]="total"
+          [loading]="isLoading"
+          [pageOnFront]="false"
+          (page)="getNextPage($event)"
+          [pageIndex]="query.page"
+          [rowStriped]="true"
+          [pageSizeOptions]="[20]"
+          pageSize="20">
+    <ng-template #statusTpl let-row let-index="index" let-col="colDef">
+        <select matNativeControl #mySelect (change)='onOptionsSelected(mySelect.value,list[index].id)'
+                [disabled]="tipoRole">
+                <option value="0">Sin municipio</option>
+                <option value="{{item.id}}" *ngFor="let item of municipio; let i = index"
+                    [selected]="list[index].id_municipio === item.id ? true : false">{{item.nombre}}</option>
+        </select>
+    </ng-template>
+</mtx-grid>
+
+<ng-template #toolbarTpl>
+    <form name="buscarUsuarioForm"  >
+      <div class="example-header pl-24 pt-4">
+          <mat-form-field>
+          <input matInput placeholder="Buscar correo electrónico" type="email"   [formControl]="filter">
+          </mat-form-field>
+          <button mat-raised-button color="accent"  class="submit-button ml-8" (click)="buscar()">
+              Buscar
+          </button>
+      </div>
+  </form>
+  </ng-template>

@@ -1,0 +1,82 @@
+<div class="barra-lateral active" *ngIf="barraIOpen" @animate [@slideInLeft]="barraIOpen" #barraLateral>
+    <div *ngIf="false" style="margin-top: -55px;margin-bottom: 20px;">
+        <button mat-icon-button aria-label="Cerrar" (click)="removeActive()">
+            <mat-icon> highlight_off</mat-icon>
+        </button>
+    </div>
+    <div class="items-barra">
+
+        <div class="item-menu">
+            <button mat-button class="margin color-boton" (click)="setInteraction('agregar')">
+                <mat-icon>
+                    add
+                </mat-icon>
+                <br><b
+                [ngStyle]="{'text-decoration': (barInteraction=='agregar') ? 'underline' : 'none', 'color': (barInteraction=='agregar') ? '#fff' : '#479440'}">Agregar</b>
+            </button>
+        </div>
+
+        <div class="item-menu">
+            <button mat-button class="margin color-boton" (click)="setInteraction('editar')">
+                <mat-icon>
+                    edit
+                </mat-icon>
+                <br><b
+                [ngStyle]="{'text-decoration': (barInteraction=='editar') ? 'underline' : 'none', 'color': (barInteraction=='editar') ? '#fff' : '#479440'}">Editar</b>
+            </button>
+        </div>
+
+        <div class="item-menu">
+            <button mat-button class="margin color-boton" (click)="setInteraction('eliminar')">
+                <mat-icon>
+                    delete
+                </mat-icon>
+                <br><b
+                [ngStyle]="{'text-decoration': (barInteraction=='eliminar') ? 'underline' : 'none', 'color': (barInteraction=='eliminar') ? '#fff' : '#479440'}">Eliminar</b>
+            </button>
+        </div>
+
+        <div class="item-menu">
+            <button mat-button class="margin color-boton" (click)="setInteraction('info')">
+                <mat-icon>
+                    info
+                </mat-icon>
+                <br><b
+                [ngStyle]="{'text-decoration': (barInteraction=='info') ? 'underline' : 'none', 'color': (barInteraction=='info') ? '#fff' : '#479440'}">
+                Info</b>
+            </button>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <div class="item-menu">
+            <button mat-button class="margin color-boton" style="padding: 0 4px;" (click)="setInteraction('refresh')">
+                <mat-icon>
+                    refresh
+                </mat-icon>
+                <br><b
+                [ngStyle]="{'text-decoration': 'none', 'color': '#479440'}">
+                Refrescar</b>
+            </button>
+        </div>
+
+        <div class="item-menu">
+            <button mat-button class="margin color-boton" (click)="setInteraction('file_upload')">
+                <mat-icon>
+                    publish
+                </mat-icon>
+                <br><b
+                [ngStyle]="{'text-decoration': 'none', 'color': '#479440'}">
+                Subir</b>
+            </button>
+        </div>
+
+        <mat-divider></mat-divider>
+        <div class="item-menu">
+            <button mat-button color="primary" class="margin" (click)="panelHerramientasButton('capas')">
+                <mat-icon class="mat-icon2 icon-b"><img src="./assets/icons/visor/capas.svg"/></mat-icon>
+                <br><b>Capas</b>
+            </button>
+        </div>
+    </div>
+</div>

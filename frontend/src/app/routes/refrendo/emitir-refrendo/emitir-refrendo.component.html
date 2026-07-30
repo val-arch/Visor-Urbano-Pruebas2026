@@ -1,0 +1,101 @@
+<div class="dialog-content-wrapper">
+    <mat-toolbar matDialogTitle class="fuse-visor-50 m-0">
+        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="title dialog-title">Refrendo de licencia de negocio</span>
+            <button mat-icon-button (click)="matDialogRef.close()" aria-label="Close dialog">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+    <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
+        <div>
+            <span class="mat-subheading-2">
+                Da clic en "Emitir refrendo" para notificar al
+                ciudadano.</span>
+            <br /><br />
+        </div>
+        <mat-tab-group mat-align-tabs="center" dynamicHeight>
+            <mat-tab label="Generar por Visor Urbano">
+                <form action="" [formGroup]="generarForm">
+
+                    <div fxLayout="row wrap" fxLayoutAlign="center center" class="p-24">
+                        <div fxFlex="20" fxFlex.xs="100">
+                        </div>
+                        <div fxFlex="40" fxFlex.xs="100">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Año a Refrendar</mat-label>
+                                <select matNativeControl formControlName="anio" required>
+                                    <option value="{{year}}" *ngFor="let year of getYearRange()">{{ year }}</option>
+                                </select>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="40" fxFlex.xs="100">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Superficie a autorizar</mat-label>
+                                <input matInput formControlName="superficie" placeholder="Superficie" type="number"
+                                    value="" />
+                                <span matSuffix>mts<sup>2</sup></span>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="20" fxFlex.xs="100">
+                        </div>
+                        <div fxFlex="40" fxFlex.xs="100">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Hora de apertura</mat-label>
+                                <input matInput formControlName="hora_a" type="time" placeholder="Hora de apertura"
+                                    autocomplete="off" min="1" value="" />
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="40" fxFlex.xs="100">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Hora de cierre</mat-label>
+                                <input matInput formControlName="hora_c" type="time" placeholder="Hora de cierre"
+                                    value="" />
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="40" fxFlex.xs="100">
+                        </div>
+                        <div fxFlex="60" fxFlex.xs="100">
+                            <div class="vu">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Costo de Licencia</mat-label>
+                                    <input matInput formControlName="costo_licencia" placeholder="Costo de Licencia"
+                                        type="number" />
+                                    <span matSuffix>MXN</span>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <!-- ****************************************************** -->
+                        <div fxFlex="40" fxFlex.xs="100">
+                            <div fxLayout="row">
+                                <mat-form-field appearance="outline" fxFlex="100">
+                                    <mat-label>Firmas</mat-label>
+                                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                                    <mat-select name="destino_construccion" multiple formControlName="firmas" style="max-width: 300px !important;">
+                                        <mat-option [value]="firma.id" *ngFor="let firma of firmas">{{firma.nombre_firmante}} ({{firma.dependencia}})</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <!-- ****************************************************** -->
+                    </div>
+                    <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
+
+                        <div fxLayout="row" fxLayoutAlign="end center">
+                            <button mat-button class="save-button" (click)="generarLicencia()" aria-label="SAVE"
+                                [ngStyle]="btnCss">
+                                Emitir refrendo
+                            </button>
+                            <button mat-button class="save-button" (click)="matDialogRef.close()" aria-label="cancelar"
+                                [ngStyle]="btnCssCancel">
+                                Cancelar
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </mat-tab>
+
+        </mat-tab-group>
+    </div>
+</div>

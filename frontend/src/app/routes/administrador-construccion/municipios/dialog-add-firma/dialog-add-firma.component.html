@@ -1,0 +1,41 @@
+<div class="dialog-content-wrapper">
+    <mat-toolbar matDialogTitle class="mat-accent m-0" [ngStyle]="btnCss">
+        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="title dialog-title">{{titulo}}</span>
+            <button mat-icon-button (click)="matDialogRef.close()" aria-label="Close dialog">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+    <div mat-dialog-content class="p-24 pb-0 m-0">
+        <form [formGroup]="firmaForm" class="formulario">
+            <div fxLayout="row">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Cargo del servidor público firmante</mat-label>
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    <input type="text" formControlName="dependencia" matInput required />
+                </mat-form-field>
+            </div>
+            <div fxLayout="row">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Nombre del firmante</mat-label>
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    <input type="text" formControlName="nombre_firmante" matInput required />
+                </mat-form-field>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="space-around center" *ngIf="edit">
+                <mat-label>Adjuntar firma<br /> (De preferencia imagen PNG sin fondo para que se vea mejor )<br/><br/>
+                </mat-label>
+                <input type="file" accept="image/png, image/jpeg" (change)="uploadFile($event.target.files[0])"/>
+                <img style="width: 100%; max-width: 178px" alt="" />
+            </div>
+            <div fxLayout="row" fxLayoutAlign="center center" class="mt-20" *ngIf="!edit">
+                <button mat-raised-button class="button-visor-confirm" color="primary" type="submit" (click)="saveFirma()">{{titulo}}</button>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="center center" class="mt-20" *ngIf="edit">
+                <button mat-raised-button class="button-visor-confirm" color="primary" type="submit" (click)="editFirma()">{{titulo}}</button>
+            </div>
+            <br>    
+        </form>
+    </div>
+</div>

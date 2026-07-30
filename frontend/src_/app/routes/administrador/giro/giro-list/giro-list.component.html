@@ -1,0 +1,61 @@
+<div id="giros" class="page-layout simple fullwidth">
+    <div class="header fuse-visor-50 p-24 h-100" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row"
+        fxLayoutAlign.gt-xs="space-between center">
+        <div fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="column" fxLayoutAlign.gt-xs="center start">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <mat-icon class="secondary-text s-18">home</mat-icon>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text">Administrador</span>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text">Giros</span>
+            </div>
+            <div class="h2 mt-16">
+                <mat-icon class="secondary-text s-18">list</mat-icon> Giros
+            </div>
+        </div>
+    </div>
+
+    <div class="content p-24">
+        <div fxLayout fxLayoutAlign="center center"></div>
+
+
+        <mtx-grid [showToolbar]="true"
+        [showColumnMenuButton]="false" [rowStriped]="true" [toolbarTemplate]="toolbarTpl" [data]="list" noResultText="Sin datos" [columns]="columns"
+            [length]="total" [loading]="isLoading" [pageOnFront]="false" (page)="getNextPage($event)"
+            [pageIndex]="query.page" [pageSizeOptions]="[15]" [columns]="columns" sortOnFront="true" sortActive="name"
+            sortDirection="asc" sortDisableClear="true" sortDisabled="false" sortStart="asc" (sortChange)="sort($event)"
+            pageSize="15">
+        </mtx-grid>
+        <ng-template #toolbarTpl>
+            <div class="example-header pl-24 pt-4">
+                <mat-form-field>
+                    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtro" />
+                </mat-form-field>
+            </div>
+        </ng-template>
+
+        <ng-template #statusTpl let-row let-index="index" let-col="colDef">
+            <mat-slide-toggle [disabled]="spinner" [checked]="row.giro_apagado == 1" color="primary" (change)="
+                    onStatus(row.giros_id, row.municipios_id, row.giro_apagado, $event)
+                "></mat-slide-toggle>
+        </ng-template>
+        <ng-template #cedula let-row let-index="index" let-col="colDef">
+            
+            <mat-slide-toggle [disabled]="spinner" [checked]="row.giro_cedula == 1" color="danger"
+                (change)="onStatusCedula(row.giros_id, row.municipios_id, row.giro_cedula, $event)"></mat-slide-toggle>
+        </ng-template>
+        <ng-template #impacto let-row let-index="index" let-col="colDef">
+            <!-- <mat-form-field appearance="outline" class="w-180"> -->
+            <!-- <mat-label>Impacto</mat-label> -->
+            <select [disabled]="spinner" [(value)]="row.giro_impacto" placeholder="impacto"
+                (change)="updateImpacto(row.giros_id,row.municipios_id,row.giro_impacto,$event)">
+                <option value="1">1: Mínimo</option>
+                <option value="2">2: Bajo</option>
+                <option value="3">3: Medio</option>
+                <option value="4">4: Alto</option>
+                <option value="5">5: Máximo</option>
+            </select>
+            <!-- </mat-form-field> -->
+        </ng-template>
+    </div>
+</div>

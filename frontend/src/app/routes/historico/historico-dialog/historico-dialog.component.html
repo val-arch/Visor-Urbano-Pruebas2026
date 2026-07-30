@@ -1,0 +1,43 @@
+<div class="dialog-content-wrapper">
+    <mat-toolbar matDialogTitle class="mat-accent m-0" [ngStyle]="btnCss">
+        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="title dialog-title">Importar histórico de licencias</span>
+            <button mat-icon-button (click)="matDialogRef.close()" aria-label="Close dialog">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+
+    <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
+        <form class="formulario" [formGroup]="roleForm">
+            <div class="file">
+                <span class=ellipsis matTooltip="">Formato admitido:.csv (archivo excel)</span><br />
+                <div fxLayout="row">
+
+                    <label fxFlex="90%">
+                        <input type="file" formControlName="fileExcel" 
+                            class="vu-file-upload"  data-max-size="15360"
+                            accept=".csv"
+                            (change)="fileChangeEvent($event,'file')">
+                    </label>
+                </div>
+            </div>
+            <div fxLayout="row" style="font-size: initial; font-family: revert; margin-top: 10px;" fxLayoutAlign="end center">
+                La importación de datos puede demorar algunos segundos o minutos según <br>la cantidad de información. Para que se haga correctamente no realices otras tareas.
+            </div>
+        </form>
+    </div>
+
+    <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
+
+        <mat-progress-spinner style="position:absolute; margin-left: 15%;" *ngIf="loading" mode="indeterminate" color="green"></mat-progress-spinner>
+
+        <button mat-button class="save-button" (click)="GuardarFiles()" [ngStyle]="btnCss">
+            Aceptar
+        </button>
+        <button mat-button class="save-button" (click)="matDialogRef.close()" [ngStyle]="btnCssCancel" aria-label="cancelar">
+            Cancelar
+        </button>
+    </div>
+</div>

@@ -1,0 +1,407 @@
+<ngx-wrapper-copilot></ngx-wrapper-copilot>
+<mat-toolbar matDialogTitle class="fuse-visor-50 m-0">
+    <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center" copilot [copilot-template]="step1 " [copilot-step]="1">
+        <span class="title dialog-title">Requisito</span>
+        <button mat-icon-button (click)="matDialogRef.close()" aria-label="Close dialog">
+                <mat-icon>close</mat-icon>
+            </button>
+    </mat-toolbar-row>
+</mat-toolbar>
+<div mat-dialog-content class="p-24 pb-0 m-0">
+    <form class="formulario" [formGroup]="requisitoForm">
+        <div fxLayout="row" fxLayoutAlign="start start">
+            <mat-form-field appearance="outline" fxFlex>
+                <mat-label>Documento o información a requerir</mat-label>
+                <mat-icon matSuffix class="secondary-text">description</mat-icon>
+                <mat-select name="type" formControlName="type" required (selectionChange)="tipoRequisitoClear()">
+                    <mat-option *ngIf="requisitoForm.value.tipo_tramite!='consulta_requisitos'" value="file">Documento (PDF, DWG o imagen)</mat-option>
+                    <mat-option value="input">Texto libre
+                        <mat-icon matSuffix *ngIf="requisitoForm.value.type!='input'" class="secondary-text" matTooltipPosition="right" matTooltip="En esta opción el solicitante responde de manera libre en un campo de texto con un limite de 255 letras">help</mat-icon>
+                    </mat-option>
+                    <mat-option value="boolean">Responder sí o no
+                        <mat-icon matSuffix *ngIf="requisitoForm.value.type!='boolean'" class="secondary-text" matTooltipPosition="right">help</mat-icon>
+                    </mat-option>
+                    <!--<mat-option value="select">Lista desplegable
+                        <mat-icon matSuffix *ngIf="requisitoForm.value.type!='select'" class="secondary-text" matTooltipPosition="right" matTooltip="Si tienes una lista de más de 5 opciones a elegir por el solicitante, selecciona esta opción. (El solicitante solo se podrá seleccionar una)">help</mat-icon>
+                    </mat-option>
+                    <mat-option value="radio">Selección de opciones
+                        <mat-icon matSuffix *ngIf="requisitoForm.value.type!='radio'" class="secondary-text" matTooltipPosition="right" matTooltip="Si tienes una lista de 3 a 5 opciones a elegir por el solicitante, selecciona esta opción. (El solicitante solo se podrá seleccionar una)">help</mat-icon>
+                    </mat-option>-->
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start start">
+            <mat-form-field appearance="outline" fxFlex>
+                <mat-label>Tipo de trámite relacionado al requisito</mat-label>
+                <mat-icon matSuffix class="secondary-text">description</mat-icon>
+                <mat-select name="type" formControlName="tramite_relacionado" required (selectionChange)="changeTipoTramite($event.value)">
+                    <mat-option [value]="0" >Todos los trámites</mat-option>
+                    <mat-option *ngFor="let tramite of tiposTramite" [value]="tramite.id" >{{tramite.tramite}} </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start start">
+            <mat-form-field appearance="outline" fxFlex>
+                <mat-label>Título del requisito o información a requerir</mat-label>
+                <mat-icon matSuffix class="secondary-text">description</mat-icon>
+                <input autocomplete="off" name="description" formControlName="description" matInput required>
+            </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start start" *ngIf="requisitoForm.value.type!='boolean'">
+            <mat-form-field appearance="outline" fxFlex>
+                <mat-label>Descripción detallada del requisito</mat-label>
+                <mat-icon matSuffix class="secondary-text">description</mat-icon>
+                <input autocomplete="off" name="description_rec" formControlName="description_rec" matInput>
+            </mat-form-field>
+        </div>
+        
+        <blockquote fxLayout="row" *ngIf="requisitoForm.value.type=='select' || requisitoForm.value.type=='radio'">
+            <div formArrayName="opciones">
+                <h3>Opciones</h3>
+                <button type="button" mat-raised-button class="button-visor-confirm pb-8" (click)="addOpcion()">Agregar</button>
+                <br>
+                <div *ngFor="let opcion of opciones.controls; let i=index" fxLayout="row">
+                    <div>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Opción</mat-label>
+                            <input autocomplete="off" [formControlName]="i" matInput required>
+                        </mat-form-field>
+                    </div>
+                    <div class="text-center pt-12 pl-8">
+                        <button mat-icon-button type="button" color="warn" (click)="removeOpcion(i)">
+                            <mat-icon>delete</mat-icon>
+                          </button>
+                    </div>
+                </div>
+            </div>
+
+        </blockquote>
+        <div fxLayout="row" fxLayoutAlign="start start" *ngIf="requisitoForm.value.type=='file'">
+            <mat-form-field appearance="outline" fxFlex>
+                <mat-label>Fundamento legal</mat-label>
+                <mat-icon matSuffix class="secondary-text">gavel</mat-icon>
+                <input autocomplete="off" placeholder="Señala el artículo que solicita el requisito" name="fundamento" formControlName="fundamento" matInput>
+            </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start start" *ngIf="requisitoForm.value.type!='boolean'">
+            <mat-form-field appearance="outline" fxFlex>
+                <mat-label>¿Cuándo se requiere?</mat-label>
+                <mat-icon matSuffix class="secondary-text">settings</mat-icon>
+                <mat-select name="requerido" formControlName="requerido" required>
+                    <mat-option value="1" *ngIf="mostrarPersonalizar == false  || requisitoForm.value.type=='input'">Siempre </mat-option>
+                    <mat-option value="2" *ngIf="requisitoForm.value.type=='file' && mostrarPersonalizar">Personalizar parámetros</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <blockquote fxLayout="column" fxLayoutAlign="" *ngIf="requisitoForm.value.requerido==2 && requisitoForm.value.type=='file'">
+            <p>Nota: No es obligatorio llenar todos los campos</p>
+
+            <div class="sub-input">
+                <p fxLayout="row">Aplica si los m2 de construcción por uso es:</p>
+                <div fxLayout="row">
+                    <mat-form-field appearance="outline" fxFlex="100">
+                        <mat-label>Condición</mat-label>
+                        <mat-icon matSuffix class="secondary-text">help_outline</mat-icon>
+                        <mat-select name="construccion_uso_destino" multiple formControlName="construccion_uso_destino">
+                            <!--<mat-option value="0" selected>Sin condición</mat-option>-->
+                            <mat-option value="Habitacional" (click)="setNull('Habitacional')">Habitacional </mat-option>
+                            <mat-option value="Comercial servicios" (click)="setNull('Comercial servicios')">Comercial y/o servicio</mat-option>
+                            <mat-option value="Industrial" (click)="setNull('Industrial')">Industrial</mat-option>
+                            <mat-option value="Alojamiento temporal" (click)="setNull('Alojamiento temporal')">Alojamiento temporal (Turístico)</mat-option>
+                            <mat-option value="Equipamiento" (click)="setNull('Equipamiento')">Equipamiento</mat-option>
+                            <mat-option value="Espacios verdes" (click)="setNull('Espacios verdes')">Espacios verdes,abiertos y recreativos</mat-option>
+                            <mat-option value="Otro" (click)="setNull('Otro')">Otro</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div *ngIf="requisitoForm.value.construccion_uso_destino != ''">
+
+                    <div fxLayout="row" *ngFor="let value of requisitoForm.value.construccion_uso_destino">
+                        <mat-form-field appearance="outline" fxFlex="33">
+                            <mat-label>{{value}}</mat-label>
+                            <mat-icon matSuffix class="secondary-text">help_outline</mat-icon>
+                            <mat-select formControlName="{{value}}_condicion" name="requerido" >
+                                <mat-option value=">=">Mayor o igual a</mat-option>
+                                <mat-option value="<=">Menor o igual a</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" fxFlex="33">
+                            <mat-label>Metros cuadrados</mat-label>
+                            <mat-icon matSuffix class="secondary-text">number</mat-icon>
+                            <input name="construccion_uso_metros" formControlName="{{value}}_metros" autocomplete="off" type="number" matInput [required]="requisitoForm.value.value_condicion!='0'">
+                        </mat-form-field>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="sub-input">
+                <p fxLayout="row">Aplica si el total de los m2 de construcción:</p>
+                <div fxLayout="row">
+                    <mat-form-field appearance="outline" fxFlex="50">
+                        <mat-label>Condición</mat-label>
+                        <mat-icon matSuffix class="secondary-text">help_outline</mat-icon>
+                        <mat-select formControlName="construccion_total_metros_condicion" name="requerido">
+                            <mat-option value="0">No aplica</mat-option>
+                            <mat-option value=">=">Mayor o igual a</mat-option>
+                            <mat-option value="<=">Menor o igual a</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" fxFlex="50" *ngIf="requisitoForm.value.construccion_total_metros_condicion!='0'">
+                        <mat-label>Metros cuadrados</mat-label>
+                        <mat-icon matSuffix class="secondary-text">number</mat-icon>
+                        <input name="construccion_total_metros_value" formControlName="construccion_total_metros_value" autocomplete="off" type="number" matInput [required]="requisitoForm.value.propiedad_condicion!='0'">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="sub-input">
+                <p fxLayout="row">Aplica si m2 de demolición es:</p>
+                <div fxLayout="row">
+                    <mat-form-field appearance="outline" fxFlex="50">
+                        <mat-label>Condición</mat-label>
+                        <mat-icon matSuffix class="secondary-text">help_outline</mat-icon>
+                        <mat-select formControlName="demolicion_metros_condicion" name="requerido">
+                            <mat-option value="0" selected>No aplica</mat-option>
+                            <mat-option value=">=">Mayor o igual a</mat-option>
+                            <mat-option value="<=">Menor o igual a</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" fxFlex="50" *ngIf="requisitoForm.value.demolicion_metros_condicion!='0'">
+                        <mat-label>Metros cuadrados</mat-label>
+                        <mat-icon matSuffix class="secondary-text">number</mat-icon>
+                        <input name="construccion_total_metros_value" formControlName="demolicion_metros_value" autocomplete="off" type="number" matInput [required]="requisitoForm.value.propiedad_condicion!='0'">
+                    </mat-form-field>
+
+                </div>
+            </div>
+
+            <div class="sub-input">
+                <p fxLayout="row">Aplica si el número de viviendas a construir es:</p>
+                <div fxLayout="row">
+                    <mat-form-field appearance="outline" fxFlex="50">
+                        <mat-label>Condición</mat-label>
+                        <mat-icon matSuffix class="secondary-text">help_outline</mat-icon>
+                        <mat-select formControlName="viviendas_construccion_condicion" name="requerido">
+                            <mat-option value="0" selected>No aplica</mat-option>
+                            <mat-option value=">=">Mayor o igual a</mat-option>
+                            <mat-option value="<=">Menor o igual a</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" fxFlex="50" *ngIf="requisitoForm.value.viviendas_construccion_condicion!='0'">
+                        <mat-label>Número de viviendas</mat-label>
+                        <mat-icon matSuffix class="secondary-text">number</mat-icon>
+                        <input name="construccion_total_metros_value" formControlName="viviendas_construccion_value" autocomplete="off" type="number" matInput [required]="requisitoForm.value.propiedad_condicion!='0'">
+                    </mat-form-field>
+
+                </div>
+            </div>
+
+
+            <div class="sub-input">
+                <p fxLayout="row">Aplica si niveles nuevos a construir :</p>
+                <div fxLayout="row">
+                    <mat-form-field appearance="outline" fxFlex="50">
+                        <mat-label>Condición</mat-label>
+                        <mat-icon matSuffix class="secondary-text">help_outline</mat-icon>
+                        <mat-select formControlName="nivel_nuevo_construccion_condicion" name="requerido">
+                            <mat-option value="0" selected>No aplica</mat-option>
+                            <mat-option value=">=">Mayor o igual a</mat-option>
+                            <mat-option value="<=">Menor o igual a</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" fxFlex="50" *ngIf="requisitoForm.value.nivel_nuevo_construccion_condicion!='0'">
+                        <mat-label>Número de niveles</mat-label>
+                        <mat-icon matSuffix class="secondary-text">number</mat-icon>
+                        <input name="construccion_total_metros_value" formControlName="nivel_nuevo_construccion_value" autocomplete="off" type="number" matInput [required]="requisitoForm.value.propiedad_condicion!='0'">
+                    </mat-form-field>
+
+                </div>
+            </div>
+            <div class="sub-input">
+                <p fxLayout="row">Aplica si sótanos nuevos a construir es :</p>
+                <div fxLayout="row">
+                    <mat-form-field appearance="outline" fxFlex="50">
+                        <mat-label>Condición</mat-label>
+                        <mat-icon matSuffix class="secondary-text">help_outline</mat-icon>
+                        <mat-select formControlName="sotano_nuevo_construccion_condicion" name="requerido">
+                            <mat-option value="0" selected>No aplica</mat-option>
+                            <mat-option value=">=">Mayor o igual a</mat-option>
+                            <mat-option value="<=">Menor o igual a</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" fxFlex="50" *ngIf="requisitoForm.value.sotano_nuevo_construccion_condicion!='0'">
+                        <mat-label>Número de sótanos</mat-label>
+                        <mat-icon matSuffix class="secondary-text">number</mat-icon>
+                        <input name="construccion_total_metros_value" formControlName="sotano_nuevo_construccion_value" autocomplete="off" type="number" matInput [required]="requisitoForm.value.propiedad_condicion!='0'">
+                    </mat-form-field>
+
+                </div>
+            </div>
+            
+            <div class="sub-input">
+                <p fxLayout="row">Aplica si m2 de superficie de propiedad es</p>
+                <div fxLayout="row">
+                    <mat-form-field appearance="outline" fxFlex="50">
+                        <mat-label>Condición</mat-label>
+                        <mat-icon matSuffix class="secondary-text">help_outline</mat-icon>
+                        <mat-select formControlName="actividad_condicion" name="">
+                            <mat-option value="0" selected>No aplica</mat-option>
+                            <mat-option value=">=">Mayor o igual a</mat-option>
+                            <mat-option value="<=">Menor o igual a</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" fxFlex="50" *ngIf="requisitoForm.value.actividad_condicion!='0'">
+                        <mat-label>Metros cuadrados</mat-label>
+                        <mat-icon matSuffix class="secondary-text">number</mat-icon>
+                        <input name="construccion_total_metros_value" formControlName="actividad_metros" autocomplete="off" type="number" matInput [required]="requisitoForm.value.actividad_condicion!='0'">
+                    </mat-form-field>
+                </div>
+            </div>
+            
+            <mat-divider></mat-divider>
+        </blockquote>
+        <div class="sub-input" *ngIf="requisitoForm.value.type=='file'">
+                <p fxLayout="row">Aplica si la respuesta es “Sí” a pregunta:</p>
+
+                <div fxLayout="row">
+                    <mat-form-field appearance="outline" fxFlex="66">
+                        <mat-label>Pregunta: </mat-label>
+                        <mat-icon matSuffix class="secondary-text">help_outline</mat-icon>
+                        <mat-select name="destino_construccion" formControlName="pregunta_si_o_no_condicion">
+                            <mat-option value="0">No aplica</mat-option>
+                            <mat-option value="{{d.description}}" *ngFor="let d of camposDiamicosMunicipioConstruccion">{{d.description}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" fxFlex="33" *ngIf="requisitoForm.value.pregunta_si_o_no_condicion != '0'">
+                        <mat-label>Respuesta: </mat-label>
+                        <mat-select formControlName="pregunta_si_o_no_value">
+                            <mat-option value="0" selected>No</mat-option>
+                            <mat-option value="1">Si</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+        <div *ngIf="requisitoForm.value.tramite_relacionado!=0 && (requisitoForm.value.type!='input' && requisitoForm.value.type!='boolean')">
+            <mat-checkbox name="check_dependencia" formControlName="check_dependencia">Este requisito involucra un rol en específico?</mat-checkbox><br>
+                <div *ngIf="requisitoForm.value.check_dependencia">
+                    <div fxLayout="row" fxLayoutAlign="start start">
+                    <br>
+                        <mat-form-field appearance="outline" fxFlex>
+                            <mat-label>Roles involucrados</mat-label>
+                            <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                            <mat-select name="dependencias" [value]="dependenciaSelected" formControlName="dependencias">
+                                    <!--<mat-option value="0" selected>Sin condición</mat-option>-->
+                                <mat-option *ngFor="let rol of rolesList" [value]="rol.id">{{rol.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+        </div>
+        <br>
+        <div *ngIf="requisitoForm.value.type=='input'">
+            <mat-checkbox name="check_dependencia" formControlName="info_licencia">¿Esta informacion aparecerá en la licencia?</mat-checkbox><br>
+        </div>
+        <br>
+        <!-- Fin de div parametros configurables-->
+        <div fxLayout="row" fxLayoutAlign="start start" *ngIf="requisitoForm.value.type!='boolean'">
+            <mat-form-field appearance="outline" fxFlex>
+                <mat-label>El requisito esta relacionado a...</mat-label>
+                <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                <mat-select name="step" formControlName="step" required>
+                    <mat-option value="1">Datos del interesado</mat-option>
+                    <mat-option value="2">Datos del propietario</mat-option>
+                    <mat-option value="3">Ubicación del predio / Datos de propiedad</mat-option>
+                    <mat-option value="4">Director Responsable de Obra o proyecto</mat-option>
+                    <mat-option value="5">Información del trámite</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div *ngIf="requisitoForm.value.type=='file' && requisitoForm.value.requerido==2">
+            <label>Para aplicar este requisito, ¿Se deben de cumplir todas las condiciones o basta con que se cumpla una de ellas? : </label>
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-radio-group appearance="outline" fxFlex class="example-radio-group" formControlName="todasCondiciones">
+                    <mat-radio-button class="example-radio-button" value="true">Todas las condiciones</mat-radio-button>
+                    <mat-radio-button class="example-radio-button" value="false">Con solo una de las condiciones</mat-radio-button>
+                </mat-radio-group>
+            </div>
+        </div>
+        
+
+        <div fxLayout="row" fxLayoutAlign="start start" *ngIf="requisitoForm.value.type!='boolean'">
+            <mat-form-field appearance="outline" fxFlex>
+                <mat-label>Este requisito o información en dónde se solicitará</mat-label>
+                <mat-icon matSuffix class="secondary-text">library_books</mat-icon>
+                <mat-select name="tipo_tramite" formControlName="tipo_tramite" required>
+                    <mat-option *ngIf="requisitoForm.value.type!='file'" value="consulta_requisitos">Para la consulta de requisitos</mat-option>
+                    <mat-option value="oficial">Durante o dentro del trámite</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <!--<div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Secuencia</mat-label>
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    <input name="secuencia" type="number" formControlName="secuencia" matInput required>
+                </mat-form-field>
+            </div>-->
+
+
+        <div class="message-box error mt-16" #errorsdiv @animate [@slideInLeft] *ngIf="errors.length>0">
+            <h3>Para guardar el requisito llena la siguiente información:</h3>
+            <ol @animate [@slideInLeft]>
+                <li *ngFor="let item of errors"> {{item}} </li>
+            </ol>
+            <p> <b>Nota:</b> Los campos marcados con * son obligatiorios</p>
+        </div>
+
+        <!--<div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>condicion visible</mat-label>
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    <input name="condicion_visible" formControlName="condicion_visible" matInput required>
+                </mat-form-field>
+            </div>-->
+
+
+        <!--<div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>opciones descripcion</mat-label>
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    <input name="opciones_desc" formControlName="opciones_desc" matInput required>
+                </mat-form-field>
+            </div> -->
+
+
+
+    </form>
+
+</div>
+<div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
+
+    <div fxLayout="row" fxLayoutAlign="start start">
+        <button *ngIf="action !== 'edit'" mat-button class="save-button" (click)="guardar()" aria-label="SAVE" [ngStyle]="btnCss">
+                Agregar
+            </button>
+        <button *ngIf="action !== 'new'" mat-button class="save-button" (click)="guardar()" aria-label="SAVE" [ngStyle]="btnCss">
+                Editar
+            </button>
+        <button mat-button class="save-button" (click)="matDialogRef.close()" aria-label="cancelar" [ngStyle]="btnCssCancel">
+                Cancelar
+            </button>
+    </div>
+    <ng-template #step1>
+        <div class="copilot-custom">
+            <h3>Paso uno</h3>
+            <p>En este campo debes mostrar</p>
+            <div class="footer-btn">
+                <button (click)="done()" type="button">Muy bien</button>
+            </div>
+        </div>
+    </ng-template>
+</div>

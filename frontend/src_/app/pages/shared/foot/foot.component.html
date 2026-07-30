@@ -1,0 +1,46 @@
+<div fxLayout="row" *ngIf="!deviceXs" class="footer" fxLayoutAlign="center center"
+    fxLayoutAlign.gt-xs="space-between center" fxFlex>
+
+    <div fxFlex="33" fxLayout="column" fxLayoutAlign="center center">
+
+        <p (click)="openDialogAvisos()">Aviso de Privacidad</p>
+        <p (click)="openDialogScian()"> SCIAN</p>
+        <img src="assets/images/backgrounds/bloomberg_logo.svg" class="over-imagef">
+    </div>
+
+    <div fxFlex="33" fxLayout="column" fxLayoutAlign="center center">
+        <p> <a href="https://congresoweb.congresojal.gob.mx/BibliotecaVirtual/LeyesEstatales.cfm"
+                target="_blank">Normatividad</a> </p>
+        <p>
+            <a href="https://datos.jalisco.gob.mx/" target="_blank">Datos Abiertos</a> </p>
+        <img src="assets/images/Icon.png" class="over-imagef">
+    </div>
+
+    <div fxFlex="33" fxLayout="column" fxLayoutAlign="center center">
+        <img src="assets/images/logo.svg" class="over-imagef1">
+    </div>
+</div>
+
+
+
+
+<div fxLayout="column" *ngIf="deviceXs" class="footer" fxLayoutAlign="center center"
+    fxLayoutAlign.gt-xs="space-between center" fxFlex>
+    <div fxFlex="50" fxLayout="column" fxLayoutAlign="center center">
+
+        <p (click)="openDialogAvisos()">Aviso de Privacidad</p>
+        <p (click)="openDialogScian()"> SCIAN</p>
+    </div>
+
+    <div fxFlex="50" fxLayout="column" fxLayoutAlign="center center">
+        <p> <a href="https://congresoweb.congresojal.gob.mx/BibliotecaVirtual/LeyesEstatales.cfm"
+                target="_blank">Normatividad</a> </p>
+        <p>
+            <a href="https://datos.jalisco.gob.mx/" target="_blank">Datos Abiertos</a> </p>
+
+    </div>
+
+    <div fxLayout="column" fxLayoutAlign="center center">
+        <img src="assets/images/logo.svg" class="over-imagef1">
+    </div>
+</div>

@@ -1,0 +1,515 @@
+<div class="menu-informacion" *ngIf="barraIOpen" #tramiteList @animate [@slideInBottom]="barraIOpen">
+    <div>
+        <div fxFlex="1 0 auto" fxLayout="row" fxLayoutAlign="start center">
+
+        </div>
+        <div fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="end center">
+            <button mat-icon-button aria-label="Cerrar" (click)="cancelarTramite()">
+                <mat-icon class="mat-icon2"> highlight_off</mat-icon>
+            </button>
+        </div>
+    </div>
+    <div class="paso1" *ngIf="pasoT == 1" @animate @slideInRight>
+        <div>
+            <h2 style="color:#48494B;">
+                <mat-icon><img class="" src="./assets/icons/visor/ico_busqueda_verde.svg" />
+                </mat-icon>
+                <b>{{ datosPredio.calle }} </b>
+            </h2>
+        </div>
+        <mat-divider></mat-divider>
+        <div>
+            Municipio
+            <h3 class="text-m1">
+                <b> {{ municipio.nombre }} </b>
+            </h3>
+        </div>
+        <mat-divider></mat-divider>
+        <div>
+            Localidad
+            <h3 class="text-m1">
+                <b> {{ datosPredio.localidad.nombre || 'No disponible' }} </b>
+            </h3>
+        </div>
+        <mat-divider></mat-divider>
+        <div>
+            Código Postal
+            <h3 class="text-m1">
+                <b> {{ datosPredio.colonia.codigo_postal || 'No disponible' }} </b>
+            </h3>
+        </div>
+        <mat-divider></mat-divider>
+        <div>
+            Colonia
+            <h3 class="text-m1">
+                <b> {{ datosPredio.colonia.nombre || 'No disponible' }} </b>
+            </h3>
+        </div>
+        <mat-divider></mat-divider>
+        <div>
+            Calle
+            <h3 class="text-m1">
+                <b> {{ datosPredio.calle || 'No disponible' }}  </b>
+            </h3>
+        </div>
+        <mat-divider></mat-divider>
+        <div>
+            Área del predio
+            <h3 class="text-m1">
+                <b>
+                    {{ datosPredio.area_predio | number: "1.2-2" }} m<sup>2</sup></b>
+            </h3>
+        </div>
+        <mat-divider></mat-divider>
+        <div>
+            Bloque de construcción
+            <h3 class="text-m1">
+                <b>
+                    {{ datosPredio.area_construccion | number: "1.2-2" }} m<sup>2</sup></b>
+            </h3>
+        </div>
+
+        <div class="botones-acciones">
+
+
+            <button mat-raised-button *ngIf="municipio.tiene_zonificacion" color="green" (click)="ficha_tecnica()" style="margin-bottom: 10px">
+                <mat-icon class="mat-icon2" style="margin: 10px">get_app</mat-icon>
+                Descargar Ficha Informativa
+            </button>
+            <mat-divider style="margin-bottom: 5px;"></mat-divider>
+            <button mat-raised-button color="green" (click)="iniciarTramite()" style="margin-top: 10px;margin-bottom: 20px;">
+                <mat-icon class="mat-icon2" style="margin: 10px">add_circle_outline</mat-icon>
+                Consultar requisitos giro
+            </button>
+            <!-- <button *ngIf="municipio.id === 1 || municipio.id === 120 || municipio.id === 100 || municipio.id === 24" mat-raised-button color="green" (click)="iniciarTramiteConstruccion()" style="margin-top: 10px;">
+                <mat-icon class="mat-icon2" style="margin: 10px">add_circle_outline</mat-icon>
+                Consultar requisitos construcción
+            </button>
+            <mat-divider></mat-divider> -->
+
+            <img [src]="datosPredio.url_minimapa2" style="width: 250px; height: 250px" alt="" />
+
+            <!-- <button mat-raised-button color="green" (click)="downloadShapes()" style="margin-top: 10px">
+                <mat-icon class="mat-icon2" style="margin: 10px">cloud_download</mat-icon>
+                Descargar plano de predio.
+            </button>
+            <p>
+                Las medidas del plano descargado pueden variar respecto a las que el documento de propiedad ampare. La información y medidas oficiales para cualquier trámite será la que obre en poder de la Dirección de Catastro del municipio que corresponda
+            </p> -->
+        </div>
+    </div>
+    <div class="paso2" *ngIf="pasoT == 2 && cargandoMunicipio==true" @animate @slideInRight>
+        <mat-spinner></mat-spinner>
+    </div>
+    <div class="paso2" *ngIf="pasoT == 2 && cargandoMunicipio==false && construccion==0" @animate @slideInRight>
+        <div>
+            <div fxFlex="1 0 auto" fxLayout="row" fxLayoutAlign="start center">
+                <button mat-icon-button aria-label="Cerrar" (click)="pasoT = 1">
+                    <mat-icon class="mat-icon2"> arrow_back</mat-icon>
+                </button>
+            </div>
+            <div fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="end center">
+
+            </div>
+        </div>
+
+        <h2><b>Solicitar licencia</b></h2>
+        <h3 class="titulo"><b>Información general</b></h3>
+        <form [formGroup]="predioForm">
+            <div class="input-b">
+                <label for="nombre">Nombre completo</label>
+                <input type="text" name="nombre" formControlName="nombre" required/>
+                <mat-error @animate *ngIf="(predioForm.get('nombre').invalid && predioForm.get('nombre').touched) || (predioForm.get('nombre').invalid && errorFormulario) ">
+                    El nombre obligatorio
+                </mat-error>
+            </div>
+            <div class="input-b">
+                <label for="calle">Calle</label>
+                <input type="text" name="calle" formControlName="calle" />
+                <mat-error @animate *ngIf="(predioForm.get('calle').invalid && predioForm.get('calle').touched) || (predioForm.get('calle').invalid && errorFormulario)">
+                    La calle es obligatoria
+                </mat-error>
+            </div>
+            <div class="input-b">
+                <label for="colonia">Colonia</label>
+                <input type="text" name="colonia" formControlName="colonia" />
+                <mat-error @animate *ngIf="(predioForm.get('colonia').invalid && predioForm.get('colonia').touched) || (predioForm.get('colonia').invalid && errorFormulario)">
+                    La colonia es obligatoria
+                </mat-error>
+            </div>
+            <div class="input-b">
+                <label for="localidad">Localidad</label>
+                <input type="text" name="localidad" formControlName="localidad" />
+                <mat-error @animate *ngIf="(predioForm.get('localidad').invalid && predioForm.get('localidad').touched) || (predioForm.get('localidad').invalid && errorFormulario)">
+                    La localidad es obligatoria
+                </mat-error>
+            </div>
+            <div class="input-b">
+                <label for="Municipio">Municipio </label>
+                <input type="text" name="Municipio" [value]="municipio.nombre" disabled/>
+            </div>
+            <div class="input-b" *ngIf="actividadesEconomicas">
+                <label for="actividad">Actividad comercial a solicitar</label>
+                <input name="actividad" formControlName="actividad" [(ngModel)]="actividaddSeleccionada" #actividadComercial matInput [formControl]="controlActividades" [matAutocomplete]="actividad" />
+                <mat-autocomplete #actividad="matAutocomplete">
+                    <mat-option *ngFor="let option of filteredActividades | async" [value]="option.SCIAN" (onSelectionChange)="actividadSeleccionada(option)">
+                        {{ option.SCIAN }}
+                    </mat-option>
+                </mat-autocomplete>
+                <mat-error @animate *ngIf="(errorActividadSelected) || (predioForm.get('actividad').invalid && predioForm.get('actividad').touched) || (predioForm.get('actividad').invalid && errorFormulario)">
+                    Seleccionar una actividad valida
+                </mat-error>
+
+            </div>
+            <div class="input-b">
+                <label for="superficie">Superficie m2 a solicitar</label>
+                <input type="number" formControlName="superficie" name="superficie" />
+                <div class="errors" *ngIf="predioForm.get('superficie').errors">
+                    <mat-error @animate *ngIf="(predioForm.get('superficie').invalid && predioForm.get('superficie').touched) || (predioForm.get('superficie').invalid && errorFormulario)">
+                        La superficie es obligatoria
+                    </mat-error>
+                    <mat-error @animate *ngIf="(predioForm.get('superficie').errors.min && predioForm.get('superficie').touched) || (predioForm.get('superficie').errors.min && errorFormulario)">
+                        La superficie debe ser mayor a 0
+                    </mat-error>
+
+                </div>
+            </div>
+            <div class="input-b mt-8">
+                <mat-form-field appearance="outline" style="width: 100%; font-size: 12px;">
+                    <mat-label>Venta de alcohol</mat-label>
+                    <mat-select required formControlName="alcohol" [value]="'0'">
+                        <mat-option value="0" selected>No incluye</mat-option>
+                        <mat-option value="1">Bebidas de baja graduación cerrada</mat-option>
+                        <mat-option value="2">Bebidas de baja graduación abierta</mat-option>
+                        <mat-option value="3">Bebidas de alta graduación cerrada</mat-option>
+                        <mat-option value="4">Bebidas de alta graduación abierta</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+        </form>
+        <mat-divider style="color: green; margin: 20px"></mat-divider>
+
+        <h3 class="titulo"><b>Información del trámite</b></h3>
+
+        <div>
+            <form>
+                <div *ngFor="let d of camposDiamicosMunicipio" [ngSwitch]="true">
+                    <div *ngSwitchCase="d.type=='input'">
+                        <mat-form-field appearance="outline" *ngIf="d.requerido==1">
+                            <mat-label>{{d.description}}</mat-label>
+                            <input matInput [placeholder]="d.description" [name]="d.name" [(ngModel)]="datosDinamicosActual[d.name].value">
+                            <!--<mat-icon matSuffix matTooltip="{{d.description}}" matTooltipPosition="after">help</mat-icon> -->
+                            <mat-hint></mat-hint>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" *ngIf="d.requerido==3">
+                            <mat-label>{{d.description}}</mat-label>
+                            <input matInput [placeholder]="d.description" [name]="d.name" [(ngModel)]="datosDinamicosActual[d.name].value">
+                            <mat-icon matSuffix matTooltip="{{d.description}}" matTooltipPosition="after">help
+                            </mat-icon>
+                            <mat-hint></mat-hint>
+                        </mat-form-field>
+                    </div>
+                    <div *ngSwitchCase="d.type=='number'">
+                        <mat-form-field appearance="outline" *ngIf="d.requerido==1">
+                            <mat-label>{{d.description}}</mat-label>
+                            <input matInput [placeholder]="d.description" [name]="d.name" [(ngModel)]="datosDinamicosActual[d.name].value">
+                            <!--<mat-icon matSuffix matTooltip="{{d.description}}" matTooltipPosition="after">help</mat-icon> -->
+                            <mat-hint></mat-hint>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" *ngIf="d.requerido==3">
+                            <mat-label>{{d.description}}</mat-label>
+                            <input matInput [placeholder]="d.description" [name]="d.name" [(ngModel)]="datosDinamicosActual[d.name].value">
+                            <mat-icon matSuffix matTooltip="{{d.description}}" matTooltipPosition="after">help
+                            </mat-icon>
+                            <mat-hint></mat-hint>
+                        </mat-form-field>
+                    </div>
+
+                    <div *ngSwitchCase="d.type=='select'">
+                        <mat-form-field appearance="outline" *ngIf="d.requerido==1" style="width: 100%; font-size: 12px;">
+                            <mat-label>{{d.description}}</mat-label>
+                            <mat-select placeholder="{{d.description}}" [(ngModel)]="datosDinamicosActual[d.name].value" [name]="d.name">
+                                <mat-option *ngFor="let item of d.opciones.split('|'); let i = index" [value]="d.opciones_desc.split('|')[i]">
+                                    {{item}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div *ngSwitchCase="d.type=='radio'">
+                        <div *ngIf="d.requerido==1">
+                            <label id="example-radio-group-label">{{d.description}}
+                                <!--<mat-icon matSuffix matTooltip="{{d.description}}" matTooltipPosition="after">help</mat-icon> -->
+                            </label>
+                            <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [name]="d.name" [(ngModel)]="datosDinamicosActual[d.name].value" (ngModelChange)="campoDinamicoFunction(d)">
+                                <mat-radio-button class="example-radio-button" *ngFor="let item of d.opciones.split('|'); let i = index" [value]="d.opciones_desc.split('|')[i]">
+                                    {{item}}
+
+                                </mat-radio-button>
+
+                            </mat-radio-group>
+                            <mat-divider></mat-divider>
+                        </div>
+
+                        <div *ngIf="d.requerido==3" [hidden]="!datosDinamicosActual[d.name].visible">
+                            <label>{{d.description}}</label>
+                            <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group flex-wrap" [name]="d.name" [(ngModel)]="datosDinamicosActual[d.name].value" (ngModelChange)="campoDinamicoFunction(d)">
+                                <mat-radio-button class="example-radio-button" *ngFor="let item of d.opciones.split('|'); let i = index" [value]="d.opciones_desc.split('|')[i]">
+                                    {{item}}
+                                    <!--<mat-icon matSuffix matTooltip="{{d.description}}" matTooltipPosition="after">help</mat-icon> -->
+                                </mat-radio-button>
+                            </mat-radio-group>
+                            <mat-divider></mat-divider>
+                        </div>
+                    </div>
+                    <div *ngSwitchCase="d.type=='boolean'" fxFlex="50" fxFlex.lt-sm="100">
+                        <div *ngIf="d.requerido==1">
+
+                            <label>{{d.description}}</label>
+                            <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [name]="d.name" [(ngModel)]="datosDinamicosActual[d.name].value" (ngModelChange)="campoDinamicoFunction(d)">
+                                <mat-radio-button value="true">Sí</mat-radio-button>
+                                <mat-radio-button value="false">No</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                        <div *ngIf="d.requerido==3" [hidden]="!datosDinamicosActual[d.name].visible">
+                            <label>{{d.description}}</label>
+                            <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [name]="d.name" [(ngModel)]="datosDinamicosActual[d.name].value" (ngModelChange)="campoDinamicoFunction(d)">
+                                <mat-radio-button value="true">Si</mat-radio-button>
+                                <mat-radio-button value="false">No</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+
+            <mat-error @animate *ngIf="errorFormulario && errorFormularioMessage.length>0">
+                Llenar los campos siguientes
+                <li *ngFor="let item of errorFormularioMessage">
+                    {{item}}
+                </li>
+            </mat-error>
+            <div class="botones-acciones" style="margin-bottom: 70px;">
+
+                <button mat-raised-button color="green" (click)="consultarRequisitos()">
+                    <mat-icon class="mat-icon2" style="margin: 10px">assignment</mat-icon>
+                    Consultar requisitos
+                </button>
+            </div>
+
+        </div>
+    </div>
+    <div class="paso2" *ngIf="pasoT == 2 && cargandoMunicipio==false && construccion==1" @animate @slideInRight>
+        <div>
+            <div fxFlex="1 0 auto" fxLayout="row" fxLayoutAlign="start center">
+                <button mat-icon-button aria-label="Cerrar" (click)="pasoT = 1">
+                    <mat-icon class="mat-icon2"> arrow_back</mat-icon>
+                </button>
+            </div>
+            <div fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="end center">
+            </div>
+        </div>
+        <h2><b>Solicitar licencia</b></h2>
+        <h3 class="titulo"><b>Información general</b></h3>
+        <form [formGroup]="predioFormConstruccion">
+            <div class="input-b">
+                <label for="nombre">Nombre completo</label>
+                <input type="text" name="nombreC" formControlName="nombreC" required/>
+                <mat-error @animate *ngIf="(predioFormConstruccion.get('nombreC').invalid && predioFormConstruccion.get('nombreC').touched) || (predioFormConstruccion.get('nombreC').invalid && errorFormulario) ">
+                    El nombre obligatorio
+                </mat-error>
+            </div>
+            <div class="input-b">
+                <label for="calle">Calle</label>
+                <input type="text" name="calleC" formControlName="calleC" />
+                <mat-error @animate *ngIf="(predioFormConstruccion.get('calleC').invalid && predioFormConstruccion.get('calleC').touched) || (predioFormConstruccion.get('calleC').invalid && errorFormulario)">
+                    La calle es obligatoria
+                </mat-error>
+            </div>
+            <div class="input-b">
+                <label for="colonia">Colonia</label>
+                <input type="text" name="coloniaC" formControlName="coloniaC" />
+                <mat-error @animate *ngIf="(predioFormConstruccion.get('coloniaC').invalid && predioFormConstruccion.get('coloniaC').touched) || (predioFormConstruccion.get('coloniaC').invalid && errorFormulario)">
+                    La colonia es obligatoria
+                </mat-error>
+            </div>
+            <div class="input-b">
+                <label for="localidad">Localidad</label>
+                <input type="text" name="localidadC" formControlName="localidadC" />
+                <mat-error @animate *ngIf="(predioFormConstruccion.get('localidadC').invalid && predioFormConstruccion.get('localidadC').touched) || (predioFormConstruccion.get('localidadC').invalid && errorFormulario)">
+                    La localidad es obligatoria
+                </mat-error>
+            </div>
+            <div class="input-b">
+                <label for="Municipio">Municipio </label>
+                <input type="text" name="MunicipioC" [value]="municipio.nombre" disabled/>
+            </div>
+            <mat-divider style="color: green; margin: 20px"></mat-divider>
+
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Tipo de trámite relacionado al requisito</mat-label>
+                    <mat-icon matSuffix class="secondary-text">description</mat-icon>
+                    <mat-select name="type" formControlName="tramite_relacionado" required (selectionChange)="changeTipoTramite($event.value)">
+                        <mat-option *ngFor="let tramite of tiposTramite" [value]="tramite.id" >{{tramite.tramite}} </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div *ngIf="mostrar_default">
+                <div class="input-b">
+                    <label for="habraDemolicion">¿Habrá demolición? </label>
+                    <mat-radio-group name="habraDemolicion" aria-label="Select an option" (change)="radioDemolicion($event)">
+                        <mat-radio-button value="si">Si</mat-radio-button>&nbsp;
+                        <mat-radio-button value="no">No</mat-radio-button>
+                    </mat-radio-group>
+                    <mat-error @animate *ngIf="(predioFormConstruccion.get('mdemolicion').invalid && predioFormConstruccion.get('mdemolicion').touched) || (predioFormConstruccion.get('mdemolicion').invalid && errorFormulario) ">
+                        Habrá demolición es un campo obligatorio
+                    </mat-error>
+                </div>
+
+                <div class="input-b" *ngIf="mostrarDemolicion">
+                    <label for="nombre">M2 de demolición</label>
+                    <input type="number" name="mdemolicion" formControlName="mdemolicion" required/>
+                    <mat-error @animate *ngIf="(predioFormConstruccion.get('mdemolicion').invalid && predioFormConstruccion.get('mdemolicion').touched) || (predioFormConstruccion.get('mdemolicion').invalid && errorFormulario) ">
+                        M2 de demolición
+                    </mat-error>
+                </div>
+                <div class="input-b">
+                    <label for="nombre">Niveles nuevos a construir</label>
+                    <input type="number" name="sotano" formControlName="niveles_nuevos_construir" required/>
+                    <mat-error @animate *ngIf="(predioFormConstruccion.get('niveles_nuevos_construir').invalid && predioFormConstruccion.get('niveles_nuevos_construir').touched) || (predioFormConstruccion.get('niveles_nuevos_construir').invalid && errorFormulario) ">
+                        Niveles nuevos a construir es obligatorio
+                    </mat-error>
+                </div>
+                <div class="input-b">
+                    <label for="nombre">Número de viviendas</label>
+                    <input type="number" name="sotano" formControlName="numero_viviendas" required/>
+                    <mat-error @animate *ngIf="(predioFormConstruccion.get('numero_viviendas').invalid && predioFormConstruccion.get('numero_viviendas').touched) || (predioFormConstruccion.get('numero_viviendas').invalid && errorFormulario) ">
+                        Número de viviedas es obligatorio
+                    </mat-error>
+                </div>
+                <div class="input-b">
+                    <label for="habraSotanos">¿Habrá sótanos? </label>
+                    <mat-radio-group name="habraSotanos" aria-label="Select an option" (change)="radioSotanos($event)">
+                        <mat-radio-button value="si">Si</mat-radio-button>&nbsp;
+                        <mat-radio-button value="no">No</mat-radio-button>
+                    </mat-radio-group>
+                    <mat-error @animate *ngIf="(predioFormConstruccion.get('sotano').invalid && predioFormConstruccion.get('sotano').touched) || (predioFormConstruccion.get('sotano').invalid && errorFormulario)">
+                        Habrá demolición es un campo obligatorio
+                    </mat-error>
+                </div>
+                <div class="input-b" *ngIf="mostrarSotano">
+                    <label for="nombre">Sótanos</label>
+                    <input type="number" name="sotano" formControlName="sotano" required/>
+                    <mat-error @animate *ngIf="(predioFormConstruccion.get('sotano').invalid && predioFormConstruccion.get('sotano').touched) || (predioFormConstruccion.get('sotano').invalid && errorFormulario) ">
+                        Sotano es obligatorio
+                    </mat-error>
+                </div>
+                <br>
+            </div>
+            <form>
+                    <div class="flex-container">
+                        <div *ngFor="let d of camposDiamicosMunicipioConstruccion" [ngSwitch]="true">
+                            <div *ngSwitchCase="d.type=='input'" fxFlex="100" fxFlex.lt-sm="100">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>{{d.description}}</mat-label>
+                                    <input matInput [placeholder]="d.description" [name]="d.name" [(ngModel)]="datosDinamicosActualConstruccion[d.name].value">
+                                    <!--<mat-icon matSuffix matTooltip="{{d.description}}" matTooltipPosition="after">help</mat-icon> -->
+                                    <mat-hint></mat-hint>
+                                </mat-form-field>
+                                
+                            </div>
+                            <div *ngSwitchCase="d.type=='number'" fxFlex="100" fxFlex.lt-sm="100">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>{{d.description}}</mat-label>
+                                    <input matInput [placeholder]="d.description" [name]="d.name" [(ngModel)]="datosDinamicosActualConstruccion[d.name].value">
+                                    <!--<mat-icon matSuffix matTooltip="{{d.description}}" matTooltipPosition="after">help</mat-icon> -->
+                                    <mat-hint></mat-hint>
+                                </mat-form-field>
+
+                                
+                            </div>
+
+                            <div *ngSwitchCase="d.type=='select'" fxFlex="100" fxFlex.lt-sm="100">
+                                <mat-form-field appearance="outline" style="width: 100%; font-size: 12px;">
+                                    <mat-label>{{d.description}}</mat-label>
+                                    <mat-select placeholder="{{d.description}}" [(ngModel)]="datosDinamicosActualConstruccion[d.name].value" [name]="d.name">
+                                        <mat-option *ngFor="let item of d.opciones.split('|'); let i = index" [value]="d.opciones_desc.split('|')[i]">
+                                            {{item}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div *ngSwitchCase="d.type=='radio'" fxFlex="100" fxFlex.lt-sm="100">
+                                
+                                    <label id="example-radio-group-label">{{d.description}}
+                                        <!--<mat-icon matSuffix matTooltip="{{d.description}}" matTooltipPosition="after">help</mat-icon> -->
+                                    </label>
+                                    <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [name]="d.name" [(ngModel)]="datosDinamicosActualConstruccion[d.name].value" (ngModelChange)="campoDinamicoFunctionConstruccion(d)">
+                                        <mat-radio-button class="example-radio-button" *ngFor="let item of d.opciones.split('|'); let i = index" [value]="d.opciones_desc.split('|')[i]">
+                                            {{item}}
+
+                                        </mat-radio-button>
+
+                                    </mat-radio-group>
+                                    <mat-divider></mat-divider>
+                                
+
+                            </div>
+                            <div *ngSwitchCase="d.type=='boolean'" fxFlex="100" fxFlex.lt-sm="100">
+                                    <label>{{d.description}}</label>
+                                    <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [name]="d.name" [(ngModel)]="datosDinamicosActualConstruccion[d.name].value" (ngModelChange)="campoDinamicoFunctionConstruccion(d)">
+                                        <mat-radio-button value="true">Sí</mat-radio-button>
+                                        <mat-radio-button value="false">No</mat-radio-button>
+                                    </mat-radio-group>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="flex-container" *ngIf="mostrar_default">
+                    <div style=" float: left; width: 65%; margin-top: 20px;">
+                        <mat-error @animate *ngIf="errorFormulario2==true">
+                            Debes seleccionar al menos una opción y/o asegurarte que los campos de las casillas marcadas no estén vacíos
+                        </mat-error>
+                        <mat-selection-list #shoes (selectionChange)="checkbox($event)">
+                            <mat-list-option *ngFor="let shoe of typesOfShoes" style="margin-left: 3%;" [value]="shoe">
+                                <label>{{shoe}}</label>
+                            </mat-list-option>
+                        </mat-selection-list>
+                        <div *ngIf="mostrarConcepto==true" class="input-b fix-position-input" [formGroup]="predioFormConstruccion2">
+                            <input type="text" formControlName="Concepto_otro" placeholder="Otro (especificar)">
+                        </div>
+
+                    </div>
+
+                    <form [formGroup]="predioFormConstruccion2">
+                        <div style=" float: left; width: 35%;  margin-top: 30px;" [ngClass]="{'fix-position': errorFormulario2 == true}">
+                            <div *ngFor="let shoe of typesOfShoes | slice:0:typesOfShoes.length-1" class="input-small">
+                                <input type="number" formControlName="{{shoe}}" placeholder="m²" required/>
+                            </div>
+                            <div *ngIf="mostrarConcepto==true" class="input-small">
+                                <input type="number" formControlName="Otro (especificar)" placeholder="m²" style="margin-top: 52px;" required/>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+
+
+        </form>
+        
+
+        <mat-divider style="color: green; margin: 20px"></mat-divider>
+        <div>
+            <div class="botones-acciones" style="margin-bottom: 70px;">
+                <button mat-raised-button color="green" (click)="consultarRequisitosConstruccion()">
+                    Consultar requisitos construccion
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

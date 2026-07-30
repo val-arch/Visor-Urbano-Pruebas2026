@@ -1,0 +1,59 @@
+<mat-toolbar matDialogTitle class="fuse-visor-50 m-0">
+    <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+        <span class="title dialog-title">Firmar</span>
+        <button mat-icon-button (click)="matDialogRef.close({status:false})" aria-label="Close dialog">
+                <mat-icon>close</mat-icon>
+            </button>
+    </mat-toolbar-row>
+</mat-toolbar>
+
+<div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
+    <!-- {{data.cadena}} -->
+    <form [formGroup]="firmaForm">
+        <div class="file">
+            <span class=ellipsis>Ingresar archivo .key</span><br />
+            <div fxLayout="row">
+                <img fxFlex="10%" src="assets/images/icons/ico_upload.svg">
+                <label fxFlex="90%">
+                    <input type="file" formControlName="key" (change)="fileUp($event,'key')"
+                        class="vu-file-upload"
+                        data-max-size="15360"
+                        accept=".key">
+                </label>
+            </div>
+        </div>
+        <mat-divider class="m-12"></mat-divider>
+        <div class="file">
+            <span class=ellipsis>Ingresar archivo .Cer</span><br />
+            <div fxLayout="row">
+                <img fxFlex="10%" src="assets/images/icons/ico_upload.svg">
+                <label fxFlex="90%">
+                    <input type="file" formControlName="cer" (change)="fileUp($event,'cer')"
+                        class="vu-file-upload"
+                        data-max-size="15360"
+                        accept=".cer">
+                </label>
+            </div>
+        </div>
+        <mat-divider class="m-12"></mat-divider>
+        <mat-form-field appearance="outline">
+            <mat-label>Ingresar contraseña</mat-label>
+            <input matInput formControlName="password" type="password">
+        </mat-form-field>
+
+    </form>
+    <div class="message-box error" *ngIf="error!=''">
+        {{error}}
+    </div>
+</div>
+<div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
+
+    <div fxLayout="row" fxLayoutAlign="start start">
+        <button mat-button class="save-button" (click)="firmar()" aria-label="SAVE">
+                Firmar
+            </button>
+        <button mat-button class="save-button" (click)="matDialogRef.close({status:false})" aria-label="cancelar">
+                Cancelar
+            </button>
+    </div>
+</div>

@@ -1,0 +1,86 @@
+@import "src/@fuse/scss/fuse";
+
+h2{
+    text-align: center;
+}
+.logo {
+    width: 128px;
+    margin: 32px auto;
+}
+.title {
+    font-size: 20px;
+    margin: 16px 0 32px 0;
+}
+#cambiarContrasena-form{
+    text-align: center;
+
+}
+form {
+    width: 80%;
+    display: inline-block;
+
+    .mat-form-field {
+        .mat-input-element {
+            color: slategray;
+        }
+        .mat-form-field-label {
+            color: slategray;
+        }
+        .mat-form-field-underline {
+            background-color: slategray;
+        }
+        .mat-form-field-ripple {
+            background-color: slategray;
+        }
+        .mat-form-field-required-marker {
+            color: slategray;
+        }
+    }
+    .mat-form-field.mat-focused {
+        .mat-form-field-label {
+            color: #70CE68;
+            border-radius: 20px;
+        }
+        .mat-form-field-ripple {
+            background-color: #70CE68;
+        }
+        .mat-form-field-required-marker {
+            color: #70CE68;
+        }
+        .mat-input-element {
+            color: #70CE68;
+        }
+        .mat-icon {
+            color: #70CE68;
+        }
+    }
+    mat-form-field {
+        width: 100%;
+        border-radius: 20px;
+    }
+    mat-checkbox {
+        margin: 0;
+    }
+
+    .submit-button {
+      
+       
+        width: 280px;
+        height: 40px;
+        background: #70CE68 0% 0% no-repeat padding-box;
+        box-shadow: 0px 10px 20px #90969514;
+        border-radius: 20px;
+        opacity: 1;
+        text-align: center;
+
+        
+        font: normal normal bold 16px/21px Red Hat Display;
+        letter-spacing: 0.4px;
+        color: #FFFFFF;
+        opacity: 1;
+        @include media-breakpoint('xs') {
+            width: 90%;
+        }
+    }
+   
+}

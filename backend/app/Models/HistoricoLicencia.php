@@ -1,0 +1,85 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+
+class HistoricoLicencia extends Model
+{
+        use SoftDeletes;
+        protected $table = "historico_licencias_giro";
+
+        protected $fillable = [
+                'folio_licencia',
+                'fecha_emision',
+                'giro',
+                'descripcion_detallada',
+                'codigo_giro',
+                'superficie_giro',
+                'calle',
+                'numero_ext',
+                'numero_int',
+                'colonia',
+                'clave_catastral',
+                'referencia',
+                'coordonadas_x',
+                'coordonadas_y',
+                'nombre_titular',
+                'apellido_p',
+                'apellido_m',
+                'rfc',
+                'curp',
+                'telefono',
+                'razon_social',
+                'email',
+                'calle_titular',
+                'numero_ext_titular',
+                'numero_int_titular',
+                'colonia_titular',
+                'venta_alcohol',
+                'horario',
+                'id_municipio',
+                'status',
+                'calle_predio',
+                'colonia_predio',
+                'num_int_predio',
+                'num_ext_predio',
+                'cp_predio',
+                'tipo_inmueble',
+                'nombre_negocio',
+                'inversion',
+                'numero_empleado',
+                'numero_cajones',
+                'anio_licencia',
+                'status_licencia',
+                'motivo',
+                'apellido_solicitante_p',
+                'email_solcitante',
+                'nombre_solicitante',
+                'apellido_solicitante_p',
+                'apellido_solicitante_m',
+                'curp_solicitante',
+                'rfc_solicitante',
+                'telefono_solicitante',
+                'calle_solicitante',
+                'email_solicitante',
+                'cp_solicitante',
+                'step_1',
+                'step_2',
+                'step_3',
+                'step_4',
+                'codigo_giro ',
+                'descripcion_detallada ',
+                'superficie_giro',
+                'giro',
+                'hora_a',
+                'hora_c',
+                'tipo_licencia',
+                'numero_lic',
+                'anio_lic',
+                'status_baja',
+                'status_pago',
+        ];
+}

@@ -1,0 +1,134 @@
+<div *ngIf="herramientaActiva==='capas'">
+    <mat-tab-group>
+        <mat-tab label="Capas">
+            <mat-list>
+                <mat-list-item *ngFor="let capa of capasMunicipio; let indice = index">
+                    <h3 matLine style="padding: 0 0 0 4px;">
+                        <mat-checkbox style="margin-right: 12px;"
+                                      matTooltip="{{ capasMunicipio[indice]['visible'] ? 'Desctivar esta capa' : 'Activar esta capa' }}"
+                                      [(ngModel)]="capasMunicipio[indice]['visible']"
+                                      (change)="updateCapasMunicipio()"></mat-checkbox>
+                        <button mat-icon-button color="primary" matTooltip="Zoom a esta capa">
+                            <mat-icon>zoom_out_map</mat-icon>
+                        </button>
+                        <button mat-icon-button color="secondary" matTooltip="Opacidad de esta capa"
+                                (click)="capaOpacidad == indice ? capaOpacidad = undefined : capaOpacidad = indice">
+                            <mat-icon>brightness_6</mat-icon>
+                        </button>
+                        {{ capa.label }}
+                    </h3>
+                    <h3 matLine *ngIf="capaOpacidad === indice;" style="margin-top: -10px; padding: 0 4px 0 4px;">
+                        <mat-slider (input)="updateCapasMunicipio()" style="width: 100%;"
+                                    [(ngModel)]="capasMunicipio[indice]['opacity']" min="0" max="1" step="0.05"
+                                    (change)="updateCapasMunicipio()"></mat-slider>
+                    </h3>
+                </mat-list-item>
+            </mat-list>
+        </mat-tab>
+        <mat-tab label="Simbología">
+            <div style="width: 303px;">
+                <mat-accordion>
+                    <mat-expansion-panel *ngFor="let capa of capasMunicipioWMS()">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                {{ capa.label }}
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+
+                        <mat-card style="padding: 0; box-shadow: none;" cdk-scrollable>
+
+                            <img *ngIf="capa.url.endsWith('?')" alt="Leyenda WMS" style="max-width: initial;"
+                                 src="{{ capa.url }}service=wms&request=GetLegendGraphic&VERSION={{ capa.version }}&FORMAT=image/png&LAYER={{ capa.layers }}">
+                            <img *ngIf="!capa.url.endsWith('?')" alt="Leyenda WMS" style="max-width: initial;"
+                                 src="{{ capa.url }}?service=wms&request=GetLegendGraphic&VERSION={{ capa.version }}&FORMAT=image/png&LAYER={{ capa.layers }}">
+
+                        </mat-card>
+
+
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+</div>
+
+<div *ngIf="herramientaActiva==='analisis-comercial'">
+
+    <mat-tab-group>
+        <mat-tab label="Diagnóstico comercial">
+            <div style="width: 303px; margin-top: 14px;">
+
+                <mat-button-toggle-group vertical style="width: 100%;" [(ngModel)]="mapaInteraccion"
+                                         (change)="updateMapaInteraccion(mapaInteraccion)">
+                    <mat-button-toggle (click)="dibujarAnalisis('dibujar_analisis_circulo')">
+                        <mat-icon style="margin-right: 10px;">radio_button_unchecked</mat-icon>
+                        Dibujar círculo
+                    </mat-button-toggle>
+                    <mat-button-toggle (click)="dibujarAnalisis('dibujar_analisis_caja')">
+                        <mat-icon style="margin-right: 10px;">crop_3_2</mat-icon>
+                        Dibujar rectángulo
+                    </mat-button-toggle>
+                    <mat-button-toggle (click)="dibujarAnalisis('dibujar_analisis_poligono')">
+                        <mat-icon style="margin-right: 10px;">star_border</mat-icon>
+                        Dibujar polígono
+                    </mat-button-toggle>
+
+                    <button style="padding: 4px 14px; text-align: left; font-weight: 500" mat-raised-button
+                            *ngIf="mapaInteraccion == 'obtener_info' || sourceMediciones.getFeatures().length > 0"
+                            (click)="updateMapaInteraccion('seleccionar_predio')">
+                        <mat-icon style="margin-right: 10px;">cancel</mat-icon>
+                        Limpiar
+                    </button>
+                </mat-button-toggle-group>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+
+</div>
+
+<div *ngIf="herramientaActiva === 'herramientas-seleccion'">
+    <mat-tab-group>
+        <mat-tab label="Medición y selección">
+            <div style="width: 303px; margin-top: 14px;">
+                <mat-button-toggle-group vertical style="width: 100%;" [(ngModel)]="mapaInteraccion"
+                                         (change)="updateMapaInteraccion(mapaInteraccion)">
+                    <!-- ocultar por ahora -->
+                    <mat-button-toggle [value]="'seleccionar_predio'" class="full-width">
+                        <mat-icon style="margin-right: 10px;">location_on</mat-icon>
+                        Seleccionar predio
+                    </mat-button-toggle>
+                    <mat-button-toggle [value]="'dibujar_predio'">
+                        <mat-icon style="margin-right: 10px;">edit_location</mat-icon>
+                        Dibujar predio
+                    </mat-button-toggle>
+                    <!-- ocultar por ahora -->
+                    <mat-button-toggle [value]="'medir_distancia'">
+                        <mat-icon style="margin-right: 10px;" svgIcon="ruler"></mat-icon>
+                        Medir distancia (lineal)
+                    </mat-button-toggle>
+                    <mat-button-toggle [value]="'medir_area'">
+                        <mat-icon style="margin-right: 10px;" svgIcon="ruler-square-compass"></mat-icon>
+                        Medir área (polígono)
+                    </mat-button-toggle>
+                    <mat-button-toggle [value]="'subir_archivo'">
+                        <mat-icon style="margin-right: 10px;">cloud_upload</mat-icon>
+                        Subir archivo de predio
+                    </mat-button-toggle>
+                    <mat-button-toggle [value]="'obtener_info'">
+                        <mat-icon style="margin-right: 10px;">info</mat-icon>
+                        Info de objeto espacial
+                    </mat-button-toggle>
+                    <!-- <button style="padding: 4px 14px; text-align: left; font-weight: 500" mat-raised-button *ngIf="sourceMediciones.getFeatures().length > 0" (click)="updateMapaInteraccion('limpiar_medicion')"><mat-icon style="margin-right: 10px;">clear</mat-icon>Limpiar mediciones</button> -->
+                    <button style="padding: 4px 14px; text-align: left; font-weight: 500" mat-raised-button
+                            *ngIf="(mapaInteraccion === 'obtener_info' && WMSInfo.mostrar) ||
+                            predioCoords.length > 0 ||
+                             sourceMediciones.getFeatures().length > 0"
+                            (click)="setLimpiarMapa()">
+                        <mat-icon style="margin-right: 10px;">cancel</mat-icon>
+                        Limpiar
+                    </button>
+                </mat-button-toggle-group>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+</div>

@@ -1,0 +1,156 @@
+<div class="article" [class.content]="!deviceXs" [class.content-mob]="deviceXs" (scroll)="onScroll($event)">
+    <mat-drawer-container>
+        <mat-drawer-content fxLayout="column wrap" layout="column" class="inicio-banner" id="inicio" layout-xs="row"
+            @animate @slideIn>
+            <div class="row parte1" fxLayout fxLayout="row" fxLayoutAlign="center" fxLayoutGap.xs="0"
+                fxLayout.xs="column">
+                <div class="" fxFlex="45">
+                    <h1 class="jalisco">Visor Urbano Cuernavaca</h1>
+                    <p class="description">
+                        {{'landing.t1' | translate}}
+                    </p>
+                    <a mat-raised-button color="accent" class="submit-button" href="/mapa">
+                        {{'landing.b1' | translate}}
+                    </a>
+
+                    <div fxLayout="row" *ngIf="!deviceXs" style="margin-top: 70px" class="logos_banner">
+                        <div fxFlex="50">
+                            <a href="https://www.bloomberg.org/" target="_blank">
+                            <img src="assets/images/backgrounds/bloomberg_logo.svg" class="over-image" style="width: 60%;" />
+                            </a>
+                        </div>
+                        <div fxFlex="50">
+                            <img src="assets/icons/visor/logo-default.png" class="over-image" style="width: 70%;" />
+                        </div>
+                    </div>
+
+                    <div fxLayout="row" *ngIf="deviceXs" fxLayoutAlign="space-evenly center" class="logos_banner1">
+                        <img src="assets/icons/visor/logo-default.png" />
+
+                        <img src="assets/images/backgrounds/bloomberg_logo.svg" />
+                    </div>
+                </div>
+
+                <div fxFlex="55" class="banner">
+                    <img src="assets/images/landing/img_banner_home.png" alt="" />
+                </div>
+            </div>
+        </mat-drawer-content>
+
+        <mat-drawer-content class="licencia-requisitos" fxLayout.xs="column" @animate @slideIn>
+            <h1 class="consulta">
+                {{'landing.que' | translate}}
+            </h1>
+
+            <div fxLayout="row" fxLayoutAlign="center center" class="licencia-items" fxLayout.xs="column">
+                <div fxFlex="33" fxLayout="column" fxLayoutAlign="center center">
+                    <img src="assets/images/landing/ico_licencia_negocio.svg" class="over-image1" />
+
+                    <span>{{'landing.t2' | translate}}</span>
+                </div>
+                <div fxFlex="33" fxLayout="column" fxLayoutAlign="center center">
+                    <img src="assets/images/landing/ico_requisitos.svg" class="over-image1" />
+                    <span>{{'landing.t3' | translate}}</span>
+                </div>
+                <div fxFlex="33" fxLayout="column" fxLayoutAlign="center center">
+                    <img src="assets/images/landing/ico_analisis.svg" class="over-image1" />
+                    <span>{{'landing.t4' | translate}}</span>
+                </div>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="center center" style="margin: 50px 0 50px">
+                <button mat-raised-button color="accent" class="submit-button" routerLink="/mapa">
+                    {{'landing.b2' | translate}}
+                </button>
+            </div>
+        </mat-drawer-content>
+
+        <mat-drawer-content style="width: 100%">
+            <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayout.xs="column" fxLayout.sm="column"
+                class="beneficio" style="
+                    margin-top: 50px;
+                    margin-left: 10%;
+                    margin-right: 10%;
+                    margin-bottom: 50px;
+                ">
+                <div fxFlex="60" class="">
+                    <img src="assets/images/landing/iphone.png" class="over-image" />
+                </div>
+                <div fxFlex="40">
+                    <h2>{{'landing.t5' | translate}}</h2>
+                    <ul>
+                        <li>{{'landing.t6' | translate}}</li>
+                        <li>{{'landing.t7' | translate}}</li>
+                        <li>
+                            {{'landing.t8' | translate}}
+                        </li>
+                        <li>
+                            {{'landing.t9' | translate}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </mat-drawer-content>
+
+        <!-- <mat-drawer-content style="width: 100%" id="tutoriales">
+            <div fxLayout="row" class="videos" fxLayoutAlign="center center">
+                <div fxLayout="column" fxLayoutAlign="center center">
+                    <h1>{{'landing.t10' | translate}}</h1>
+                    <iframe width="900" height="450" style="border-radius: 20px"
+                        src="https://www.youtube.com/embed/gi36o_sZORE">
+                    </iframe>
+                    <button mat-raised-button color="accent" class="submit-button" *ngIf="false"
+                        style="margin-top: 25px">
+                        Ver mas tutoriales
+                    </button>
+                </div>
+            </div>
+        </mat-drawer-content> -->
+
+        <mat-drawer-content #noticias id="noticias" @animate @slideInLeft>
+            <div fxLayout="column" fxLayoutAlign="center center">
+                <!-- <h1 class="noticias2">{{'landing.t11' | translate}}</h1> -->
+            </div>
+            <div class="noticias" fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="space-evenly center">
+                <!-- <ng-container *ngIf="!isLoading">
+                    <div fxLayout="column" class="img1" fxLayoutAlign="center center" *ngFor="let item of noti?.data">
+                        <ng-container *ngIf="item.type == 1; else elseTemplate3">
+                            <a class="img-hover-zoom" [href]="item.link" target="_blank">
+                                <img mat-card-image [src]="item.img" [alt]="item.titulo" /></a>
+                        </ng-container>
+                        <ng-template #elseTemplate3>
+                            <a class="img-hover-zoom" href="blog/{{ item.id }}" target="_blank">
+                                <img mat-card-image [src]="item.img" [alt]="item.titulo" /></a>
+                        </ng-template>
+                        <h2>{{ item.titulo }}</h2>
+                        <span>
+                            {{ item.fecha_noticia | date: "dd/MM/yyyy" }}
+                        </span>
+                        <p>{{ item.resumen }}</p>
+                        <ng-container *ngIf="item.type == 1; else elseTemplate2">
+                            <a mat-raised-button [href]="item.link" target="_blank">Ver detalle</a>
+                        </ng-container>
+                        <ng-template #elseTemplate2>
+                            <a mat-raised-button href="blog/{{ item.id }}" target="_blank">Ver detalle</a>
+                        </ng-template>
+                    </div>
+                </ng-container> -->
+            </div>
+            
+            <div class="redes" fxLayout="row wrap" fxLayoutAlign="center center">
+                <a href="https://www.facebook.com/cuernavacagob" target="_blank" mat-icon-button>
+                    <mat-icon ><img src="assets/icons/facebook.svg"></mat-icon>
+                </a>
+                <a href="https://x.com/CuernavacaGob?fbclid=IwAR2PU29fGZFqs3sgtsl79TPMGK24fSDlVUdtOSdOsBZCS90b-HrGvbwUq6w" target="_blank" mat-icon-button>
+                    <mat-icon ><img src="assets/icons/twitter.svg"></mat-icon>
+                </a>
+                <a href="https://www.instagram.com/Cuernagob1?fbclid=IwAR1JWMl-qzuLEw82qvUGVPoG-iVn6RzQCxirzrid-wUU6gg3yPpZ-81XtIk" target="_blank" mat-icon-button>
+                    <mat-icon ><img src="assets/icons/instagram.svg"></mat-icon>
+                </a>
+                <!-- <a href="https://www.youtube.com/channel/UC5Up17-rhu-oXyUyJFjx7bA" target="_blank" mat-icon-button>
+                    <mat-icon ><img src="assets/icons/youtube.svg"></mat-icon>
+                </a> -->
+            </div>
+            <landing-footer></landing-footer>
+        </mat-drawer-content>
+    </mat-drawer-container>
+</div>

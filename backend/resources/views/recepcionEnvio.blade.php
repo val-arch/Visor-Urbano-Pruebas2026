@@ -1,0 +1,444 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <title>Acuse de Recepcion y Envio de documentos</title>
+    <!-- Compiled and minified CSS -->
+    <style>
+      .footable {
+      width: 100%;
+
+      border: solid #ccc 1px;
+      border-collapse: separate;
+      border-spacing: 0;
+      }
+      .titulo{
+        font-family: 'Red Hat Display', sans-serif;
+      }
+
+      .footable > tbody > tr > td, .footable > thead > tr > th {
+        border-left: 1px solid #ccc;
+        border-top: 1px solid #ccc;
+        padding: 2px;
+        text-align: left;
+      }
+
+      .footable > thead > tr > th, .footable > thead > tr > td {
+        background-color: #dce9f9;
+      }
+      .strong {
+          font-weight: bold;
+      }
+      .acuse-box {
+      max-width: 800px;
+      margin: auto;
+      padding: 30px;
+      font-size: 16px;
+      line-height: 24px;
+      font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+      color: #555;
+      }
+
+      html,
+      body {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      left: 0;
+      top: 0;
+      font-size: 100%;
+      text-align: justify;
+
+      }
+
+      /* ROOT FONT STYLES */
+
+      * {
+      font-family:'Century Gothic','Lato', Helvetica, sans-serif;
+      color: #333447;
+      line-height: 1;
+      }
+
+      /* TYPOGRAPHY */
+
+      h1 {
+      font-size: 2.5rem;
+      }
+
+      h2 {
+      font-size: 2rem;
+      }
+
+      h3 {
+      font-size: 1.375rem;
+      }
+
+      h4 {
+      font-size: 1.125rem;
+      }
+
+      h5 {
+      font-size: 1rem;
+      }
+
+      h6 {
+      font-size: 0.875rem;
+      }
+
+      p {
+      font-size: 1.125rem;
+      font-weight: 200;
+      line-height: 1.8;
+      }
+
+      .font-light {
+      font-weight: 300;
+      }
+
+      .font-regular {
+      font-weight: 400;
+      }
+
+      .font-heavy {
+      font-weight: 700;
+      }
+
+      /* POSITIONING */
+
+      .left {
+      text-align: left;
+      }
+
+      .right {
+      text-align: right;
+      }
+
+      .center {
+      text-align: center;
+      margin-left: auto;
+      margin-right: auto;
+      }
+
+      .justify {
+      text-align: justify;
+      }
+
+      /* ==== GRID SYSTEM ==== */
+
+      .container {
+      width: 90%;
+      margin-left: auto;
+      margin-right: auto;
+      }
+
+      .row {
+      position: relative;
+      width: 100%;
+      }
+
+      .row [class^="col"] {
+      float: left;
+      margin: 0.5rem 2%;
+      min-height: 0.125rem;
+      }
+
+      .col-1,
+      .col-2,
+      .col-3,
+      .col-4,
+      .col-5,
+      .col-6,
+      .col-7,
+      .col-8,
+      .col-9,
+      .col-10,
+      .col-11,
+      .col-12 {
+      width: 96%;
+      }
+
+      .col-1-sm {
+      width: 4.33%;
+      }
+
+      .col-2-sm {
+      width: 12.66%;
+      }
+
+      .col-3-sm {
+      width: 21%;
+      }
+
+      .col-4-sm {
+      width: 29.33%;
+      }
+
+      .col-5-sm {
+      width: 37.66%;
+      }
+
+      .col-6-sm {
+      width: 46%;
+      }
+
+      .col-7-sm {
+      width: 54.33%;
+      }
+
+      .col-8-sm {
+      width: 62.66%;
+      }
+
+      .col-9-sm {
+      width: 71%;
+      }
+
+      .col-10-sm {
+      width: 79.33%;
+      }
+
+      .col-11-sm {
+      width: 87.66%;
+      }
+
+      .col-12-sm {
+      width: 96%;
+      }
+
+      .row::after {
+      content: "";
+      display: table;
+      clear: both;
+      }
+
+      .hidden-sm {
+      display: none;
+      }
+
+      @media only screen and (min-width: 33.75em) {  /* 540px */
+      .container {
+      width: 80%;
+      }
+      }
+
+      @media only screen and (min-width: 45em) {  /* 720px */
+      .col-1 {
+      width: 4.33%;
+      }
+
+      .col-2 {
+      width: 12.66%;
+      }
+
+      .col-3 {
+      width: 21%;
+      }
+
+      .col-4 {
+      width: 29.33%;
+      }
+
+      .col-5 {
+      width: 37.66%;
+      }
+
+      .col-6 {
+      width: 46%;
+      }
+
+      .col-7 {
+      width: 54.33%;
+      }
+
+      .col-8 {
+      width: 62.66%;
+      }
+
+      .col-9 {
+      width: 71%;
+      }
+
+      .col-10 {
+      width: 79.33%;
+      }
+
+      .col-11 {
+      width: 87.66%;
+      }
+
+      .col-12 {
+      width: 96%;
+      }
+
+      .hidden-sm {
+      display: block;
+      }
+      }
+
+      @media only screen and (min-width: 60em) { /* 960px */
+      .container {
+      width: 75%;
+      max-width: 60rem;
+      }
+      }
+
+      .p-parrafo{
+      text-align: center;
+      font-size: 12px;
+      }
+      .p-parrafo-fotter{
+      text-align: center;
+      font-size: 13px;
+      font-weight: bold;
+      }
+
+      .p-parrafo-full{
+        font-size: 14px;
+        font-family: 'Red Hat Display', sans-serif;
+      }
+      .p-pie-pagina{
+        font-size: 8px;
+      }
+      .border-table > tbody > tr > td{
+
+        border-bottom: 1px solid black;
+        padding: 2px;
+
+
+      }
+
+
+    </style>
+</head>
+<body>
+    <div class="acuse-box">
+        <div class="row">
+            <div class="col-3">
+                <img src="https://visorurbano.jalisco.gob.mx/assets/images/logo.png" style="width:100%; max-width:178px;">
+            </div>
+            <div class="col-6"></div>
+            <div class="col-3">
+                <img src={{$logo}} style="width:100%; max-width:200px;">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-9">
+            </div>
+            <div class="col-3">
+            Folio: <b>{{$data['result'][0]->folio}} </b>
+            </div>
+        </div>
+        <div class="row">
+           <div class="col-12" style="text-align:center">
+                <h3 class="Titulo" ><strong>Acuse de envío y recepción de documentación.</strong></h3>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+
+                   <div class="p-parrafo-full">Atendiendo el trámite solicitado por {{$data['name']}}, por medio del presente acuse se hace constar el envío y recepción de los documentos adjuntos a la Plataforma de Visor Urbano para obtener una Licencia de funcionamiento en el inmueble ubicado en
+                    el domicilio {{$data['domicilio']['calle']}}  número {{$data['domicilio']['exterior']}} {{$data['domicilio']['interior']}}, en la colonia {{$data['domicilio']['colonia']}},
+                    en este Municipio</div>
+                    <br>
+
+                    <div class="p-parrafo-full">Los documentos adjuntos a la Plataforma de Visor Urbano son los siguientes:  </div>
+                    <br>
+            </div>
+        </div>
+
+        <div class="row" style="width:80%; margin-left:10%;margin-rigth:10% ">
+
+           <div class="col-12">
+                <table class="styled-table p-parrafo-full border-table" style="font-size:11px;" >
+                <thead>
+                <tr>
+                    <th>Documento requerido</th>
+                    <th>Archivo adjunto</th>
+                    <th>Tipo de archivo</th>
+                </tr>
+               </thead>
+               <tbody>
+                    @foreach($data['data'] as $resp)
+                    <?php
+                        $path = $resp->value;
+                        $file = basename($path);
+                        $fileName = explode('_', $file);
+                        $fileFinal = $fileName[0].'.pdf';
+
+                    if (str_contains($file, '.pdf')) { ?>
+                    <tr>
+
+                        <td>{{$resp->description}}</td>
+                        <td>{{$fileFinal}}</td>
+                        <td>pdf</td>
+                    </tr>
+                    <?php
+                    } ?>
+                    @endforeach
+                    </tbody>
+
+
+                </table>
+
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="p-parrafo-full ">
+                Cualquier avance en el trámite, ya sea que esté completo el expediente o que se requiera información adicional, será notificada al correo electrónico proporcionado o a través de la plataforma de Visor Urbano para este municipio.
+
+                Se le informa al ciudadano sobre la documentación e información proporcionada para la integración del trámite solicitado, que está <b>autoridad tiene en todo momento la facultad de comprobar la veracidad y autenticidad de la misma</b> de conformidad con la Ley del Procedimiento Administrativo para el Estado de Morelos. En caso de falsedad en la información o documentación, el ciudadano puede incurrir en responsabilidad penal o administrativa, así como la licencia puede ser sujeta a un procedimiento de revocación.
+
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row" style="display: flex;">
+           <div class="col-6">
+                <div class="p-parrafo-full font-heavy">Atentamente
+                <br>
+                @if($municipio->area_encargada)
+                    <div style="margin-bottom: 10px;">
+                        <span style="margin: 0;">{{ $municipio->area_encargada }}</span>
+                    </div>
+                @else
+                    <div>
+                        <span style="margin: 0;">Dirección encargada de emitir licencias</span>
+                    </div>
+                @endif
+
+                <br>
+                H. Ayuntamiento de Ayuntamiento de Cuernavaca, Morelos.
+                </div>
+           </div>
+
+           <div class="col-3" >
+                <div class="" style=" text-align:center !important; border: dashed 4px black;
+                    border-radius:2px; width:150px; height:130px; page-break-inside: avoid !important;">
+                    <div class="sameRow" style="height:60px; font-weight:bold;font-size:19px; padding-top:10px">
+                        <span style="color: #D3D3D3;">VISOR</span>
+                        <span style="color: #003E76;">URBANO</span>
+                        <br>
+                        <span>RECIBIDO</span>
+                    </div>
+                    <div class="sameRow" style="background-color: #D3D3D3; height:60px; font-size: 12px;">
+                        {{$data['result'][0]->municipio}}, Morelos
+
+                        <br>
+                        {{$data['result'][0]->created_at}}
+                    </div>
+                </div>
+           </div>
+
+           <div class="col-3">
+                <img src="data:image/png;base64,<?=$qrCode?>" style="width:150px; max-width:200px;">
+           </div>
+       </div>
+</body>
+</html>

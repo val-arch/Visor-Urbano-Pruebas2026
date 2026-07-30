@@ -1,0 +1,142 @@
+<div class="dialog-content-wrapper" style="width: 400px;">
+    <mat-toolbar matDialogTitle class="fuse-visor-50 m-0">
+        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="title dialog-title">{{dialogTitle}}</span>
+            <button mat-icon-button (click)="matDialogRef.close()" aria-label="Close dialog">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+    <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
+        <form class="formulario" [formGroup]="capaForm" (submit)="saveRole()">
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Tipo de servicio</mat-label>
+                    <mat-select name="type" formControlName="type" required
+                                (selectionChange)="typeLayerChanged($event)">
+                        <mat-option value="wms">WMS</mat-option>
+                        <mat-option value="xyz">XYZ/TMS</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div *ngIf="this.capaForm.value.type === 'xyz'" fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>versión</mat-label>
+                    <mat-select name="version" formControlName="version" required [disabled]="true">
+                        <mat-option value="1.1.1">1.0</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div *ngIf="this.capaForm.value.type === 'wms'" fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>versión</mat-label>
+                    <mat-select name="version" formControlName="version" required (ngModelChange)="wmsVersionChanged()">
+                        <mat-option value="1.1.1">1.1.1</mat-option>
+                        <mat-option value="1.3.0">1.3.0</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Identificador</mat-label>
+                    <mat-icon matSuffix class="secondary-text">create</mat-icon>
+                    <input name="value" formControlName="value" matInput required >
+                </mat-form-field>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Nombre de la capa</mat-label>
+                    <mat-icon matSuffix class="secondary-text">create</mat-icon>
+                    <input name="label" formControlName="label" matInput required>
+                </mat-form-field>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Atribución</mat-label>
+                    <mat-icon matSuffix class="secondary-text">create</mat-icon>
+                    <input name="attribution" formControlName="attribution" matInput required>
+                </mat-form-field>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="start start" style="padding-bottom: 18px;">
+                <mat-slide-toggle color="primary" name="visible" formControlName="visible" [checked]="true"
+                                  [disabled]="false">Visible por defecto
+                </mat-slide-toggle>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Orden</mat-label>
+                    <mat-icon matSuffix class="secondary-text">create</mat-icon>
+                    <input name="order" formControlName="order" matInput required type="number" [min]="2" [max]="999">
+                </mat-form-field>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="start start" style="padding-bottom: 18px;">
+                <mat-label>Opacidad</mat-label>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="start start" style="padding-bottom: 18px;">
+                <mat-slider color="primary" name="opacity" formControlName="opacity"
+                            [value]="1.0" [min]="0.0" [max]="1.0" [step]="0.05" [thumbLabel]="true"></mat-slider>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>URL</mat-label>
+                    <mat-icon matSuffix class="secondary-text">create</mat-icon>
+                    <input name="url" formControlName="url" matInput required type="url" (ngModelChange)="urlChanged($event)">
+                </mat-form-field>
+            </div>
+
+            <div *ngIf="this.capaForm.value.type === 'wms'" fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Capa</mat-label>
+                    <mat-select name="layers" formControlName="layers" required [disabled]="!wmsURLOK">
+                        <mat-option *ngFor="let capa of this.wmsLayers; let idx=index" [value]="capa.Name[0]" (onSelectionChange)="layerChanged(idx)">
+                            {{capa.Title[0]}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div *ngIf="this.capaForm.value.type === 'wms'" fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Formato</mat-label>
+                    <mat-select name="format" formControlName="format" required [disabled]="!wmsURLOK">
+                        <mat-option *ngFor="let formato of this.wmsImageFormats()" [value]="formato">
+                            {{formato}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div *ngIf="this.capaForm.value.type === 'wms'" fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Proyección</mat-label>
+                    <mat-select name="projection" formControlName="projection" required [disabled]="!wmsURLOK">
+                        <mat-option *ngFor="let proyeccion of this.wmsLayerProjections" [value]="proyeccion">
+                            {{proyeccion}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="end center">
+
+            </div>
+        </form>
+
+
+    </div>
+
+    <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
+
+        <button *ngIf="action !== 'edit'" mat-button class="save-button" (click)="agregarCapa()"
+                [disabled]="capaForm.invalid" aria-label="SAVE">
+            Agregar
+        </button>
+        <button *ngIf="action !== 'new'" mat-button class="save-button" (click)="actualizarCapa(capaForm)"
+                [disabled]="capaForm.invalid" aria-label="SAVE">
+            Actualizar
+        </button>
+        <button mat-button class="save-button" (click)="matDialogRef.close()" aria-label="cancelar">
+            Cancelar
+        </button>
+    </div>
+</div>

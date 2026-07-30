@@ -1,0 +1,8 @@
+vendor
+database
+data
+.env
+
+public/images
+
+public/
