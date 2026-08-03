@@ -1,8 +1,23 @@
-# Excluir archivos pesados de Angular (Frontend)
+# =========================================================================
+# ESCUDO MAESTRO DEL MONOREPO (Centralizado en la Raíz)
+# =========================================================================
+
+# 1. EXCLUSIONES CRÍTICAS POR PESO (Se regeneran solas) Angular=Frontend
 frontend/node_modules/
 frontend/dist/
+backend/vendor/
 
-# Excluir configuraciones confidenciales y bitácoras (Backend)
-backend/.env
-backend/*.log
-backend/Dockerfile.respaldo
+# 2. EXCLUSIONES DE BASURA DE EDITORES Y SISTEMA OPERATIVO
+**/Thumbs.db
+**/.DS_Store
+**/.vscode/
+**/*.log
+
+# 3. ARCHIVOS TEMPORALES DE COMPILACIÓN DE ANGULAR
+frontend/tmp/
+frontend/out-tsc/
+
+# =========================================================================
+# NOTA DE ARQUITECTURA: LAS CREDENCIALES (.env), LAS MIGRACIONES (database)
+# Y LOS ENVIRONMENTS QUEDAN LIBRES Y AUTORIZADOS PARA SUBIRSE A GITHUB.
+# =========================================================================
