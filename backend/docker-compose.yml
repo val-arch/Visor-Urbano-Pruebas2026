@@ -16,7 +16,9 @@ services:
       - networVisorcuernavaca
 
   db:
-    image: kartoza/postgis:14-3.2
+    image: kartoza/postgis:16-3.2 
+    #se realiza un Upgrade de kartoza/postgis:14-3.2 a kartoza/postgis:16-3.4
+    #para que permite tomar la bd postgis que se descargó de AWS y se integre a ambiente pruebas local
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=secret
