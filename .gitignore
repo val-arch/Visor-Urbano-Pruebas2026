@@ -17,6 +17,9 @@ backend/vendor/
 frontend/tmp/
 frontend/out-tsc/
 
+#4. EXCLUIR RESPALDO REAL DE BD PRODUCCIÓN(lUIS VALDOS lUNES 24 AGOSTO 2026)
+database/Luis_BaseDatos_REAL_Produccion_vu_mapa_07_Agosto_2026.backup
+
 # =========================================================================
 # NOTA DE ARQUITECTURA: LAS CREDENCIALES (.env), LAS MIGRACIONES (database)
 # Y LOS ENVIRONMENTS QUEDAN LIBRES Y AUTORIZADOS PARA SUBIRSE A GITHUB.

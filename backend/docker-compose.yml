@@ -29,10 +29,20 @@ services:
     ports:
       - 5412:5432
     volumes:
-      - ./data:/var/lib/postgresql/data
+      # MODIFICACIÓN DE ALTA CAUTELA: Cambiamos la ruta física por un volumen virtual administrado - 10 Agosto 2026
+      # Se quita esto "- ./data:/var/lib/postgresql/data" y se anexa esto "- pg_data_visor:/var/lib/postgresql/data"
+      # Se realiza una modificación más, se quita esto: "- pg_data_visor:/var/lib/postgresql/data" y queda así: "- pg_data_visor:/var/lib/postgresql"
+      - pg_data_visor:/var/lib/postgresql
     networks:
       - networVisorcuernavaca
 
 networks:
   networVisorcuernavaca:
     driver: bridge
+
+# Se anexa exta linea el 10 Agosto 2026
+# DECLARACIÓN MAESTRA DEL VOLUMEN CENTRALIZADO ETERNO
+# NOTA DEL 10 Y 12 AGOSTO, SE LOGRO LA PERSISTENCIA CON EL DATO: volumes:  pg_data_visor:   driver: local
+volumes:
+  pg_data_visor:
+    driver: local
